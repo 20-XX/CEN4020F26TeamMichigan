@@ -1,0 +1,8 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+2
+Please enter a username:
+michael
+Username already exists
