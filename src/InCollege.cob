@@ -36,7 +36,7 @@
 
        01 WS-USERNAME             PIC X(20).
        01 WS-PASSWORD             PIC X(12).
-       01 WS-OUT-LINE             PIC X(200).
+       01 WS-OUT-LINE             PIC X(100).
 
        01 PASSWORD-FLAGS.
            05 HAS-UPPER           PIC X VALUE "N".
@@ -97,7 +97,7 @@
            END-STRING.
 
        MAIN-MENU.
-           
+
            IF EOF-FLAG = "Y"
                 EXIT PARAGRAPH
            END-IF
@@ -187,7 +187,7 @@
                MOVE "Password does not meet requirements" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
            END-IF
-        
+
            EXIT PARAGRAPH.
 
        CHECK-USERNAME.
@@ -261,9 +261,9 @@
                    AT END
                        MOVE "Y" TO ACC-EOF
                    NOT AT END
-                       IF FUNCTION TRIM(ACC-USERNAME) = 
+                       IF FUNCTION TRIM(ACC-USERNAME) =
                            FUNCTION TRIM(WS-USERNAME)
-                           IF FUNCTION TRIM(ACC-PASSWORD) = 
+                           IF FUNCTION TRIM(ACC-PASSWORD) =
                                FUNCTION TRIM(WS-HASHED-PASSWORD)
                                MOVE "Y" TO LOGIN-SUCCESS
                            END-IF
@@ -311,11 +311,11 @@
 
                EVALUATE MENU-CHOICE
                    WHEN "1"
-                       MOVE "Job search/internship is under construction." 
+                       MOVE "Job search/internship is under construction."
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "2"
-                       MOVE "Find someone you know is under construction." 
+                       MOVE "Find someone you know is under construction."
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "3"
