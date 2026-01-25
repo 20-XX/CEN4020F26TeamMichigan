@@ -33,6 +33,11 @@
        77 MENU-CHOICE             PIC X.
        77 LOGIN-SUCCESS           PIC X VALUE "N".
        77 USER-FOUND              PIC X VALUE "N".
+       77 PASSWORD-VALID          PIC X VALUE "N".
+       77 CNT-UPPER PIC 9(3) VALUE 0.
+       77 CNT-DIGIT PIC 9(3) VALUE 0.
+       77 CNT-SPECIAL PIC 9(3) VALUE 0.
+
 
        01 WS-USERNAME             PIC X(20).
        01 WS-PASSWORD             PIC X(12).
@@ -206,30 +211,36 @@
                        END-IF
                END-READ
            END-PERFORM.
-
        VALIDATE-PASSWORD.
-           MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL
+            MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL PASSWORD-VALID
+            MOVE 0 TO CNT-UPPER CNT-DIGIT CNT-SPECIAL
 
-           IF LENGTH OF WS-PASSWORD < 8 OR LENGTH OF WS-PASSWORD > 12
-               EXIT PARAGRAPH
-           END-IF
+            MOVE FUNCTION TRIM(WS-PASSWORD) TO WS-PASSWORD
+    
+            IF FUNCTION LENGTH(WS-PASSWORD) < 8
+               OR FUNCTION LENGTH(WS-PASSWORD) > 12
+                EXIT PARAGRAPH
+            END-IF
 
-           PERFORM VARYING I FROM 1 BY 1 UNTIL I > LENGTH OF WS-PASSWORD
-               IF WS-PASSWORD(I:1) >= "A"
-                  AND WS-PASSWORD(I:1) <= "Z"
-                   MOVE "Y" TO HAS-UPPER
-               ELSE
-                   IF WS-PASSWORD(I:1) >= "0"
-                      AND WS-PASSWORD(I:1) <= "9"
-                       MOVE "Y" TO HAS-DIGIT
-                   ELSE
-                       IF WS-PASSWORD(I:1) < "a"
-                          OR WS-PASSWORD(I:1) > "z"
-                           MOVE "Y" TO HAS-SPECIAL
-                       END-IF
-                   END-IF
-               END-IF
-           END-PERFORM.
+            INSPECT WS-PASSWORD TALLYING CNT-UPPER FOR ALL "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"
+            IF CNT-UPPER > 0
+                MOVE "Y" TO HAS-UPPER
+            END-IF
+
+            INSPECT WS-PASSWORD TALLYING CNT-DIGIT FOR ALL "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"
+            IF CNT-DIGIT > 0
+                MOVE "Y" TO HAS-DIGIT
+            END-IF
+
+            INSPECT WS-PASSWORD TALLYING CNT-SPECIAL FOR ALL "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "-" "_" "+" "=" "~" "`" "[" "]" "{" "}" "|" "\" ":" ";" "'" '"' "<" ">" "," "." "?" "/"
+            IF CNT-SPECIAL > 0
+                MOVE "Y" TO HAS-SPECIAL
+            END-IF
+
+            IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
+                MOVE "Y" TO PASSWORD-VALID
+            END-IF.
+
 
        LOGIN.
            MOVE "N" TO LOGIN-SUCCESS
