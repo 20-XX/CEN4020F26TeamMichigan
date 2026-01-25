@@ -311,11 +311,11 @@
 
                EVALUATE MENU-CHOICE
                    WHEN "1"
-                       MOVE "Search for a job feature coming soon" 
+                       MOVE "Job search/internship is under construction." 
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "2"
-                       MOVE "Find someone you know feature coming soon" 
+                       MOVE "Find someone you know is under construction." 
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "3"
