@@ -33,10 +33,15 @@
        77 MENU-CHOICE             PIC X.
        77 LOGIN-SUCCESS           PIC X VALUE "N".
        77 USER-FOUND              PIC X VALUE "N".
+       77 PASSWORD-VALID          PIC X VALUE "N".
+       77 CNT-UPPER PIC 9(3) VALUE 0.
+       77 CNT-DIGIT PIC 9(3) VALUE 0.
+       77 CNT-SPECIAL PIC 9(3) VALUE 0.
+
 
        01 WS-USERNAME             PIC X(20).
-       01 WS-PASSWORD             PIC X(12).
-       01 WS-OUT-LINE             PIC X(200).
+       01 WS-PASSWORD             PIC X(50).
+       01 WS-OUT-LINE             PIC X(100).
 
        01 PASSWORD-FLAGS.
            05 HAS-UPPER           PIC X VALUE "N".
@@ -97,7 +102,7 @@
            END-STRING.
 
        MAIN-MENU.
-           
+
            IF EOF-FLAG = "Y"
                 EXIT PARAGRAPH
            END-IF
@@ -171,6 +176,13 @@
 
            PERFORM VALIDATE-PASSWORD
 
+           IF FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) < 8
+               OR FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) > 12
+               MOVE "Password does not meet requirements" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               EXIT PARAGRAPH
+           END-IF
+
            IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
                PERFORM HASH-PASSWORD
                CLOSE ACCOUNT-FILE
@@ -187,7 +199,7 @@
                MOVE "Password does not meet requirements" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
            END-IF
-        
+
            EXIT PARAGRAPH.
 
        CHECK-USERNAME.
@@ -206,30 +218,37 @@
                        END-IF
                END-READ
            END-PERFORM.
-
        VALIDATE-PASSWORD.
-           MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL
 
-           IF LENGTH OF WS-PASSWORD < 8 OR LENGTH OF WS-PASSWORD > 12
+           MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL PASSWORD-VALID
+           MOVE 0 TO CNT-UPPER CNT-DIGIT CNT-SPECIAL
+
+           MOVE FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) TO I
+
+           IF I < 8 OR I > 12
+               MOVE "N" TO PASSWORD-VALID
                EXIT PARAGRAPH
            END-IF
 
-           PERFORM VARYING I FROM 1 BY 1 UNTIL I > LENGTH OF WS-PASSWORD
-               IF WS-PASSWORD(I:1) >= "A"
-                  AND WS-PASSWORD(I:1) <= "Z"
-                   MOVE "Y" TO HAS-UPPER
-               ELSE
-                   IF WS-PASSWORD(I:1) >= "0"
-                      AND WS-PASSWORD(I:1) <= "9"
-                       MOVE "Y" TO HAS-DIGIT
-                   ELSE
-                       IF WS-PASSWORD(I:1) < "a"
-                          OR WS-PASSWORD(I:1) > "z"
-                           MOVE "Y" TO HAS-SPECIAL
-                       END-IF
-                   END-IF
-               END-IF
-           END-PERFORM.
+           INSPECT WS-PASSWORD TALLYING CNT-UPPER FOR ALL "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"
+           IF CNT-UPPER > 0
+               MOVE "Y" TO HAS-UPPER
+           END-IF
+
+           INSPECT WS-PASSWORD TALLYING CNT-DIGIT FOR ALL "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"
+           IF CNT-DIGIT > 0
+               MOVE "Y" TO HAS-DIGIT
+           END-IF
+
+           INSPECT WS-PASSWORD TALLYING CNT-SPECIAL FOR ALL "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "-" "_" "+" "=" "~" "`" "[" "]" "{" "}" "|" "\" ":" ";" "'" '"' "<" ">" "," "." "?" "/"
+           IF CNT-SPECIAL > 0
+               MOVE "Y" TO HAS-SPECIAL
+           END-IF
+
+           IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
+               MOVE "Y" TO PASSWORD-VALID
+           END-IF.
+
 
        LOGIN.
            MOVE "N" TO LOGIN-SUCCESS
@@ -261,9 +280,9 @@
                    AT END
                        MOVE "Y" TO ACC-EOF
                    NOT AT END
-                       IF FUNCTION TRIM(ACC-USERNAME) = 
+                       IF FUNCTION TRIM(ACC-USERNAME) =
                            FUNCTION TRIM(WS-USERNAME)
-                           IF FUNCTION TRIM(ACC-PASSWORD) = 
+                           IF FUNCTION TRIM(ACC-PASSWORD) =
                                FUNCTION TRIM(WS-HASHED-PASSWORD)
                                MOVE "Y" TO LOGIN-SUCCESS
                            END-IF
@@ -311,11 +330,11 @@
 
                EVALUATE MENU-CHOICE
                    WHEN "1"
-                       MOVE "Job search/internship is under construction." 
+                       MOVE "Job search/internship is under construction."
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "2"
-                       MOVE "Find someone you know is under construction." 
+                       MOVE "Find someone you know is under construction."
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "3"
