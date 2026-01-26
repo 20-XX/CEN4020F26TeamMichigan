@@ -40,7 +40,7 @@
 
 
        01 WS-USERNAME             PIC X(20).
-       01 WS-PASSWORD             PIC X(12).
+       01 WS-PASSWORD             PIC X(50).
        01 WS-OUT-LINE             PIC X(100).
 
        01 PASSWORD-FLAGS.
@@ -176,6 +176,13 @@
 
            PERFORM VALIDATE-PASSWORD
 
+           IF FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) < 8 
+               OR FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) > 12
+               MOVE "Password does not meet requirements" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               EXIT PARAGRAPH
+           END-IF
+
            IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
                PERFORM HASH-PASSWORD
                CLOSE ACCOUNT-FILE
@@ -212,34 +219,35 @@
                END-READ
            END-PERFORM.
        VALIDATE-PASSWORD.
-            MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL PASSWORD-VALID
-            MOVE 0 TO CNT-UPPER CNT-DIGIT CNT-SPECIAL
+           
+           MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL PASSWORD-VALID
+           MOVE 0 TO CNT-UPPER CNT-DIGIT CNT-SPECIAL
 
-            MOVE FUNCTION TRIM(WS-PASSWORD) TO WS-PASSWORD
-    
-            IF FUNCTION LENGTH(WS-PASSWORD) < 8
-               OR FUNCTION LENGTH(WS-PASSWORD) > 12
-                EXIT PARAGRAPH
-            END-IF
+           MOVE FUNCTION LENGTH(FUNCTION TRIM(WS-PASSWORD)) TO I
 
-            INSPECT WS-PASSWORD TALLYING CNT-UPPER FOR ALL "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"
-            IF CNT-UPPER > 0
-                MOVE "Y" TO HAS-UPPER
-            END-IF
+           IF I < 8 OR I > 12
+               MOVE "N" TO PASSWORD-VALID
+               EXIT PARAGRAPH
+           END-IF
 
-            INSPECT WS-PASSWORD TALLYING CNT-DIGIT FOR ALL "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"
-            IF CNT-DIGIT > 0
-                MOVE "Y" TO HAS-DIGIT
-            END-IF
+           INSPECT WS-PASSWORD TALLYING CNT-UPPER FOR ALL "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"
+           IF CNT-UPPER > 0
+               MOVE "Y" TO HAS-UPPER
+           END-IF
 
-            INSPECT WS-PASSWORD TALLYING CNT-SPECIAL FOR ALL "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "-" "_" "+" "=" "~" "`" "[" "]" "{" "}" "|" "\" ":" ";" "'" '"' "<" ">" "," "." "?" "/"
-            IF CNT-SPECIAL > 0
-                MOVE "Y" TO HAS-SPECIAL
-            END-IF
+           INSPECT WS-PASSWORD TALLYING CNT-DIGIT FOR ALL "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"
+           IF CNT-DIGIT > 0
+               MOVE "Y" TO HAS-DIGIT
+           END-IF
 
-            IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
-                MOVE "Y" TO PASSWORD-VALID
-            END-IF.
+           INSPECT WS-PASSWORD TALLYING CNT-SPECIAL FOR ALL "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "-" "_" "+" "=" "~" "`" "[" "]" "{" "}" "|" "\" ":" ";" "'" '"' "<" ">" "," "." "?" "/"
+           IF CNT-SPECIAL > 0
+               MOVE "Y" TO HAS-SPECIAL
+           END-IF
+
+           IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
+               MOVE "Y" TO PASSWORD-VALID
+           END-IF.
 
 
        LOGIN.
