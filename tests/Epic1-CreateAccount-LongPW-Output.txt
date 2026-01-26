@@ -7,7 +7,7 @@ Please enter a username:
 user5
 Please enter a password:
 Pass@123456789
-Account successfully created
+Password does not meet requirements
 Welcome to InCollege!
 Log In
 Create New Account
