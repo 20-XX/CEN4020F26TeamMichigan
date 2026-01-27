@@ -4,9 +4,9 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT INPUT-FILE ASSIGN TO "Epic1-BadUINavigation-Input.txt"
+           SELECT INPUT-FILE ASSIGN TO "InCollege-Input.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
-           SELECT OUTPUT-FILE ASSIGN TO "Epic1-BadUINavigation-Output.txt"
+           SELECT OUTPUT-FILE ASSIGN TO "InCollege-Output.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
            SELECT ACCOUNT-FILE ASSIGN TO "Accounts.dat"
                ORGANIZATION IS LINE SEQUENTIAL.
