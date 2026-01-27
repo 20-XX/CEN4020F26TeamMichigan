@@ -4,9 +4,9 @@ Create New Account
 Enter your choice:
 2
 Please enter a username:
-hung2722
+user7
 Please enter a password:
-m312
+Password!
 Password does not meet requirements
 Welcome to InCollege!
 Log In
