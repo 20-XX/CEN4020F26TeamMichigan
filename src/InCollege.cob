@@ -10,6 +10,10 @@
                ORGANIZATION IS LINE SEQUENTIAL.
            SELECT ACCOUNT-FILE ASSIGN TO "Accounts.dat"
                ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT PROFILE-FILE ASSIGN TO "Profiles.dat"
+               ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT PROFILE-TEMP ASSIGN TO "Profiles.tmp"
+               ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
@@ -24,6 +28,31 @@
        01 ACCOUNT-RECORD.
            05 ACC-USERNAME        PIC X(20).
            05 ACC-PASSWORD        PIC X(12).
+       FD PROFILE-FILE.
+       01 PROFILE-RECORD.
+           05 PR-USERNAME        PIC X(20).
+           05 PR-FIRST-NAME      PIC X(20).
+           05 PR-LAST-NAME       PIC X(20).
+           05 PR-UNIVERSITY      PIC X(40).
+           05 PR-MAJOR           PIC X(30).
+           05 PR-GRAD-YEAR       PIC 9(4).
+           05 PR-ABOUT           PIC X(200).
+
+           05 PR-EXP-COUNT       PIC 9.
+           05 PR-EXPERIENCE OCCURS 3 TIMES.
+               10 PR-EXP-TITLE   PIC X(30).
+               10 PR-EXP-COMPANY PIC X(30).
+               10 PR-EXP-DATES   PIC X(20).
+               10 PR-EXP-DESC    PIC X(100).
+
+           05 PR-EDU-COUNT       PIC 9.
+           05 PR-EDUCATION OCCURS 3 TIMES.
+               10 PR-EDU-DEGREE  PIC X(30).
+               10 PR-EDU-SCHOOL  PIC X(40).
+               10 PR-EDU-YEARS   PIC X(15).
+       FD PROFILE-TEMP.
+       01 PROFILE-TEMP-RECORD PIC X(800).
+
 
        WORKING-STORAGE SECTION.
 
@@ -37,6 +66,9 @@
        77 CNT-UPPER PIC 9(3) VALUE 0.
        77 CNT-DIGIT PIC 9(3) VALUE 0.
        77 CNT-SPECIAL PIC 9(3) VALUE 0.
+       77 PROFILE-EOF PIC X VALUE "N".
+       77 PROFILE-FOUND PIC X VALUE "N".
+
 
 
        01 WS-USERNAME             PIC X(20).
@@ -310,14 +342,18 @@
            PERFORM DISPLAY-LINE
 
            MOVE "N" TO MENU-CHOICE
-           PERFORM UNTIL MENU-CHOICE = "4" OR EOF-FLAG = "Y"
+           PERFORM UNTIL MENU-CHOICE = "6" OR EOF-FLAG = "Y"
                MOVE "1. Search for a job" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "2. Find someone you know" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "3. Learn a new skill" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
-               MOVE "4. Logout" TO WS-OUT-LINE
+               MOVE "4. Create/Edit My Profile" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               MOVE "5. View My Profile" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               MOVE "6. Logout" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "Enter your choice:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -340,6 +376,10 @@
                    WHEN "3"
                        PERFORM SKILL-MENU
                    WHEN "4"
+                       PERFORM PROFILE-MENU
+                   WHEN "5"
+                       PERFORM VIEW-PROFILE
+                   WHEN "6"
                        CONTINUE
                END-EVALUATE
            END-PERFORM
@@ -374,6 +414,257 @@
                PERFORM DISPLAY-LINE
                PERFORM SKILL-MENU
            END-IF.
+       PROFILE-MENU.
+           MOVE "1. Create or Edit Profile" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "2. Return to Menu" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           PERFORM READ-INPUT
+           MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+           IF MENU-CHOICE = "1"
+               PERFORM CREATE-EDIT-PROFILE
+           END-IF.
+
+       CREATE-EDIT-PROFILE.
+           MOVE WS-USERNAME TO PR-USERNAME
+
+           PERFORM PROMPT-REQUIRED-FIELDS
+           PERFORM PROMPT-OPTIONAL-FIELDS
+
+           PERFORM SAVE-PROFILE
+
+           MOVE "Profile saved successfully." TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           EXIT PARAGRAPH.
+       SAVE-PROFILE.
+           MOVE "N" TO PROFILE-FOUND
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+           OPEN OUTPUT PROFILE-TEMP
+
+           PERFORM UNTIL PROFILE-EOF = "Y"
+               READ PROFILE-FILE
+                   AT END
+                       MOVE "Y" TO PROFILE-EOF
+                   NOT AT END
+                       IF PR-USERNAME = WS-USERNAME
+                           WRITE PROFILE-RECORD
+                           MOVE "Y" TO PROFILE-FOUND
+                       ELSE
+                           WRITE PROFILE-RECORD
+                       END-IF
+               END-READ
+           END-PERFORM
+
+           IF PROFILE-FOUND = "N"
+               WRITE PROFILE-RECORD
+           END-IF
+
+           CLOSE PROFILE-FILE
+           CLOSE PROFILE-TEMP
+
+           OPEN INPUT PROFILE-TEMP
+           OPEN OUTPUT PROFILE-FILE
+
+           MOVE "N" TO PROFILE-EOF
+           PERFORM UNTIL PROFILE-EOF = "Y"
+               READ PROFILE-TEMP
+                   AT END
+                       MOVE "Y" TO PROFILE-EOF
+                   NOT AT END
+                       WRITE PROFILE-RECORD
+               END-READ
+           END-PERFORM
+
+           CLOSE PROFILE-TEMP
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE.
+
+       PROMPT-REQUIRED-FIELDS.
+           PERFORM UNTIL PR-FIRST-NAME NOT = SPACES
+               MOVE "Enter First Name:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-FIRST-NAME
+           END-PERFORM
+
+           PERFORM UNTIL PR-LAST-NAME NOT = SPACES
+               MOVE "Enter Last Name:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-LAST-NAME
+           END-PERFORM
+
+           PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
+               MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD(1:4) TO PR-GRAD-YEAR
+           END-PERFORM.
+
+       PROMPT-OPTIONAL-FIELDS.
+           MOVE "Enter About Me (optional):" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           PERFORM READ-INPUT
+           MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-ABOUT
+
+           PERFORM ADD-EXPERIENCE
+           PERFORM ADD-EDUCATION.
+
+       ADD-EXPERIENCE.
+           MOVE 0 TO PR-EXP-COUNT
+
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
+               MOVE "Add experience entry? (Y/N)" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+
+               IF INPUT-RECORD(1:1) NOT = "Y"
+                   EXIT PERFORM
+               END-IF
+
+               ADD 1 TO PR-EXP-COUNT
+
+               MOVE "Title:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EXP-TITLE(I)
+
+               MOVE "Company:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EXP-COMPANY(I)
+
+               MOVE "Dates:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EXP-DATES(I)
+
+               MOVE "Description (optional):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EXP-DESC(I)
+           END-PERFORM.
+
+       ADD-EDUCATION.
+           MOVE 0 TO PR-EDU-COUNT
+
+           PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
+               MOVE "Add education entry? (Y/N)" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+
+               IF INPUT-RECORD(1:1) NOT = "Y"
+                   EXIT PERFORM
+               END-IF
+
+               ADD 1 TO PR-EDU-COUNT
+
+               MOVE "Degree:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EDU-DEGREE(I)
+
+               MOVE "University/College:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EDU-SCHOOL(I)
+
+               MOVE "Years Attended (e.g., 2023-2025):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               MOVE INPUT-RECORD TO PR-EDU-YEARS(I)
+           END-PERFORM.
+       VIEW-PROFILE.
+           MOVE "N" TO PROFILE-FOUND
+           MOVE "N" TO PROFILE-EOF
+
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+
+           PERFORM UNTIL PROFILE-EOF = "Y" OR PROFILE-FOUND = "Y"
+               READ PROFILE-FILE
+                   AT END
+                       MOVE "Y" TO PROFILE-EOF
+                   NOT AT END
+                       IF PR-USERNAME = WS-USERNAME
+                           MOVE "Y" TO PROFILE-FOUND
+                       END-IF
+               END-READ
+           END-PERFORM
+
+           IF PROFILE-FOUND = "Y"
+               MOVE "----- Your Profile -----" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               STRING "Name: " DELIMITED BY SIZE
+                   PR-FIRST-NAME DELIMITED BY SIZE
+                   " " DELIMITED BY SIZE
+                   PR-LAST-NAME DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+
+               STRING "University: " DELIMITED BY SIZE
+                   PR-UNIVERSITY DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+
+               STRING "Major: " DELIMITED BY SIZE
+                   PR-MAJOR DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+
+               STRING "Graduation Year: " DELIMITED BY SIZE
+                   PR-GRAD-YEAR DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+
+               MOVE "About Me:" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               MOVE PR-ABOUT TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+
+               IF PR-EXP-COUNT > 0
+                   MOVE "Experience:" TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+                   PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EXP-COUNT
+                       STRING "Title: " DELIMITED BY SIZE PR-EXP-TITLE(I) DELIMITED BY SIZE
+                              " | Company: " DELIMITED BY SIZE PR-EXP-COMPANY(I) DELIMITED BY SIZE
+                              " | Dates: " DELIMITED BY SIZE PR-EXP-DATES(I) DELIMITED BY SIZE
+                              " | Description: " DELIMITED BY SIZE PR-EXP-DESC(I) DELIMITED BY SIZE
+                              INTO WS-OUT-LINE
+                       END-STRING
+                       PERFORM DISPLAY-LINE
+                   END-PERFORM
+               END-IF
+
+               IF PR-EDU-COUNT > 0
+                   MOVE "Education:" TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+                   PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EDU-COUNT
+                       STRING "Degree: " DELIMITED BY SIZE PR-EDU-DEGREE(I) DELIMITED BY SIZE
+                              " | School: " DELIMITED BY SIZE PR-EDU-SCHOOL(I) DELIMITED BY SIZE
+                              " | Years: " DELIMITED BY SIZE PR-EDU-YEARS(I) DELIMITED BY SIZE
+                              INTO WS-OUT-LINE
+                       END-STRING
+                       PERFORM DISPLAY-LINE
+                   END-PERFORM
+               END-IF
+           ELSE
+               MOVE "No profile found. Please create one first." TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+           END-IF
+
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+           EXIT PARAGRAPH.
+
 
        READ-INPUT.
            READ INPUT-FILE
