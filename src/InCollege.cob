@@ -487,7 +487,7 @@
 
        PROMPT-REQUIRED-FIELDS.
            MOVE SPACES TO PR-FIRST-NAME
-           
+
            PERFORM UNTIL PR-FIRST-NAME NOT = SPACES
                MOVE "Enter First Name:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -496,7 +496,7 @@
            END-PERFORM
 
            MOVE SPACES TO PR-LAST-NAME
-           
+
            PERFORM UNTIL PR-LAST-NAME NOT = SPACES
                MOVE "Enter Last Name:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -521,14 +521,14 @@
                 PERFORM READ-INPUT
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
             END-PERFORM
-                
+
 
            PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                PERFORM READ-INPUT
                MOVE INPUT-RECORD(1:4) TO WS-YEAR-INPUT
-               
+
                IF WS-YEAR-INPUT IS NUMERIC
                     MOVE WS-YEAR-INPUT TO PR-GRAD-YEAR
                 ELSE
@@ -536,7 +536,7 @@
                     MOVE "Invalid Year. Please enter valid 4 digit year (YYYY)." TO WS-OUT-LINE
                     PERFORM DISPLAY-LINE
                 END-IF
-           END-PERFORM
+           END-PERFORM.
 
        PROMPT-OPTIONAL-FIELDS.
            MOVE "Enter About Me (optional):" TO WS-OUT-LINE
