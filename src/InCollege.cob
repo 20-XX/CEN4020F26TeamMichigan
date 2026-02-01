@@ -88,6 +88,8 @@
        01 WS-HASHED-PASSWORD      PIC X(12).
        01 TEMP-HASH               PIC 9(10).
 
+       01 WS-YEAR-INPUT           PIC X(4).
+
 
        PROCEDURE DIVISION.
        MAIN.
@@ -484,6 +486,8 @@
            OPEN INPUT PROFILE-FILE.
 
        PROMPT-REQUIRED-FIELDS.
+           MOVE SPACES TO PR-FIRST-NAME
+           
            PERFORM UNTIL PR-FIRST-NAME NOT = SPACES
                MOVE "Enter First Name:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -491,6 +495,8 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-FIRST-NAME
            END-PERFORM
 
+           MOVE SPACES TO PR-LAST-NAME
+           
            PERFORM UNTIL PR-LAST-NAME NOT = SPACES
                MOVE "Enter Last Name:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -498,12 +504,39 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-LAST-NAME
            END-PERFORM
 
+           MOVE SPACES TO PR-UNIVERSITY
+
+           PERFORM UNTIL PR-UNIVERSITY NOT = SPACES
+                MOVE "Enter University/College Attended:" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                PERFORM READ-INPUT
+                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-UNIVERSITY
+            END-PERFORM
+
+            MOVE SPACES TO PR-MAJOR
+
+            PERFORM UNTIL PR-MAJOR NOT = SPACES
+                MOVE "Enter Major:" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                PERFORM READ-INPUT
+                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
+            END-PERFORM
+                
+
            PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                PERFORM READ-INPUT
-               MOVE INPUT-RECORD(1:4) TO PR-GRAD-YEAR
-           END-PERFORM.
+               MOVE INPUT-RECORD(1:4) TO WS-YEAR-INPUT
+               
+               IF WS-YEAR-INPUT IS NUMERIC
+                    MOVE WS-YEAR-INPUT TO PR-GRAD-YEAR
+                ELSE
+                    MOVE 0 TO PR-GRAD-YEAR
+                    MOVE "Invalid Year. Please enter valid 4 digit year (YYYY)." TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                END-IF
+           END-PERFORM
 
        PROMPT-OPTIONAL-FIELDS.
            MOVE "Enter About Me (optional):" TO WS-OUT-LINE
