@@ -440,7 +440,29 @@
            MOVE "Profile saved successfully." TO WS-OUT-LINE
            PERFORM DISPLAY-LINE
 
-           PERFORM POST-LOGIN
+           MOVE "Profile saved successfully." TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           MOVE "1. Return to Main Menu" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "2. Edit Profile Again" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "Enter your choice:" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           PERFORM READ-INPUT
+           MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+           EVALUATE MENU-CHOICE
+               WHEN "1"
+                   PERFORM POST-LOGIN
+               WHEN "2"
+                   PERFORM CREATE-EDIT-PROFILE
+               WHEN OTHER
+                   MOVE "Invalid choice. Returning to Main Menu." TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+                   PERFORM POST-LOGIN
+           END-EVALUATE
            EXIT PARAGRAPH.
        SAVE-PROFILE.
            MOVE "N" TO PROFILE-FOUND
