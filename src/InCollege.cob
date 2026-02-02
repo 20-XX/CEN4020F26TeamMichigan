@@ -440,6 +440,7 @@
            MOVE "Profile saved successfully." TO WS-OUT-LINE
            PERFORM DISPLAY-LINE
 
+           PERFORM POST-LOGIN
            EXIT PARAGRAPH.
        SAVE-PROFILE.
            MOVE "N" TO PROFILE-FOUND
