@@ -475,7 +475,7 @@
 
             CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
 
-            OPEN INPUT PROFILE-FILE.
+            OPEN I-O PROFILE-FILE.
 
 
        PROMPT-REQUIRED-FIELDS.
@@ -625,6 +625,7 @@
            IF PROFILE-FOUND = "Y"
                MOVE "----- Your Profile -----" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
+               MOVE SPACES TO WS-OUT-LINE
                STRING "Name: " DELIMITED BY SIZE
                    PR-FIRST-NAME DELIMITED BY SIZE
                    " " DELIMITED BY SIZE
@@ -633,18 +634,21 @@
                END-STRING
                PERFORM DISPLAY-LINE
 
+               MOVE SPACES TO WS-OUT-LINE
                STRING "University: " DELIMITED BY SIZE
                    PR-UNIVERSITY DELIMITED BY SIZE
                    INTO WS-OUT-LINE
                END-STRING
                PERFORM DISPLAY-LINE
 
+               MOVE SPACES TO WS-OUT-LINE
                STRING "Major: " DELIMITED BY SIZE
                    PR-MAJOR DELIMITED BY SIZE
                    INTO WS-OUT-LINE
                END-STRING
                PERFORM DISPLAY-LINE
 
+               MOVE SPACES TO WS-OUT-LINE
                STRING "Graduation Year: " DELIMITED BY SIZE
                    PR-GRAD-YEAR DELIMITED BY SIZE
                    INTO WS-OUT-LINE
@@ -660,6 +664,7 @@
                    MOVE "Experience:" TO WS-OUT-LINE
                    PERFORM DISPLAY-LINE
                    PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EXP-COUNT
+                       MOVE SPACES TO WS-OUT-LINE
                        STRING "Title: " DELIMITED BY SIZE PR-EXP-TITLE(I) DELIMITED BY SIZE
                               " | Company: " DELIMITED BY SIZE PR-EXP-COMPANY(I) DELIMITED BY SIZE
                               " | Dates: " DELIMITED BY SIZE PR-EXP-DATES(I) DELIMITED BY SIZE
@@ -674,6 +679,7 @@
                    MOVE "Education:" TO WS-OUT-LINE
                    PERFORM DISPLAY-LINE
                    PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EDU-COUNT
+                       MOVE SPACES TO WS-OUT-LINE
                        STRING "Degree: " DELIMITED BY SIZE PR-EDU-DEGREE(I) DELIMITED BY SIZE
                               " | School: " DELIMITED BY SIZE PR-EDU-SCHOOL(I) DELIMITED BY SIZE
                               " | Years: " DELIMITED BY SIZE PR-EDU-YEARS(I) DELIMITED BY SIZE
