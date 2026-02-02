@@ -96,6 +96,7 @@
            OPEN INPUT INPUT-FILE
            OPEN OUTPUT OUTPUT-FILE
            OPEN INPUT ACCOUNT-FILE
+           OPEN INPUT PROFILE-FILE
 
            PERFORM LOAD-ACCOUNTS
 
@@ -107,6 +108,7 @@
            CLOSE INPUT-FILE
            CLOSE OUTPUT-FILE
            CLOSE ACCOUNT-FILE
+           CLOSE PROFILE-FILE
            STOP RUN.
 
        LOAD-ACCOUNTS.
@@ -440,73 +442,41 @@
            MOVE "Profile saved successfully." TO WS-OUT-LINE
            PERFORM DISPLAY-LINE
 
-           MOVE "Profile saved successfully." TO WS-OUT-LINE
-           PERFORM DISPLAY-LINE
+           PERFORM PROFILE-MENU
 
-           MOVE "1. Return to Main Menu" TO WS-OUT-LINE
-           PERFORM DISPLAY-LINE
-           MOVE "2. Edit Profile Again" TO WS-OUT-LINE
-           PERFORM DISPLAY-LINE
-           MOVE "Enter your choice:" TO WS-OUT-LINE
-           PERFORM DISPLAY-LINE
-
-           PERFORM READ-INPUT
-           MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
-
-           EVALUATE MENU-CHOICE
-               WHEN "1"
-                   PERFORM POST-LOGIN
-               WHEN "2"
-                   PERFORM CREATE-EDIT-PROFILE
-               WHEN OTHER
-                   MOVE "Invalid choice. Returning to Main Menu." TO WS-OUT-LINE
-                   PERFORM DISPLAY-LINE
-                   PERFORM POST-LOGIN
-           END-EVALUATE
            EXIT PARAGRAPH.
-       SAVE-PROFILE.
-           MOVE "N" TO PROFILE-FOUND
-           CLOSE PROFILE-FILE
-           OPEN INPUT PROFILE-FILE
-           OPEN OUTPUT PROFILE-TEMP
+      SAVE-PROFILE.
+            MOVE "N" TO PROFILE-FOUND
+            MOVE "N" TO PROFILE-EOF
 
-           PERFORM UNTIL PROFILE-EOF = "Y"
-               READ PROFILE-FILE
-                   AT END
-                       MOVE "Y" TO PROFILE-EOF
-                   NOT AT END
-                       IF PR-USERNAME = WS-USERNAME
-                           WRITE PROFILE-RECORD
-                           MOVE "Y" TO PROFILE-FOUND
-                       ELSE
-                           WRITE PROFILE-RECORD
-                       END-IF
-               END-READ
-           END-PERFORM
+            CLOSE PROFILE-FILE
+            OPEN INPUT PROFILE-FILE
+            OPEN OUTPUT PROFILE-TEMP
 
-           IF PROFILE-FOUND = "N"
-               WRITE PROFILE-RECORD
-           END-IF
+            PERFORM UNTIL PROFILE-EOF = "Y"
+                READ PROFILE-FILE
+                    AT END
+                        MOVE "Y" TO PROFILE-EOF
+                    NOT AT END
+                        IF PR-USERNAME = WS-USERNAME
+                            MOVE "Y" TO PROFILE-FOUND
+                        ELSE
+                            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+                            WRITE PROFILE-TEMP-RECORD
+                        END-IF
+                END-READ
+            END-PERFORM
 
-           CLOSE PROFILE-FILE
-           CLOSE PROFILE-TEMP
+            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+            WRITE PROFILE-TEMP-RECORD
 
-           OPEN INPUT PROFILE-TEMP
-           OPEN OUTPUT PROFILE-FILE
+            CLOSE PROFILE-FILE
+            CLOSE PROFILE-TEMP
 
-           MOVE "N" TO PROFILE-EOF
-           PERFORM UNTIL PROFILE-EOF = "Y"
-               READ PROFILE-TEMP
-                   AT END
-                       MOVE "Y" TO PROFILE-EOF
-                   NOT AT END
-                       WRITE PROFILE-RECORD
-               END-READ
-           END-PERFORM
+            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
 
-           CLOSE PROFILE-TEMP
-           CLOSE PROFILE-FILE
-           OPEN INPUT PROFILE-FILE.
+            OPEN INPUT PROFILE-FILE.
+
 
        PROMPT-REQUIRED-FIELDS.
            MOVE SPACES TO PR-FIRST-NAME
@@ -717,8 +687,6 @@
                PERFORM DISPLAY-LINE
            END-IF
 
-           CLOSE PROFILE-FILE
-           OPEN INPUT PROFILE-FILE
            EXIT PARAGRAPH.
 
 
