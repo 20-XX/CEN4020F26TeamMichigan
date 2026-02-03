@@ -68,7 +68,6 @@
        77 CNT-SPECIAL PIC 9(3) VALUE 0.
        77 PROFILE-EOF PIC X VALUE "N".
        77 PROFILE-FOUND PIC X VALUE "N".
-       77 EDIT-MODE PIC X VALUE "N".
 
 
 
@@ -97,7 +96,7 @@
            OPEN INPUT INPUT-FILE
            OPEN OUTPUT OUTPUT-FILE
            OPEN INPUT ACCOUNT-FILE
-
+           OPEN INPUT PROFILE-FILE
 
            PERFORM LOAD-ACCOUNTS
 
@@ -109,6 +108,7 @@
            CLOSE INPUT-FILE
            CLOSE OUTPUT-FILE
            CLOSE ACCOUNT-FILE
+           CLOSE PROFILE-FILE
            STOP RUN.
 
        LOAD-ACCOUNTS.
@@ -382,9 +382,7 @@
                    WHEN "4"
                        PERFORM PROFILE-MENU
                    WHEN "5"
-                       OPEN INPUT PROFILE-FILE
                        PERFORM VIEW-PROFILE
-                       CLOSE PROFILE-FILE
                    WHEN "6"
                        CONTINUE
                END-EVALUATE
@@ -434,16 +432,10 @@
            END-IF.
 
        CREATE-EDIT-PROFILE.
-           MOVE "N" TO EDIT-MODE
-           OPEN INPUT PROFILE-FILE
-
            MOVE WS-USERNAME TO PR-USERNAME
 
-           PERFORM LOAD-EXISTING-PROFILE
            PERFORM PROMPT-REQUIRED-FIELDS
            PERFORM PROMPT-OPTIONAL-FIELDS
-
-           CLOSE PROFILE-FILE
 
            PERFORM SAVE-PROFILE
 
@@ -453,29 +445,11 @@
            PERFORM PROFILE-MENU
 
            EXIT PARAGRAPH.
-
-       LOAD-EXISTING-PROFILE.
-           MOVE "N" TO PROFILE-FOUND
-           MOVE "N" TO PROFILE-EOF
-
-
-           PERFORM UNTIL PROFILE-EOF = "Y"
-               READ PROFILE-FILE
-                   AT END
-                       MOVE "Y" TO PROFILE-EOF
-                   NOT AT END
-                       IF PR-USERNAME = WS-USERNAME
-                           MOVE PROFILE-RECORD TO PROFILE-RECORD
-                           MOVE "Y" TO PROFILE-FOUND
-                           MOVE "Y" TO EDIT-MODE
-                           EXIT PERFORM
-                       END-IF
-                   END-READ
-               END-PERFORM.
        SAVE-PROFILE.
             MOVE "N" TO PROFILE-FOUND
             MOVE "N" TO PROFILE-EOF
 
+            CLOSE PROFILE-FILE
             OPEN INPUT PROFILE-FILE
             OPEN OUTPUT PROFILE-TEMP
 
@@ -486,8 +460,6 @@
                     NOT AT END
                         IF PR-USERNAME = WS-USERNAME
                             MOVE "Y" TO PROFILE-FOUND
-                            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
-                            WRITE PROFILE-TEMP-RECORD
                         ELSE
                             MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
                             WRITE PROFILE-TEMP-RECORD
@@ -495,21 +467,19 @@
                 END-READ
             END-PERFORM
 
-            IF PROFILE-FOUND = "N"
-               MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
-               WRITE PROFILE-TEMP-RECORD
-            END-IF
+            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+            WRITE PROFILE-TEMP-RECORD
 
             CLOSE PROFILE-FILE
             CLOSE PROFILE-TEMP
 
-            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat".
+            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
+
+            OPEN INPUT PROFILE-FILE.
 
 
        PROMPT-REQUIRED-FIELDS.
-           IF EDIT-MODE NOT = "Y"
-               MOVE SPACES TO PR-FIRST-NAME
-           END-IF
+           MOVE SPACES TO PR-FIRST-NAME
 
            PERFORM UNTIL PR-FIRST-NAME NOT = SPACES
                MOVE "Enter First Name:" TO WS-OUT-LINE
@@ -518,9 +488,7 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-FIRST-NAME
            END-PERFORM
 
-           IF EDIT-MODE NOT = "Y"
-               MOVE SPACES TO PR-LAST-NAME
-           END-IF
+           MOVE SPACES TO PR-LAST-NAME
 
            PERFORM UNTIL PR-LAST-NAME NOT = SPACES
                MOVE "Enter Last Name:" TO WS-OUT-LINE
@@ -529,9 +497,7 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-LAST-NAME
            END-PERFORM
 
-           IF EDIT-MODE NOT = "Y"
-               MOVE SPACES TO PR-UNIVERSITY
-           END-IF
+           MOVE SPACES TO PR-UNIVERSITY
 
            PERFORM UNTIL PR-UNIVERSITY NOT = SPACES
                 MOVE "Enter University/College Attended:" TO WS-OUT-LINE
@@ -540,9 +506,7 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-UNIVERSITY
             END-PERFORM
 
-           IF EDIT-MODE NOT = "Y"
-               MOVE SPACES TO PR-MAJOR
-           END-IF
+            MOVE SPACES TO PR-MAJOR
 
             PERFORM UNTIL PR-MAJOR NOT = SPACES
                 MOVE "Enter Major:" TO WS-OUT-LINE
@@ -551,11 +515,6 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
             END-PERFORM
 
-            IF EDIT-MODE = "Y"
-               EXIT PARAGRAPH
-            END-IF
-
-            MOVE 0 TO PR-GRAD-YEAR
 
            PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
@@ -582,9 +541,7 @@
            PERFORM ADD-EDUCATION.
 
        ADD-EXPERIENCE.
-           IF PROFILE-FOUND NOT = "Y"
-               MOVE 0 TO PR-EXP-COUNT
-           END-IF
+           MOVE 0 TO PR-EXP-COUNT
 
            PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
                MOVE "Add experience entry? (Y/N)" TO WS-OUT-LINE
@@ -619,9 +576,7 @@
            END-PERFORM.
 
        ADD-EDUCATION.
-           IF PROFILE-FOUND NOT = "Y"
-               MOVE 0 TO PR-EDU-COUNT
-           END-IF
+           MOVE 0 TO PR-EDU-COUNT
 
            PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
                MOVE "Add education entry? (Y/N)" TO WS-OUT-LINE
@@ -650,15 +605,21 @@
                MOVE INPUT-RECORD TO PR-EDU-YEARS(I)
            END-PERFORM.
        VIEW-PROFILE.
+           MOVE SPACES TO PROFILE-RECORD
+
            MOVE "N" TO PROFILE-FOUND
            MOVE "N" TO PROFILE-EOF
 
-           PERFORM UNTIL PROFILE-EOF = "Y" OR PROFILE-FOUND = "Y"
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+
+           PERFORM UNTIL PROFILE-EOF = "Y"
                READ PROFILE-FILE
                    AT END
                        MOVE "Y" TO PROFILE-EOF
                    NOT AT END
                        IF PR-USERNAME = WS-USERNAME
+                           MOVE PROFILE-RECORD TO PROFILE-RECORD
                            MOVE "Y" TO PROFILE-FOUND
                        END-IF
                END-READ
@@ -667,7 +628,6 @@
            IF PROFILE-FOUND = "Y"
                MOVE "----- Your Profile -----" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
-               MOVE SPACES TO WS-OUT-LINE
                STRING "Name: " DELIMITED BY SIZE
                    PR-FIRST-NAME DELIMITED BY SIZE
                    " " DELIMITED BY SIZE
@@ -676,21 +636,18 @@
                END-STRING
                PERFORM DISPLAY-LINE
 
-               MOVE SPACES TO WS-OUT-LINE
                STRING "University: " DELIMITED BY SIZE
                    PR-UNIVERSITY DELIMITED BY SIZE
                    INTO WS-OUT-LINE
                END-STRING
                PERFORM DISPLAY-LINE
 
-               MOVE SPACES TO WS-OUT-LINE
                STRING "Major: " DELIMITED BY SIZE
                    PR-MAJOR DELIMITED BY SIZE
                    INTO WS-OUT-LINE
                END-STRING
                PERFORM DISPLAY-LINE
 
-               MOVE SPACES TO WS-OUT-LINE
                STRING "Graduation Year: " DELIMITED BY SIZE
                    PR-GRAD-YEAR DELIMITED BY SIZE
                    INTO WS-OUT-LINE
@@ -706,7 +663,6 @@
                    MOVE "Experience:" TO WS-OUT-LINE
                    PERFORM DISPLAY-LINE
                    PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EXP-COUNT
-                       MOVE SPACES TO WS-OUT-LINE
                        STRING "Title: " DELIMITED BY SIZE PR-EXP-TITLE(I) DELIMITED BY SIZE
                               " | Company: " DELIMITED BY SIZE PR-EXP-COMPANY(I) DELIMITED BY SIZE
                               " | Dates: " DELIMITED BY SIZE PR-EXP-DATES(I) DELIMITED BY SIZE
@@ -721,7 +677,6 @@
                    MOVE "Education:" TO WS-OUT-LINE
                    PERFORM DISPLAY-LINE
                    PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EDU-COUNT
-                       MOVE SPACES TO WS-OUT-LINE
                        STRING "Degree: " DELIMITED BY SIZE PR-EDU-DEGREE(I) DELIMITED BY SIZE
                               " | School: " DELIMITED BY SIZE PR-EDU-SCHOOL(I) DELIMITED BY SIZE
                               " | Years: " DELIMITED BY SIZE PR-EDU-YEARS(I) DELIMITED BY SIZE
