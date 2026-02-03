@@ -91,14 +91,14 @@
        01 WS-YEAR-INPUT           PIC X(4).
 
        01 WS-PROFILE-RECORD.
-           05 WS-PR-USERNAME.
-           05 WS-PR-FIRST-NAME.
-           05 WS-PR-LAST-NAME.
-           05 WS-PR-UNIVERSITY.
-           05 WS-PR-MAJOR.
-           05 WS-PR-GRAD-YEAR.
-           05 WS-PR-ABOUT.
-           05 WS-PR-EXP-COUNT.
+           05 WS-PR-USERNAME      PIC X(20).
+           05 WS-PR-FIRST-NAME    PIC X(20).
+           05 WS-PR-LAST-NAME     PIC x(20).
+           05 WS-PR-UNIVERSITY    PIC X(40).
+           05 WS-PR-MAJOR         PIC X(30).
+           05 WS-PR-GRAD-YEAR     PIC 9(4).
+           05 WS-PR-ABOUT         PIC X(200).
+           05 WS-PR-EXP-COUNT     PIC 9.
            05 WS-PR-EXPERIENCE OCCURS 3 TIMES.
                10 WS-PR-EXP-TITLE   PIC X(30).
                10 WS-PR-EXP-COMPANY PIC X(30).
