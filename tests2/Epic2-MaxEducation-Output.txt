@@ -68,3 +68,6 @@ University/College:
 University of South Florida
 Years Attended (e.g., 2023-2025):
 2022-2026
+Profile saved successfully.
+1. Create or Edit Profile
+2. Return to Menu

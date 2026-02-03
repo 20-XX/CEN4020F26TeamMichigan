@@ -72,3 +72,6 @@ Years Attended (e.g., 2023-2025):
 2021-2025
 Add education entry? (Y/N)
 N
+Profile saved successfully.
+1. Create or Edit Profile
+2. Return to Menu
