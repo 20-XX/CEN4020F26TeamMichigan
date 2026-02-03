@@ -432,11 +432,15 @@
            END-IF.
 
        CREATE-EDIT-PROFILE.
+           OPEN INPUT PROFILE-FILE
+
            MOVE WS-USERNAME TO PR-USERNAME
 
            PERFORM LOAD-EXISTING-PROFILE
            PERFORM PROMPT-REQUIRED-FIELDS
            PERFORM PROMPT-OPTIONAL-FIELDS
+
+           CLOSE PROFILE-FILE
 
            PERFORM SAVE-PROFILE
 
@@ -451,7 +455,6 @@
            MOVE "N" TO PROFILE-FOUND
            MOVE "N" TO PROFILE-EOF
 
-           OPEN INPUT PROFILE-FILE
 
            PERFORM UNTIL PROFILE-EOF = "Y"
                READ PROFILE-FILE
@@ -463,13 +466,11 @@
                            EXIT PERFORM
                        END-IF
                    END-READ
-               END-PERFORM
-      CLOSE PROFILE-FILE.
+               END-PERFORM.
        SAVE-PROFILE.
             MOVE "N" TO PROFILE-FOUND
             MOVE "N" TO PROFILE-EOF
 
-            CLOSE PROFILE-FILE
             OPEN INPUT PROFILE-FILE
             OPEN OUTPUT PROFILE-TEMP
 
