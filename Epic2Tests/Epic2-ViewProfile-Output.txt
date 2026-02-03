@@ -18,14 +18,15 @@ Welcome, user1!
 Enter your choice:
 5
 ----- Your Profile -----
-Name: John                 Doe
+Name: John Doe
 University: University of South Florida
 Major: Computer Science
-Graduation Year: 2025
+Graduation Year: 2021
 About Me:
 Enthusiastic developer always learning new things.
 Experience:
-Title: Software intern                | Company: Tech Corp                      | Dates: Summer 2024
+Title: Software intern | Company: Tech Corp | Dates: Summer 2024
+Description: Developed tools for internal testing.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
