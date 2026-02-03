@@ -460,6 +460,8 @@
                     NOT AT END
                         IF PR-USERNAME = WS-USERNAME
                             MOVE "Y" TO PROFILE-FOUND
+                            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+                            WRITE PROFILE-TEMP-RECORD
                         ELSE
                             MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
                             WRITE PROFILE-TEMP-RECORD
@@ -467,15 +469,17 @@
                 END-READ
             END-PERFORM
 
-            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
-            WRITE PROFILE-TEMP-RECORD
+            IF PROFILE-FOUND = "N"
+               MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+               WRITE PROFILE-TEMP-RECORD
+            END-IF
 
             CLOSE PROFILE-FILE
             CLOSE PROFILE-TEMP
 
             CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
 
-            OPEN I-O PROFILE-FILE.
+            OPEN INPUT PROFILE-FILE.
 
 
        PROMPT-REQUIRED-FIELDS.
