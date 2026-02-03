@@ -643,9 +643,6 @@
            MOVE "N" TO PROFILE-FOUND
            MOVE "N" TO PROFILE-EOF
 
-           CLOSE PROFILE-FILE
-           OPEN INPUT PROFILE-FILE
-
            PERFORM UNTIL PROFILE-EOF = "Y" OR PROFILE-FOUND = "Y"
                READ PROFILE-FILE
                    AT END
