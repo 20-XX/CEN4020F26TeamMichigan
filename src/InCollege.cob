@@ -68,6 +68,7 @@
        77 CNT-SPECIAL PIC 9(3) VALUE 0.
        77 PROFILE-EOF PIC X VALUE "N".
        77 PROFILE-FOUND PIC X VALUE "N".
+       77 EDIT-MODE PIC X VALUE "N"
 
 
 
@@ -433,6 +434,7 @@
            END-IF.
 
        CREATE-EDIT-PROFILE.
+           MOVE "N" TO EDIT-MODE
            OPEN INPUT PROFILE-FILE
 
            MOVE WS-USERNAME TO PR-USERNAME
@@ -465,6 +467,7 @@
                        IF PR-USERNAME = WS-USERNAME
                            MOVE PROFILE-RECORD TO PROFILE-RECORD
                            MOVE "Y" TO PROFILE-FOUND
+                           MOVE "Y" TO EDIT-MODE
                            EXIT PERFORM
                        END-IF
                    END-READ
@@ -504,7 +507,7 @@
 
 
        PROMPT-REQUIRED-FIELDS.
-           IF PROFILE-FOUND NOT = "Y"
+           IF EDIT-MODE NOT = "Y"
                MOVE SPACES TO PR-FIRST-NAME
            END-IF
 
@@ -515,7 +518,7 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-FIRST-NAME
            END-PERFORM
 
-           IF PROFILE-FOUND NOT = "Y"
+           IF EDIT-MODE NOT = "Y"
                MOVE SPACES TO PR-LAST-NAME
            END-IF
 
@@ -526,7 +529,7 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-LAST-NAME
            END-PERFORM
 
-           IF PROFILE-FOUND NOT = "Y"
+           IF EDIT-MODE NOT = "Y"
                MOVE SPACES TO PR-UNIVERSITY
            END-IF
 
@@ -537,7 +540,7 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-UNIVERSITY
             END-PERFORM
 
-           IF PROFILE-FOUND NOT = "Y"
+           IF EDIT-MODE NOT = "Y"
                MOVE SPACES TO PR-MAJOR
            END-IF
 
@@ -548,7 +551,7 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
             END-PERFORM
 
-            IF PROFILE-FOUND = "Y"
+            IF EDIT-MODE = "Y"
                EXIT PARAGRAPH
             END-IF
 
