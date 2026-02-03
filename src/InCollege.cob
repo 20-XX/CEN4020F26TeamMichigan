@@ -539,6 +539,7 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
             END-PERFORM
 
+           MOVE 0 TO PR-GRAD-YEAR
 
            PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
