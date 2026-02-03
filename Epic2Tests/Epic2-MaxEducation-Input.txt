@@ -1,0 +1,29 @@
+1
+user1
+Pass@123
+4
+1
+John
+Doe
+University of South Florida
+Computer Science
+2026
+Enthusiastic developer always learning new things.
+Y
+Software intern
+Tech Corp
+Summer 2024
+Developed tools for internal testing.
+N
+Y
+Bachelor of Science
+University of South Florida
+2016-2020
+Y
+Master of Science
+University of South Florida
+2020-2022
+Y
+Doctor of Philosophy
+University of South Florida
+2022-2026
