@@ -107,9 +107,9 @@
 
            05 WS-PR-EDU-COUNT       PIC 9.
            05 WS-PR-EDUCATION OCCURS 3 TIMES.
-               WS-10 PR-EDU-DEGREE  PIC X(30).
-               WS-10 PR-EDU-SCHOOL  PIC X(40).
-               WS-10 PR-EDU-YEARS   PIC X(15).
+               10 WS-PR-EDU-DEGREE  PIC X(30).
+               10 WS-PR-EDU-SCHOOL  PIC X(40).
+               10 WS-PR-EDU-YEARS   PIC X(15).
 
 
 
