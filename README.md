@@ -26,6 +26,7 @@ Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
 
 Week 2: InCollege – User Profile Creation
 This week extends the template with a User Profile Management system, allowing users to create, edit, and view their personal profiles. Key Functionalities
+
 Profile Creation & Editing
 - Accessible after login through Create/Edit My Profile.
   - Fields captured include:
@@ -33,15 +34,19 @@ Profile Creation & Editing
     - Optional: About Me, up to 3 Experience entries, up to 3 Education entries.
   - Experience entries include Title, Company/Organization, Dates, and optional Description.
   - Education entries include Degree, University/College, and Years Attended.
+
 Profile Persistence
 - All profile information is saved and linked to the user’s account.
 - Data persists across application restarts via sequential files or extended storage linked by username.
+
 Profile Viewing
 - Users can view their complete profile using View My Profile from the main menu.
+
 Input & Output Handling
 - All input is read from a predefined input file.
 - All output is displayed on screen and identically written to an output file for record-keeping.
 - Input validation ensures required fields are correct, e.g., numeric 4-digit graduation year.
+
 COBOL Implementation Highlights
 - Modular design with dedicated sections for profile management.
 - Uses OCCURS clauses for multiple entries, PIC clauses for data types.
@@ -69,4 +74,5 @@ src/                   # COBOL source files
 
 ## License
 MIT
+
 
