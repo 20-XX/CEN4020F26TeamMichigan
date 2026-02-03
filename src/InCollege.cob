@@ -498,9 +498,7 @@
             CLOSE PROFILE-FILE
             CLOSE PROFILE-TEMP
 
-            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
-
-            OPEN INPUT PROFILE-FILE.
+            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat".
 
 
        PROMPT-REQUIRED-FIELDS.
