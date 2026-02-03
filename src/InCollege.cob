@@ -434,6 +434,7 @@
        CREATE-EDIT-PROFILE.
            MOVE WS-USERNAME TO PR-USERNAME
 
+           PERFORM LOAD-EXISTING-PROFILE
            PERFORM PROMPT-REQUIRED-FIELDS
            PERFORM PROMPT-OPTIONAL-FIELDS
 
@@ -445,7 +446,26 @@
            PERFORM PROFILE-MENU
 
            EXIT PARAGRAPH.
-      SAVE-PROFILE.
+
+       LOAD-EXISTING-PROFILE.
+           MOVE "N" TO PROFILE-FOUND
+           MOVE "N" TO PROFILE-EOF
+
+           OPEN INPUT PROFILE-FILE
+
+           PERFORM UNTIL PROFILE-EOF = "Y"
+               READ PROFILE-FILE
+                   AT END
+                       MOVE "Y" TO PROFILE-EOF
+                   NOT AT END
+                       IF PR-USERNAME = WS-USERNAME
+                           MOVE "Y" TO PROFILE-FOUND
+                           EXIT PERFORM
+                       END-IF
+                   END-READ
+               END-PERFORM
+      CLOSE PROFILE-FILE.
+       SAVE-PROFILE.
             MOVE "N" TO PROFILE-FOUND
             MOVE "N" TO PROFILE-EOF
 
@@ -483,7 +503,9 @@
 
 
        PROMPT-REQUIRED-FIELDS.
-           MOVE SPACES TO PR-FIRST-NAME
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE SPACES TO PR-FIRST-NAME
+           END-IF
 
            PERFORM UNTIL PR-FIRST-NAME NOT = SPACES
                MOVE "Enter First Name:" TO WS-OUT-LINE
@@ -492,7 +514,9 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-FIRST-NAME
            END-PERFORM
 
-           MOVE SPACES TO PR-LAST-NAME
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE SPACES TO PR-LAST-NAME
+           END-IF
 
            PERFORM UNTIL PR-LAST-NAME NOT = SPACES
                MOVE "Enter Last Name:" TO WS-OUT-LINE
@@ -501,7 +525,9 @@
                MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-LAST-NAME
            END-PERFORM
 
-           MOVE SPACES TO PR-UNIVERSITY
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE SPACES TO PR-UNIVERSITY
+           END-IF
 
            PERFORM UNTIL PR-UNIVERSITY NOT = SPACES
                 MOVE "Enter University/College Attended:" TO WS-OUT-LINE
@@ -510,7 +536,9 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-UNIVERSITY
             END-PERFORM
 
-            MOVE SPACES TO PR-MAJOR
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE SPACES TO PR-MAJOR
+           END-IF
 
             PERFORM UNTIL PR-MAJOR NOT = SPACES
                 MOVE "Enter Major:" TO WS-OUT-LINE
@@ -545,7 +573,9 @@
            PERFORM ADD-EDUCATION.
 
        ADD-EXPERIENCE.
-           MOVE 0 TO PR-EXP-COUNT
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE 0 TO PR-EXP-COUNT
+           END-IF
 
            PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
                MOVE "Add experience entry? (Y/N)" TO WS-OUT-LINE
@@ -580,7 +610,9 @@
            END-PERFORM.
 
        ADD-EDUCATION.
-           MOVE 0 TO PR-EDU-COUNT
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE 0 TO PR-EDU-COUNT
+           END-IF
 
            PERFORM VARYING I FROM 1 BY 1 UNTIL I > 3
                MOVE "Add education entry? (Y/N)" TO WS-OUT-LINE
