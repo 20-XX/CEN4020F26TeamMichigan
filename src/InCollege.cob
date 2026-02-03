@@ -96,7 +96,7 @@
            OPEN INPUT INPUT-FILE
            OPEN OUTPUT OUTPUT-FILE
            OPEN INPUT ACCOUNT-FILE
-           OPEN INPUT PROFILE-FILE
+
 
            PERFORM LOAD-ACCOUNTS
 
@@ -108,7 +108,6 @@
            CLOSE INPUT-FILE
            CLOSE OUTPUT-FILE
            CLOSE ACCOUNT-FILE
-           CLOSE PROFILE-FILE
            STOP RUN.
 
        LOAD-ACCOUNTS.
@@ -382,7 +381,9 @@
                    WHEN "4"
                        PERFORM PROFILE-MENU
                    WHEN "5"
+                       OPEN INPUT PROFILE-FILE
                        PERFORM VIEW-PROFILE
+                       CLOSE PROFILE-FILE
                    WHEN "6"
                        CONTINUE
                END-EVALUATE
@@ -462,6 +463,7 @@
                        MOVE "Y" TO PROFILE-EOF
                    NOT AT END
                        IF PR-USERNAME = WS-USERNAME
+                           MOVE PROFILE-RECORD TO PROFILE-RECORD
                            MOVE "Y" TO PROFILE-FOUND
                            EXIT PERFORM
                        END-IF
@@ -546,6 +548,11 @@
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO PR-MAJOR
             END-PERFORM
 
+            IF PROFILE-FOUND = "Y"
+               EXIT PARAGRAPH
+            END-IF
+
+            MOVE 0 TO PR-GRAD-YEAR
 
            PERFORM UNTIL PR-GRAD-YEAR >= 1900 AND PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
