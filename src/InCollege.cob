@@ -769,4 +769,4 @@
            DISPLAY WS-OUT-LINE
            MOVE WS-OUT-LINE TO OUTPUT-RECORD
            WRITE OUTPUT-RECORD.
-           
+

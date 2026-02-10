@@ -1,0 +1,97 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+hung1233
+Please enter your password:
+Hung@123
+You have successfully logged in
+Welcome, hung1233!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+4
+1. Create or Edit Profile
+2. Return to Menu
+1
+Enter First Name:
+William
+Enter Last Name:
+Smith
+Enter University/College Attended:
+University of Florida
+Enter Major:
+Information Systems
+Enter Graduation Year (YYYY):
+2026
+Enter About Me (optional):
+Passionate about technology and innovation.
+Add experience entry? (Y/N)
+Y
+Title:
+Software Developer intern
+Company:
+Amazon
+Dates:
+Summer 2025
+Description (optional):
+Worked on improving the user interface of the company's e-commerce platform.
+Add experience entry? (Y/N)
+Y
+Title:
+Data Analyst intern
+Company:
+Verizon
+Dates:
+Summer 2024
+Description (optional):
+Analyzed customer data to identify trends and improve marketing strategies.
+Add experience entry? (Y/N)
+N
+Add education entry? (Y/N)
+Y
+Degree:
+Bachelor of Science
+University/College:
+University of Florida
+Years Attended (e.g., 2023-2025):
+2022-2026
+Add education entry? (Y/N)
+N
+Profile saved successfully.
+1. Create or Edit Profile
+2. Return to Menu
+2
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+5
+----- Your Profile -----
+Name: William Smith
+University: University of Florida
+Major: Information Systems
+Graduation Year: 2026
+About Me:
+Passionate about technology and innovation.
+Experience:
+Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
