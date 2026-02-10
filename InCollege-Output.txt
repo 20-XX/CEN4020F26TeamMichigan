@@ -12,90 +12,49 @@ Welcome, hung1233!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
-4. Logout
-Enter your choice:
-1
-Job search/internship is under construction.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Logout
-Enter your choice:
-2
-Find someone you know is under construction.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Logout
-Enter your choice:
-3
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-1
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-2
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-3
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-4
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
 Enter your choice:
 5
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-6
-Welcome, hung1233!
+----- Your Profile -----
+Name: William Smith
+University: University of Florida
+Major: Information Systems
+Graduation Year: 2026
+About Me:
+Passionate about technology and innovation.
+Experience:
+Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
-4. Logout
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
 Enter your choice:
-4
-Welcome to InCollege!
-Log In
-Create New Account
+2
+Enter the full name of the person you are looking for:
+William Smith
+----- Found User Profile -----
+Name: William Smith
+University: University of Florida
+Major: Information Systems
+Graduation Year: 2026
+About Me:
+Passionate about technology and innovation.
+Experience:
+Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
 Enter your choice:
