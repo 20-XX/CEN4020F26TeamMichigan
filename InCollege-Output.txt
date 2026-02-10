@@ -16,19 +16,30 @@ Welcome, hung1233!
 5. View My Profile
 6. Logout
 Enter your choice:
-5
------ Your Profile -----
-Name: William Smith
-University: University of Florida
-Major: Information Systems
-Graduation Year: 2026
+2
+Enter the full name of the person you are looking for:
+John Doe
+----- Found User Profile -----
+Name: John Doe
+University: University of South Florida
+Major: Computer Science
+Graduation Year: 2025
 About Me:
-Passionate about technology and innovation.
+Enthusiastic developer always learning new things.
 Experience:
-Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
-Description: Worked on improving the user interface of the company's e-commerce platform.
-Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
-Description: Analyzed customer data to identify trends and improve marketing strategies.
+Title: Software intern | Company: Tech Corp | Dates: Summer 2024
+Description: Developed tools for internal testing.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+2
+Enter the full name of the person you are looking for:
+Jane Doe
+No one by that name could be found.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

@@ -109,6 +109,12 @@
 
        01 WS-YEAR-INPUT           PIC X(4).
 
+       01 WS-SEARCH-FULLNAME      PIC X(50).
+       01 WS-SEARCH-FIRST-NAME    PIC X(20).
+       01 WS-SEARCH-LAST-NAME     PIC X(20).
+       01 WS-SEARCH-SPACE-LOC     PIC 9(2) VALUE 0.
+       01 WS-SEARCH-USER-FOUND    PIC X(1) VALUE "N".
+
 
        PROCEDURE DIVISION.
        MAIN.
@@ -393,9 +399,7 @@
                            TO WS-OUT-LINE
                        PERFORM DISPLAY-LINE
                    WHEN "2"
-                       MOVE "Find someone you know is under construction."
-                           TO WS-OUT-LINE
-                       PERFORM DISPLAY-LINE
+                       PERFORM USER-PROFILE-SEARCH
                    WHEN "3"
                        PERFORM SKILL-MENU
                    WHEN "4"
@@ -753,6 +757,146 @@
 
            EXIT PARAGRAPH.
 
+
+       USER-PROFILE-SEARCH.
+           MOVE "N" TO WS-SEARCH-USER-FOUND
+           MOVE "Enter the full name of the person you are looking for:" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           PERFORM READ-INPUT
+
+           IF EOF-FLAG = "Y"
+               EXIT PARAGRAPH
+           END-IF
+
+           MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-SEARCH-FULLNAME
+
+           PERFORM PARSE-ENTERED-SEARCH
+
+           MOVE "N" TO PROFILE-EOF
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+
+           PERFORM UNTIL PROFILE-EOF = "Y" OR WS-SEARCH-USER-FOUND = "Y"
+                   READ PROFILE-FILE
+                       AT END
+                           MOVE "Y" TO PROFILE-EOF
+                       NOT AT END
+                           IF FUNCTION TRIM(PR-FIRST-NAME) = WS-SEARCH-FIRST-NAME AND
+                               FUNCTION TRIM(PR-LAST-NAME) = WS-SEARCH-LAST-NAME
+                               MOVE "Y" TO WS-SEARCH-USER-FOUND
+                           END-IF
+                   END-READ
+           END-PERFORM
+
+                IF WS-SEARCH-USER-FOUND = "Y"
+                    MOVE "----- Found User Profile -----" TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+
+                    MOVE SPACES TO WS-OUT-LINE
+                    STRING "Name: " DELIMITED BY SIZE
+                        FUNCTION TRIM(PR-FIRST-NAME) DELIMITED BY SIZE
+                        " " DELIMITED BY SIZE
+                        FUNCTION TRIM(PR-LAST-NAME) DELIMITED BY SIZE
+                        INTO WS-OUT-LINE
+                    END-STRING
+                    PERFORM DISPLAY-LINE
+
+                    MOVE SPACES TO WS-OUT-LINE
+                    STRING "University: " DELIMITED BY SIZE
+                        FUNCTION TRIM(PR-UNIVERSITY) DELIMITED BY SIZE
+                        INTO WS-OUT-LINE
+                    END-STRING
+                    PERFORM DISPLAY-LINE
+
+                    MOVE SPACES TO WS-OUT-LINE
+                    STRING "Major: " DELIMITED BY SIZE
+                        FUNCTION TRIM(PR-MAJOR) DELIMITED BY SIZE
+                        INTO WS-OUT-LINE
+                    END-STRING
+                    PERFORM DISPLAY-LINE
+
+                    MOVE SPACES TO WS-OUT-LINE
+                    STRING "Graduation Year: " DELIMITED BY SIZE
+                        PR-GRAD-YEAR DELIMITED BY SIZE
+                        INTO WS-OUT-LINE
+                    END-STRING
+                    PERFORM DISPLAY-LINE
+
+                     IF FUNCTION TRIM(PR-ABOUT) NOT = SPACES
+                        MOVE "About Me:" TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                        MOVE FUNCTION TRIM(PR-ABOUT) TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                    END-IF
+
+                    IF PR-EXP-COUNT > 0
+                        MOVE "Experience:" TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                        PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EXP-COUNT
+                            MOVE SPACES TO WS-OUT-LINE
+                            STRING "Title: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EXP-TITLE(I)) DELIMITED BY SIZE
+                                   " | Company: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EXP-COMPANY(I)) DELIMITED BY SIZE
+                                   " | Dates: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EXP-DATES(I)) DELIMITED BY SIZE
+                                   INTO WS-OUT-LINE
+                            END-STRING
+                            PERFORM DISPLAY-LINE
+                            IF FUNCTION TRIM(PR-EXP-DESC(I)) NOT = SPACES
+                                MOVE SPACES TO WS-OUT-LINE
+                                STRING "Description: " DELIMITED BY SIZE
+                                       FUNCTION TRIM(PR-EXP-DESC(I)) DELIMITED BY SIZE
+                                       INTO WS-OUT-LINE
+                                END-STRING
+                                PERFORM DISPLAY-LINE
+                            END-IF
+                        END-PERFORM
+                    END-IF
+
+                    IF PR-EDU-COUNT > 0
+                        MOVE "Education:" TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                        PERFORM VARYING I FROM 1 BY 1 UNTIL I > PR-EDU-COUNT
+                            MOVE SPACES TO WS-OUT-LINE
+                            STRING "Degree: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EDU-DEGREE(I)) DELIMITED BY SIZE
+                                   " | School: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EDU-SCHOOL(I)) DELIMITED BY SIZE
+                                   " | Years: " DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-EDU-YEARS(I)) DELIMITED BY SIZE
+                                   INTO WS-OUT-LINE
+                            END-STRING
+                            PERFORM DISPLAY-LINE
+                        END-PERFORM
+                    END-IF
+                ELSE
+                    MOVE "No one by that name could be found." TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                END-IF
+
+           EXIT PARAGRAPH.
+
+       PARSE-ENTERED-SEARCH.
+
+              MOVE SPACES TO WS-SEARCH-FIRST-NAME
+              MOVE SPACES TO WS-SEARCH-LAST-NAME
+              MOVE 0 TO WS-SEARCH-SPACE-LOC
+
+              PERFORM VARYING I FROM 1 BY 1 UNTIL I > FUNCTION LENGTH(WS-SEARCH-FULLNAME) OR WS-SEARCH-SPACE-LOC > 0
+                  IF WS-SEARCH-FULLNAME(I:1) = " "
+                      MOVE I TO WS-SEARCH-SPACE-LOC
+                  END-IF
+              END-PERFORM
+
+              IF WS-SEARCH-SPACE-LOC > 0
+                  MOVE WS-SEARCH-FULLNAME(1:WS-SEARCH-SPACE-LOC - 1) TO WS-SEARCH-FIRST-NAME
+                  MOVE WS-SEARCH-FULLNAME(WS-SEARCH-SPACE-LOC + 1:) TO WS-SEARCH-LAST-NAME
+              ELSE
+                  MOVE WS-SEARCH-FULLNAME TO WS-SEARCH-FIRST-NAME
+              END-IF.
+
+           EXIT PARAGRAPH.
 
        READ-INPUT.
            READ INPUT-FILE
