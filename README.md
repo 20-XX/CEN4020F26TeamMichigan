@@ -14,9 +14,9 @@ Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
 **Run the template**
 1. Clone this repo and open it in VS Code.
 2. When prompted, click **“Reopen in Container”**. (Or run *Dev Containers: Reopen in Container* from the Command Palette.)
-3. Open `src/hello.cob`.
+3. Open `src/InCollege.cob`.
 4. Press **Ctrl+Shift+B** (or **⇧⌘B** on Mac) to **Build**, or run the task **COBOL: Run active file (after build)** from the command palette.
-5. The compiled program will be placed in `bin/` and run in the VS Code terminal.
+5. The compiled program will be placed in `workspace/` and run in the VS Code terminal.
 
 ## Features
 - Docker image with **Ubuntu 22.04 + GNU COBOL (gnucobol)**.
@@ -24,11 +24,39 @@ Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
 - Default UTF-8 locale configured.
 - No extra installs on host OS beyond Docker + VS Code.
 
+Week 2: InCollege – User Profile Creation
+This week extends the template with a User Profile Management system, allowing users to create, edit, and view their personal profiles. Key Functionalities
+
+Profile Creation & Editing
+- Accessible after login through Create/Edit My Profile.
+  - Fields captured include:
+    - Required: First Name, Last Name, University/College, Major, Graduation Year.
+    - Optional: About Me, up to 3 Experience entries, up to 3 Education entries.
+  - Experience entries include Title, Company/Organization, Dates, and optional Description.
+  - Education entries include Degree, University/College, and Years Attended.
+
+Profile Persistence
+- All profile information is saved and linked to the user’s account.
+- Data persists across application restarts via sequential files or extended storage linked by username.
+
+Profile Viewing
+- Users can view their complete profile using View My Profile from the main menu.
+
+Input & Output Handling
+- All input is read from a predefined input file.
+- All output is displayed on screen and identically written to an output file for record-keeping.
+- Input validation ensures required fields are correct, e.g., numeric 4-digit graduation year.
+
+COBOL Implementation Highlights
+- Modular design with dedicated sections for profile management.
+- Uses OCCURS clauses for multiple entries, PIC clauses for data types.
+- Integration with existing login from Week 1.
+
 ## Common Commands (inside the container)
 ```bash
 # Compile and run a COBOL program manually
-cobc -x -o bin/hello src/hello.cob
-./bin/hello
+cobc -x -free src/InCollege.cob
+./InCollege.cob
 ```
 
 ## Troubleshooting
@@ -41,9 +69,10 @@ cobc -x -o bin/hello src/hello.cob
 ```
 .devcontainer/         # Dev container config (Dockerfile, devcontainer.json)
 .vscode/               # VS Code tasks
-src/                   # Your COBOL source files
-bin/                   # Build outputs (gitignored)
+src/                   # COBOL source files
 ```
 
 ## License
 MIT
+
+

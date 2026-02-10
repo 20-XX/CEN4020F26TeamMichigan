@@ -1,0 +1,22 @@
+1
+user1
+Pass@123
+4
+1
+John
+Doe
+University of South Florida
+Computer Science
+2025
+I am a highly motivated and detail-oriented student with a strong interest in technology, problem solving, and continuous learning. I enjoy collaborating with others, taking on new challenges, and applying classroom knowledge to real-world projects while preparing for a successful professional career.
+Y
+Software intern
+Tech Corp
+Summer 2024
+Developed tools for internal testing.
+N
+Y
+Bachelor of Science
+University of South Florida
+2021-2025
+N
