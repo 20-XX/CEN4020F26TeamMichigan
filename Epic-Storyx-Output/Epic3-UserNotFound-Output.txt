@@ -1,0 +1,34 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+user1
+Please enter your password:
+Pass@123
+You have successfully logged in
+Welcome, user1!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+2
+Enter the full name of the person you are looking for:
+Nonexistent Person
+No one by that name could be found.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+6
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
