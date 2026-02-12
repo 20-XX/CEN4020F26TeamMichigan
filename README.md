@@ -52,6 +52,19 @@ COBOL Implementation Highlights
 - Uses OCCURS clauses for multiple entries, PIC clauses for data types.
 - Integration with existing login from Week 1.
 
+Week 3: InCollege - Profile Viewing & Search
+This week extends the template by expanding the View My Profile feature and allows users to lookup and view the profiles of other users.
+Key Functionalities:
+- Enhanced Self-Profile Viewing:
+    - "View My Profile" clearly displays all entered information in a user's profile in the console for readability.
+    - Includes all required and optional fields.
+ - Basic User Search Functionality:
+     - Accessible after login through Find someone you know.
+     - Allows users to search for other registered InCollege users via their full name (e.g. "John Doe")
+     - The system searches for an exact match to the name given by the user.
+     - If a match is found, the system displays the user's full profile in the same manner as one's own profile.
+     - If a match is not found, the system displays a message informing the user.
+
 ## Common Commands (inside the container)
 ```bash
 # Compile and run a COBOL program manually
@@ -74,5 +87,6 @@ src/                   # COBOL source files
 
 ## License
 MIT
+
 
 
