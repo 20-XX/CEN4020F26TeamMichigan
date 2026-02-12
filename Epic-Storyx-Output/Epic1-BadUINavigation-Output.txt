@@ -12,11 +12,15 @@ Welcome, hung1233!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
-4. Logout
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
 Enter your choice:
-5
+8
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
-4. Logout
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
 Enter your choice:
