@@ -14,6 +14,10 @@
                ORGANIZATION IS LINE SEQUENTIAL.
            SELECT PROFILE-TEMP ASSIGN TO "Profiles.tmp"
                ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT PENDING-FILE ASSIGN TO "PendingRequests.dat"
+               ORGANIZATION IS LINE SEQUENTIAL
+               FILE STATUS IS PEND-FS.
+
 
        DATA DIVISION.
        FILE SECTION.
@@ -53,6 +57,15 @@
        FD PROFILE-TEMP.
        01 PROFILE-TEMP-RECORD PIC X(800).
 
+       FD PENDING-FILE.
+       01 PENDING-RECORD.
+           05 PEND-SENDER-USER     PIC X(20).
+           05 PEND-SENDER-FIRST    PIC X(20).
+           05 PEND-SENDER-LAST     PIC X(20).
+           05 PEND-RECEIVER-USER   PIC X(20).
+           05 PEND-RECEIVER-FIRST  PIC X(20).
+           05 PEND-RECEIVER-LAST   PIC X(20).
+
 
        WORKING-STORAGE SECTION.
 
@@ -69,6 +82,9 @@
        77 PROFILE-EOF PIC X VALUE "N".
        77 PROFILE-FOUND PIC X VALUE "N".
 
+       77 PEND-EOF     PIC X VALUE "N".
+       77 PEND-FOUND   PIC X VALUE "N".
+       77 PEND-FS      PIC XX VALUE "00".
 
 
        01 WS-USERNAME             PIC X(20).
@@ -99,6 +115,15 @@
                  10 WS-PR-EDU-DEGREE  PIC X(30).
                  10 WS-PR-EDU-SCHOOL  PIC X(40).
                  10 WS-PR-EDU-YEARS   PIC X(15).
+
+       01 WS-PEND-RECORD.
+           05 WS-PEND-SENDER-USER      PIC X(20).
+           05 WS-PEND-SENDER-FIRST     PIC X(20).
+           05 WS-PEND-SENDER-LAST      PIC X(20).
+           05 WS-PEND-RECEIVER-USER    PIC X(20).
+           05 WS-PEND-RECEIVER-FIRST   PIC X(20).
+           05 WS-PEND-RECEIVER-LAST    PIC X(20).
+
        01 I                       PIC 9(2).
 
 
@@ -122,6 +147,14 @@
            OPEN OUTPUT OUTPUT-FILE
            OPEN INPUT ACCOUNT-FILE
            OPEN INPUT PROFILE-FILE
+           OPEN INPUT PENDING-FILE
+
+           IF PEND-FS NOT = "00"
+               OPEN OUTPUT PENDING-FILE
+               CLOSE PENDING-FILE
+               OPEN INPUT PENDING-FILE
+           END-IF
+
 
            PERFORM LOAD-ACCOUNTS
 
@@ -134,6 +167,8 @@
            CLOSE OUTPUT-FILE
            CLOSE ACCOUNT-FILE
            CLOSE PROFILE-FILE
+           CLOSE PENDING-FILE
+
            STOP RUN.
 
        LOAD-ACCOUNTS.
