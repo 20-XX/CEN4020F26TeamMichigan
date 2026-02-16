@@ -406,7 +406,7 @@
            PERFORM DISPLAY-LINE
 
            MOVE "N" TO MENU-CHOICE
-           PERFORM UNTIL MENU-CHOICE = "6" OR EOF-FLAG = "Y"
+           PERFORM UNTIL MENU-CHOICE = "7" OR EOF-FLAG = "Y"
                MOVE "1. Search for a job" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "2. Find someone you know" TO WS-OUT-LINE
@@ -417,7 +417,9 @@
                PERFORM DISPLAY-LINE
                MOVE "5. View My Profile" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
-               MOVE "6. Logout" TO WS-OUT-LINE
+               MOVE "6. View My Pending Connection Requests" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               MOVE "7. Logout" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "Enter your choice:" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -442,6 +444,8 @@
                    WHEN "5"
                        PERFORM VIEW-PROFILE
                    WHEN "6"
+                       PERFORM VIEW-PENDING-REQUESTS
+                   WHEN "7"
                        CONTINUE
                END-EVALUATE
            END-PERFORM
@@ -905,6 +909,24 @@
                             PERFORM DISPLAY-LINE
                         END-PERFORM
                     END-IF
+
+                MOVE "1. Send Connection Request" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                MOVE "2. Back to Main Menu" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                MOVE "Enter your choice:" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+
+                PERFORM READ-INPUT
+                IF EOF-FLAG = "Y"
+                   EXIT PARAGRAPH
+                END-IF
+                MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+                IF MENU-CHOICE = "1"
+                   PERFORM SEND-CONNECTION-REQUEST
+                END-IF
+
                 ELSE
                     MOVE "No one by that name could be found." TO WS-OUT-LINE
                     PERFORM DISPLAY-LINE
@@ -932,6 +954,128 @@
               END-IF.
 
            EXIT PARAGRAPH.
+
+       SEND-CONNECTION-REQUEST.
+           MOVE "N" TO PEND-FOUND
+           MOVE "N" TO PEND-EOF
+
+           MOVE SPACES TO WS-PEND-SENDER-FIRST WS-PEND-SENDER-LAST
+           MOVE "N" TO PROFILE-FOUND PROFILE-EOF
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+           PERFORM UNTIL PROFILE-EOF = "Y" OR PROFILE-FOUND = "Y"
+               READ PROFILE-FILE
+                   AT END
+                       MOVE "Y" TO PROFILE-EOF
+                   NOT AT END
+                       IF FUNCTION TRIM(PR-USERNAME) = FUNCTION TRIM(WS-USERNAME)
+                           MOVE FUNCTION TRIM(PR-FIRST-NAME) TO WS-PEND-SENDER-FIRST
+                           MOVE FUNCTION TRIM(PR-LAST-NAME) TO WS-PEND-SENDER-LAST
+                           MOVE "Y" TO PROFILE-FOUND
+                       END-IF
+               END-READ
+           END-PERFORM
+           CLOSE PROFILE-FILE
+           OPEN INPUT PROFILE-FILE
+
+           CLOSE PENDING-FILE
+           OPEN INPUT PENDING-FILE
+           PERFORM UNTIL PEND-EOF = "Y"
+               READ PENDING-FILE
+                   AT END
+                       MOVE "Y" TO PEND-EOF
+                   NOT AT END
+                       IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(WS-USERNAME)
+                           AND FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(PR-USERNAME)
+                               MOVE "You have already sent a connection request to " TO WS-OUT-LINE
+                               STRING WS-OUT-LINE DELIMITED BY SIZE
+                                   FUNCTION TRIM(PR-FIRST-NAME) DELIMITED BY SIZE
+                                  " " DELIMITED BY SIZE
+                                  FUNCTION TRIM(PR-LAST-NAME) DELIMITED BY SIZE
+                                  "." DELIMITED BY SIZE
+                                  INTO WS-OUT-LINE
+
+
+
+                                  END-STRING
+                           PERFORM DISPLAY-LINE
+                           MOVE "Y" TO PEND-FOUND
+                       ELSE
+                           IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(PR-USERNAME)
+                              AND FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
+                               MOVE "This user has already sent you a connection request" TO WS-OUT-LINE
+                               PERFORM DISPLAY-LINE
+                               MOVE "Y" TO PEND-FOUND
+                           END-IF
+                       END-IF
+               END-READ
+           END-PERFORM
+
+           IF PEND-FOUND = "N"
+               CLOSE PENDING-FILE
+               OPEN EXTEND PENDING-FILE
+               MOVE FUNCTION TRIM(WS-USERNAME) TO PEND-SENDER-USER
+               MOVE FUNCTION TRIM(WS-PEND-SENDER-FIRST) TO PEND-SENDER-FIRST
+               MOVE FUNCTION TRIM(WS-PEND-SENDER-LAST) TO PEND-SENDER-LAST
+               MOVE FUNCTION TRIM(PR-USERNAME) TO PEND-RECEIVER-USER
+               MOVE FUNCTION TRIM(PR-FIRST-NAME) TO PEND-RECEIVER-FIRST
+               MOVE FUNCTION TRIM(PR-LAST-NAME) TO PEND-RECEIVER-LAST
+               WRITE PENDING-RECORD
+               CLOSE PENDING-FILE
+               OPEN INPUT PENDING-FILE
+
+               MOVE "Connection request sent to " TO WS-OUT-LINE
+               STRING WS-OUT-LINE DELIMITED BY SIZE
+                      FUNCTION TRIM(PR-FIRST-NAME) DELIMITED BY SIZE
+                      " " DELIMITED BY SIZE
+                      FUNCTION TRIM(PR-LAST-NAME) DELIMITED BY SIZE
+                      "." DELIMITED BY SIZE
+                      INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+           END-IF
+
+           EXIT PARAGRAPH.
+
+
+           VIEW-PENDING-REQUESTS.
+               MOVE "----- Pending Connection Requests -----" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               MOVE "N" TO PEND-FOUND
+               MOVE "N" TO PEND-EOF
+
+               CLOSE PENDING-FILE
+               OPEN INPUT PENDING-FILE
+
+               PERFORM UNTIL PEND-EOF = "Y"
+                   READ PENDING-FILE
+                       AT END
+                           MOVE "Y" TO PEND-EOF
+                       NOT AT END
+                           IF FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
+                               MOVE SPACES TO WS-OUT-LINE
+                               STRING FUNCTION TRIM(PEND-SENDER-FIRST) DELIMITED BY SIZE
+                                      " " DELIMITED BY SIZE
+                                      FUNCTION TRIM(PEND-SENDER-LAST) DELIMITED BY SIZE
+                                      INTO WS-OUT-LINE
+                               END-STRING
+                               PERFORM DISPLAY-LINE
+                               MOVE "Y" TO PEND-FOUND
+                           END-IF
+                   END-READ
+               END-PERFORM
+
+               IF PEND-FOUND = "N"
+                   MOVE "You have no pending connection requests at this time." TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
+
+               MOVE "-----------------------------------" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+
+           EXIT PARAGRAPH.
+
+
 
        READ-INPUT.
            READ INPUT-FILE
