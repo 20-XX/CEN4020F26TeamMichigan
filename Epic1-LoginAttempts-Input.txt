@@ -1,9 +1,0 @@
-1
-user123
-Pass@123
-1
-michael
-Password1!
-1
-hung1233
-Hung@123

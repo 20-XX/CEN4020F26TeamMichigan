@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-hung1233
+user1
 Please enter your password:
-Hung@123
+Pass@123
 You have successfully logged in
-Welcome, hung1233!
+Welcome, user1!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -16,8 +16,30 @@ Welcome, hung1233!
 5. View My Profile
 6. Logout
 Enter your choice:
-5
------ Your Profile -----
+2
+Enter the full name of the person you are looking for:
+John Doe
+----- Found User Profile -----
+Name: John Doe
+University: University of South Florida
+Major: Computer Science
+Graduation Year: 2025
+About Me:
+I am a highly motivated and detail-oriented student with a strong interest in technology, problem so
+Experience:
+Title: Software intern | Company: Tech Corp | Dates: Summer 2024
+Description: Developed tools for internal testing.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+2
+Enter the full name of the person you are looking for:
+William Smith
+----- Found User Profile -----
 Name: William Smith
 University: University of Florida
 Major: Information Systems
@@ -38,7 +60,7 @@ Description: Analyzed customer data to identify trends and improve marketing str
 Enter your choice:
 2
 Enter the full name of the person you are looking for:
-john doe
+Nobody
 No one by that name could be found.
 1. Search for a job
 2. Find someone you know
@@ -46,4 +68,9 @@ No one by that name could be found.
 4. Create/Edit My Profile
 5. View My Profile
 6. Logout
+Enter your choice:
+6
+Welcome to InCollege!
+Log In
+Create New Account
 Enter your choice:

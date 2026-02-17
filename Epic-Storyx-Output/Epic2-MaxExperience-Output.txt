@@ -1,0 +1,77 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+user1
+Please enter your password:
+Pass@123
+You have successfully logged in
+Welcome, user1!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+4
+1. Create or Edit Profile
+2. Return to Menu
+1
+Enter First Name:
+John
+Enter Last Name:
+Doe
+Enter University/College Attended:
+University of South Florida
+Enter Major:
+Computer Science
+Enter Graduation Year (YYYY):
+2025
+Enter About Me (optional):
+Enthusiastic developer always learning new things.
+Add experience entry? (Y/N)
+Y
+Title:
+Software intern
+Company:
+Tech Corp 1
+Dates:
+Summer 2022
+Description (optional):
+Developed tools for internal testing.
+Add experience entry? (Y/N)
+Y
+Title:
+Software intern
+Company:
+Tech Corp 2
+Dates:
+Summer 2023
+Description (optional):
+Developed tools for internal testing.
+Add experience entry? (Y/N)
+Y
+Title:
+Software intern
+Company:
+Tech Corp 3
+Dates:
+Summer 2024
+Description (optional):
+Developed tools for internal testing.
+Add education entry? (Y/N)
+Y
+Degree:
+Bachelor of Science
+University/College:
+University of South Florida
+Years Attended (e.g., 2023-2025):
+2021-2025
+Add education entry? (Y/N)
+N
+Profile saved successfully.
+1. Create or Edit Profile
+2. Return to Menu

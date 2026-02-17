@@ -1,0 +1,36 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+user1
+Please enter your password:
+Pass@123
+You have successfully logged in
+Welcome, user1!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. Logout
+Enter your choice:
+4
+1. Create or Edit Profile
+2. Return to Menu
+1
+Enter First Name:
+John
+Enter Last Name:
+Doe
+Enter University/College Attended:
+University of South Florida
+Enter Major:
+Computer Science
+Enter Graduation Year (YYYY):
+20
+Invalid Year. Please enter valid 4 digit year (YYYY).
+Enter Graduation Year (YYYY):
+Invalid Year. Please enter valid 4 digit year (YYYY).
+Enter Graduation Year (YYYY):
