@@ -36,7 +36,7 @@ Description: Analyzed customer data to identify trends and improve marketing str
 2. Back to Main Menu
 Enter your choice:
 1
-Connection request sent to William Smith.
+You cannot send a connection request to yourself.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
