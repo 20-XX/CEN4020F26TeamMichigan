@@ -959,6 +959,11 @@
            MOVE "N" TO PEND-FOUND
            MOVE "N" TO PEND-EOF
 
+           MOVE FUNCTION TRIM(PR-USERNAME) TO WS-PEND-RECEIVER-USER
+           MOVE FUNCTION TRIM(PR-FIRST-NAME) TO WS-PEND-RECEIVER-FIRST
+           MOVE FUNCTION TRIM(PR-LAST-NAME) TO WS-PEND-RECEIVER-LAST
+
+
            MOVE SPACES TO WS-PEND-SENDER-FIRST WS-PEND-SENDER-LAST
            MOVE "N" TO PROFILE-FOUND PROFILE-EOF
            CLOSE PROFILE-FILE
@@ -986,22 +991,19 @@
                        MOVE "Y" TO PEND-EOF
                    NOT AT END
                        IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(WS-USERNAME)
-                           AND FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(PR-USERNAME)
-                               MOVE "You have already sent a connection request to " TO WS-OUT-LINE
-                               STRING WS-OUT-LINE DELIMITED BY SIZE
-                                   FUNCTION TRIM(PR-FIRST-NAME) DELIMITED BY SIZE
+                           AND FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(WS-PEND-RECEIVER-USER)
+                               STRING "You have already sent a connection request to " DELIMITED BY SIZE
+                                   FUNCTION TRIM(WS-PEND-RECEIVER-FIRST) DELIMITED BY SIZE
                                   " " DELIMITED BY SIZE
-                                  FUNCTION TRIM(PR-LAST-NAME) DELIMITED BY SIZE
+                                  FUNCTION TRIM(WS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
                                   "." DELIMITED BY SIZE
                                   INTO WS-OUT-LINE
-
-
 
                                   END-STRING
                            PERFORM DISPLAY-LINE
                            MOVE "Y" TO PEND-FOUND
                        ELSE
-                           IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(PR-USERNAME)
+                           IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(WS-PEND-RECEIVER-USER)
                               AND FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
                                MOVE "This user has already sent you a connection request" TO WS-OUT-LINE
                                PERFORM DISPLAY-LINE
@@ -1017,18 +1019,17 @@
                MOVE FUNCTION TRIM(WS-USERNAME) TO PEND-SENDER-USER
                MOVE FUNCTION TRIM(WS-PEND-SENDER-FIRST) TO PEND-SENDER-FIRST
                MOVE FUNCTION TRIM(WS-PEND-SENDER-LAST) TO PEND-SENDER-LAST
-               MOVE FUNCTION TRIM(PR-USERNAME) TO PEND-RECEIVER-USER
-               MOVE FUNCTION TRIM(PR-FIRST-NAME) TO PEND-RECEIVER-FIRST
-               MOVE FUNCTION TRIM(PR-LAST-NAME) TO PEND-RECEIVER-LAST
+               MOVE FUNCTION TRIM(WS-PEND-RECEIVER-USER) TO PEND-RECEIVER-USER
+               MOVE FUNCTION TRIM(WS-PEND-RECEIVER-FIRST) TO PEND-RECEIVER-FIRST
+               MOVE FUNCTION TRIM(WS-PEND-RECEIVER-LAST) TO PEND-RECEIVER-LAST
                WRITE PENDING-RECORD
                CLOSE PENDING-FILE
                OPEN INPUT PENDING-FILE
 
-               MOVE "Connection request sent to " TO WS-OUT-LINE
-               STRING WS-OUT-LINE DELIMITED BY SIZE
-                      FUNCTION TRIM(PR-FIRST-NAME) DELIMITED BY SIZE
+               STRING "Connection request sent to " DELIMITED BY SIZE
+                      FUNCTION TRIM(WS-PEND-RECEIVER-FIRST) DELIMITED BY SIZE
                       " " DELIMITED BY SIZE
-                      FUNCTION TRIM(PR-LAST-NAME) DELIMITED BY SIZE
+                      FUNCTION TRIM(WS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
                       "." DELIMITED BY SIZE
                       INTO WS-OUT-LINE
                END-STRING
