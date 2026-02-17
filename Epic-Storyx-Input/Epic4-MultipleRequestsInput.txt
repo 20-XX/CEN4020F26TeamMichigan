@@ -12,10 +12,3 @@ Hung@123
 John Doe
 1
 7
-1
-hung123
-Hung@123
-2
-John Doe
-6
-7

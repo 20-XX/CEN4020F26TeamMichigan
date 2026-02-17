@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-user1
+hung1233
 Please enter your password:
-Pass@123
+Hung@123
 You have successfully logged in
-Welcome, user1!
+Welcome, hung1233!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -37,52 +37,6 @@ Description: Analyzed customer data to identify trends and improve marketing str
 Enter your choice:
 1
 Connection request sent to William Smith.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. Logout
-Enter your choice:
-7
-Welcome to InCollege!
-Log In
-Create New Account
-Enter your choice:
-1
-Please enter your username:
-hung1233
-Please enter your password:
-Hung@123
-You have successfully logged in
-Welcome, hung1233!
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. Logout
-Enter your choice:
-2
-Enter the full name of the person you are looking for:
-John Doe
------ Found User Profile -----
-Name: John Doe
-University: University of South Florida
-Major: Computer Science
-Graduation Year: 2025
-About Me:
-Enthusiastic developer always learning new things.
-Experience:
-Title: Software intern | Company: Tech Corp | Dates: Summer 2024
-Description: Developed tools for internal testing.
-1. Send Connection Request
-2. Back to Main Menu
-Enter your choice:
-1
-This user has already sent you a connection request
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
