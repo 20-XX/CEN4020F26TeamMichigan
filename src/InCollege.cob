@@ -984,6 +984,15 @@
            OPEN INPUT PROFILE-FILE
 
            CLOSE PENDING-FILE
+
+
+           IF FUNCTION TRIM(WS-PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
+               MOVE "You cannot send a connection request to yourself." TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               EXIT PARAGRAPH
+           END-IF
+
+
            OPEN INPUT PENDING-FILE
            PERFORM UNTIL PEND-EOF = "Y"
                READ PENDING-FILE
