@@ -68,9 +68,15 @@ Key Functionalities:
 ## Common Commands (inside the container)
 ```bash
 # Compile and run a COBOL program manually
-cobc -x -free src/InCollege.cob
-./InCollege.cob
+cobc -x -free -o bin/InCollegeDriver src/InCollegeDriver.cob
+./bin/InCollegeDriver
 ```
+After InCollegeDriver.cob, include all extra modules: AcctMgr
+
+## Next Steps
+- Found bug related to password validation, investigate and fix
+- Create separate module for profiles from Epic 2, test
+- Create separate module for searching from Epic 3, test
 
 ## Next Steps
 - Found bug related to password validation, investigate and fix
@@ -92,6 +98,7 @@ src/                   # COBOL source files
 
 ## License
 MIT
+
 
 
 
