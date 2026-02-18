@@ -1,6 +1,6 @@
 # GNU COBOL + Docker + VS Code (Dev Containers)
 
-A cross-platform template for teaching **GNU COBOL** using **Docker** and **VS Code Dev Containers**. 
+A cross-platform template for teaching **GNU COBOL** using **Docker** and **VS Code Dev Containers**.
 Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
 
 ## Quick Start (Students)
@@ -71,6 +71,11 @@ Key Functionalities:
 cobc -x -free src/InCollege.cob
 ./InCollege.cob
 ```
+
+## Next Steps
+- Found bug related to password validation, investigate and fix
+- Create separate module for profiles from Epic 2, test
+- Create separate module for searching from Epic 3, test
 
 ## Troubleshooting
 - If VS Code doesn’t prompt to reopen in a container, run **Dev Containers: Reopen in Container** manually.
