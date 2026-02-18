@@ -917,11 +917,24 @@
                 MOVE "Enter your choice:" TO WS-OUT-LINE
                 PERFORM DISPLAY-LINE
 
-                PERFORM READ-INPUT
-                IF EOF-FLAG = "Y"
-                   EXIT PARAGRAPH
-                END-IF
-                MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+                MOVE SPACES TO MENU-CHOICE
+                PERFORM UNTIL MENU-CHOICE = "1" OR MENU-CHOICE = "2" OR EOF-FLAG = "Y"
+                   PERFORM READ-INPUT
+
+                   IF EOF-FLAG = "Y"
+                       EXIT PARAGRAPH
+                   END-IF
+
+                   MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+                   IF MENU-CHOICE NOT = "1" AND MENU-CHOICE NOT = "2"
+                       MOVE "Invalid choice." TO WS-OUT-LINE
+                       PERFORM DISPLAY-LINE
+                       MOVE "Enter your choice:" TO WS-OUT-LINE
+                       PERFORM DISPLAY-LINE
+                   END-IF
+
+                END-PERFORM
 
                 IF MENU-CHOICE = "1"
                    PERFORM SEND-CONNECTION-REQUEST
