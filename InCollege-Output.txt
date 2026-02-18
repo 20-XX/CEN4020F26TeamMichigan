@@ -103,7 +103,7 @@ Welcome, hung1233!
 6. Logout
 Enter your choice:
 4
-Profile creation and editing is under construction.
+Profile creation/editing is under construction.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
