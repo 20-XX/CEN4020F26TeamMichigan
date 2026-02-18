@@ -73,15 +73,16 @@ cobc -x -free -o bin/InCollegeDriver src/InCollegeDriver.cob
 ```
 After InCollegeDriver.cob, include all extra modules: AcctMgr
 
-## Next Steps
-- Found bug related to password validation, investigate and fix
-- Create separate module for profiles from Epic 2, test
-- Create separate module for searching from Epic 3, test
+## Main Achievements
+- Modularized account management into AcctMgr.cob, tested briefly
+- Modularized profile creation/editing into ProfMgr.cob, tested briefly
+- Created makefile for easy compilation of all modules, tested
 
 ## Next Steps
 - Found bug related to password validation, investigate and fix
-- Create separate module for profiles from Epic 2, test
-- Create separate module for searching from Epic 3, test
+- Found potential bug related to profile saving, investigate and fix if actually a bug
+- Modularize profile viewing, possibly in same module as profile creation, test
+- Modularize searching for other users, possibly in same module as profile creation, test
 
 ## Troubleshooting
 - If VS Code doesn’t prompt to reopen in a container, run **Dev Containers: Reopen in Container** manually.

@@ -42,3 +42,33 @@ Hung@123
 4
 5
 6
+
+1
+hung1233
+Hung@123
+4
+1
+Will
+Smith
+University of Florida
+Computer Science
+2026
+Passionate about technology and innovation.
+Y
+Software Developer Intern
+Amazon
+Summer 2025
+Worked on improving the user interface of the company's e-commerce platform.
+Y
+Data Analyst Intern
+Verizon
+Summer 2024
+Analyzed customer data to identify trends and improve marketing strategies.
+N
+Y
+Associate of Science in Computer Science
+Hillsborough Community College
+2022-2024
+N
+2
+6

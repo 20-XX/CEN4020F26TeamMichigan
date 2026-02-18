@@ -16,103 +16,58 @@ Welcome, hung1233!
 5. View My Profile
 6. Logout
 Enter your choice:
-1
-Job search/internship is under construction.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. Logout
-Enter your choice:
-2
-Find someone you know is under construction.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. Logout
-Enter your choice:
-3
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-1
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-2
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-3
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
 4
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-5
-This skill is under construction.
-Learn a New Skill:
-1. Programming
-2. Networking
-3. Cybersecurity
-4. Databases
-5. Cloud Computing
-6. Go Back
-Enter your choice:
-6
-Welcome, hung1233!
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. Logout
-Enter your choice:
-4
-Profile creation/editing is under construction.
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. Logout
-Enter your choice:
-5
-Profile viewing is under construction.
+1. Create or Edit Profile
+2. Return to Menu
+1
+Enter First Name:
+Will
+Enter Last Name:
+Smith
+Enter University/College Attended:
+University of Florida
+Enter Major:
+Computer Science
+Enter Graduation Year (YYYY):
+2026
+Enter About Me (optional):
+Passionate about technology and innovation.
+Add experience entry? (Y/N)
+Y
+Title:
+Software Developer Intern
+Company:
+Amazon
+Dates:
+Summer 2025
+Description (optional):
+Worked on improving the user interface of the company's e-commerce platform.
+Add experience entry? (Y/N)
+Y
+Title:
+Data Analyst Intern
+Company:
+Verizon
+Dates:
+Summer 2024
+Description (optional):
+Analyzed customer data to identify trends and improve marketing strategies.
+Add experience entry? (Y/N)
+N
+Add education entry? (Y/N)
+Y
+Degree:
+Associate of Science in Computer Science
+University/College:
+Hillsborough Community College
+Years Attended (e.g., 2023-2025):
+2022-2024
+Add education entry? (Y/N)
+N
+Profile saved successfully.
+1. Create or Edit Profile
+2. Return to Menu
+2
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

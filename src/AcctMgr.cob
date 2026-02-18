@@ -11,28 +11,28 @@ DATA DIVISION.
     FILE SECTION.
         FD  ACCOUNT-FILE.
             01  ACCOUNT-RECORD.
-                05 ACC-USERNAME        PIC X(20).
-                05 ACC-PASSWORD        PIC X(12).
+                05 ACC-USERNAME       PIC X(20).
+                05 ACC-PASSWORD       PIC X(12).
     WORKING-STORAGE SECTION.
-        77   ACC-EOF                  PIC X VALUE "N".
-        77   USER-FOUND               PIC X VALUE "N".
-        77   PASSWORD-VALID           PIC X VALUE "N".
-        77   CNT-UPPER                PIC 9(3) VALUE 0.
-        77   CNT-DIGIT                PIC 9(3) VALUE 0.
-        77   CNT-SPECIAL              PIC 9(3) VALUE 0.
-        01   HASH-VALUE               PIC 9(10) VALUE 0.
-        01   HASH-CHAR                PIC 9(3).
-        01   WS-HASHED-PASSWORD       PIC X(12).
-        01   TEMP-HASH                PIC 9(10).
-        01   I                        PIC 9(2).
-        01   LOGIN-SUCCESS            PIC X VALUE "N".
+        77 ACC-EOF                    PIC X VALUE "N".
+        77 USER-FOUND                 PIC X VALUE "N".
+        77 PASSWORD-VALID             PIC X VALUE "N".
+        77 CNT-UPPER                  PIC 9(3) VALUE 0.
+        77 CNT-DIGIT                  PIC 9(3) VALUE 0.
+        77 CNT-SPECIAL                PIC 9(3) VALUE 0.
+        01 HASH-VALUE                 PIC 9(10) VALUE 0.
+        01 HASH-CHAR                  PIC 9(3).
+        01 WS-HASHED-PASSWORD         PIC X(12).
+        01 TEMP-HASH                  PIC 9(10).
+        01 I                          PIC 9(2).
+        01 LOGIN-SUCCESS              PIC X VALUE "N".
         01 WS-USERNAME                PIC X(20).
         01 WS-PASSWORD                PIC X(50).
     LINKAGE SECTION.
-        01   LNK-OPERATION            PIC X(2).
-        01   LNK-USERNAME             PIC X(20).
-        01   LNK-PASSWORD             PIC X(50).
-        01   LNK-RETURN-CODE          PIC X.
+        01 LNK-OPERATION              PIC X(2).
+        01 LNK-USERNAME               PIC X(20).
+        01 LNK-PASSWORD               PIC X(50).
+        01 LNK-RETURN-CODE            PIC X.
 
 PROCEDURE DIVISION USING LNK-OPERATION, LNK-USERNAME, LNK-PASSWORD, LNK-RETURN-CODE.
     MOVE "N" TO LNK-RETURN-CODE
