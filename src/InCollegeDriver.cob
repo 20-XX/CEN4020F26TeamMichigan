@@ -10,6 +10,8 @@ ENVIRONMENT DIVISION.
                 ORGANIZATION IS LINE SEQUENTIAL.
             SELECT ACCOUNT-FILE ASSIGN TO "Accounts.dat"
                 ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT PENDING-FILE ASSIGN TO "PendingRequests.dat"
+                ORGANIZATION IS LINE SEQUENTIAL.
 
 DATA DIVISION.
     FILE SECTION.
@@ -25,6 +27,15 @@ DATA DIVISION.
                 05 ACC-USERNAME    PIC X(20).
                 05 ACC-PASSWORD    PIC X(12).
 
+        FD PENDING-FILE.
+            01 PENDING-RECORD.
+                05 PEND-SENDER-USER    PIC X(20).
+                05 PEND-SENDER-FIRST    PIC X(20).
+                05 PEND-SENDER-LAST    PIC X(20).
+                05 PEND-RECEIVER-USER    PIC X(20).
+                05 PEND-RECEIVER-FIRST    PIC X(20).
+                05 PEND-RECEIVER-LAST    PIC X(20).
+
     WORKING-STORAGE SECTION.
 
         77 EOF-FLAG    PIC X VALUE "N".
@@ -32,11 +43,12 @@ DATA DIVISION.
         77 ACCOUNT-COUNT    PIC 9 VALUE 0.
         77 MENU-CHOICE    PIC X.
         77 LOGIN-SUCCESS    PIC X VALUE "N".
+        77 PEND-EOF    PIC X VALUE "N".
+        77 PEND-FOUND    PIC X VALUE "N".
 
         01 WS-USERNAME    PIC X(20).
         01 WS-PASSWORD    PIC X(50).
         01 WS-YEAR-INPUT    PIC X(4).
-        *> 01 WS-SEARCH-FULLNAME    PIC X(50).
         01 WS-OUT-LINE    PIC X(100).
 
         01 WS-PROFILE-RECORD.
@@ -58,6 +70,14 @@ DATA DIVISION.
                 10 WS-PR-EDU-DEGREE    PIC X(30).
                 10 WS-PR-EDU-SCHOOL    PIC X(40).
                 10 WS-PR-EDU-YEARS    PIC X(15).
+
+        01 WS-PEND-RECORD.
+            05 WS-PEND-SENDER-USER    PIC X(20).
+            05 WS-PEND-SENDER-FIRST    PIC X(20).
+            05 WS-PEND-SENDER-LAST    PIC X(20).
+            05 WS-PEND-RECEIVER-USER    PIC X(20).
+            05 WS-PEND-RECEIVER-FIRST    PIC X(20).
+            05 WS-PEND-RECEIVER-LAST    PIC X(20).
         01 I    PIC 9(2).
 
         01 ACCT-LINK-PARAMETERS.
@@ -262,7 +282,9 @@ PROCEDURE DIVISION.
             PERFORM DISPLAY-LINE
             MOVE "5. View My Profile" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
-            MOVE "6. Logout" TO WS-OUT-LINE
+            MOVE "6. View My Pending Connection Requests" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            MOVE "7. Logout" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
             MOVE "Enter your choice:" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
@@ -287,6 +309,8 @@ PROCEDURE DIVISION.
                 WHEN "5"
                     PERFORM VIEW-PROFILE
                 WHEN "6"
+                    PERFORM VIEW-PENDING-REQUESTS
+                WHEN "7"
                     CONTINUE
             END-EVALUATE
         END-PERFORM
@@ -343,7 +367,7 @@ PROCEDURE DIVISION.
 
         MOVE "P1" TO PROF-LNK-OPERATION
         MOVE WS-PROFILE-RECORD TO PROF-LNK-RECORD
-        CALL 'PROFILELOGIC' USING PROF-LNK-OPERATION, PROF-LNK-RETURN-CODE, PROF-LNK-RECORD
+        CALL 'PROFILELOGIC' USING PROF-LNK-OPERATION, PROF-LNK-RETURN-CODE, PROF-LNK-SEARCH-USERNAME, PROF-LNK-SEARCH-FULLNAME, PROF-LNK-RECORD
         IF PROF-LNK-RETURN-CODE = "Y"
              MOVE "Profile saved successfully." TO WS-OUT-LINE
              PERFORM DISPLAY-LINE
@@ -493,7 +517,7 @@ PROCEDURE DIVISION.
     VIEW-PROFILE.
         MOVE WS-USERNAME TO PROF-LNK-SEARCH-USERNAME
         MOVE "P2" TO PROF-LNK-OPERATION
-        CALL 'PROFILELOGIC' USING PROF-LNK-OPERATION, PROF-LNK-RETURN-CODE, PROF-LNK-SEARCH-USERNAME, PROF-LNK-RECORD
+        CALL 'PROFILELOGIC' USING PROF-LNK-OPERATION, PROF-LNK-RETURN-CODE, PROF-LNK-SEARCH-USERNAME, PROF-LNK-SEARCH-FULLNAME, PROF-LNK-RECORD
 
         IF PROF-LNK-RETURN-CODE = "Y"
             MOVE PROF-LNK-RECORD TO WS-PROFILE-RECORD
@@ -605,10 +629,70 @@ PROCEDURE DIVISION.
             MOVE "----- Found User Profile -----" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
             PERFORM DISPLAY-PROFILE
+            MOVE "1. Send Connection Request" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            MOVE "2. Back to Main Menu" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+
+            MOVE SPACES TO MENU-CHOICE
+            PERFORM UNTIL MENU-CHOICE = "1" OR MENU-CHOICE = "2" OR EOF-FLAG = "Y"
+                PERFORM READ-INPUT
+                IF EOF-FLAG = "Y"
+                    EXIT PERFORM
+                END-IF
+                MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+                IF MENU-CHOICE NOT = "1" AND MENU-CHOICE NOT = "2"
+                    MOVE "Invalid choice." TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                    MOVE "Enter your choice:" TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                END-IF
+            END-PERFORM
+            IF MENU-CHOICE = "1"
+                MOVE "Connection sending under construction." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            END-IF
         ELSE
             MOVE "No one by that name could be found." TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
         END-IF.
+
+    VIEW-PENDING-REQUESTS.
+        MOVE "----- Pending Connection Requests -----" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "N" TO PEND-EOF
+        MOVE "N" TO PEND-FOUND
+
+        OPEN INPUT PENDING-FILE
+        PERFORM UNTIL PEND-EOF = "Y"
+            READ PENDING-FILE
+                AT END
+                    MOVE "Y" TO PEND-EOF
+                NOT AT END
+                    IF FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
+                        MOVE "Y" TO PEND-FOUND
+                        MOVE SPACES TO WS-OUT-LINE
+                        STRING FUNCTION TRIM(PEND-SENDER-FIRST) DELIMITED BY SIZE
+                               " " DELIMITED BY SIZE
+                               FUNCTION TRIM(PEND-SENDER-LAST) DELIMITED BY SIZE
+                               INTO WS-OUT-LINE
+                        END-STRING
+                        PERFORM DISPLAY-LINE
+                    END-IF
+            END-READ
+        END-PERFORM
+
+        CLOSE PENDING-FILE
+
+        IF PEND-FOUND = "N"
+            MOVE "You have no pending connection requests at this time." TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+        END-IF
+
+        MOVE "-----------------------------------" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+
+        EXIT PARAGRAPH.
 
     READ-INPUT.
         READ INPUT-FILE
