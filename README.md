@@ -71,18 +71,22 @@ Key Functionalities:
 cobc -x -free -o bin/InCollegeDriver src/InCollegeDriver.cob
 ./bin/InCollegeDriver
 ```
-After InCollegeDriver.cob, include all extra modules: AcctMgr
+Use makefile to compile
 
 ## Main Achievements
-- Modularized account management into AcctMgr.cob, tested briefly
-- Modularized profile creation/editing into ProfMgr.cob, tested briefly
-- Created makefile for easy compilation of all modules, tested
+- Modularized profile fetching logic into ProfMgr.cob, tested briefly, appears to work but needs more testing
+- Modularized user searching logic into ProfMgr.cob, tested briefly, appears to work but needs more testing
+- Renamed modules to be more obvious of their purpose (e.g. AcctMgr.cob -> AccountLogic.cob, ProfMgr.cob -> ProfileLogic.cob)
 
 ## Next Steps
-- Found bug related to password validation, investigate and fix
-- Found potential bug related to profile saving, investigate and fix if actually a bug
-- Modularize profile viewing, possibly in same module as profile creation, test
-- Modularize searching for other users, possibly in same module as profile creation, test
+- Integrate current setup with new connection features from Epic 4
+- Officially replace current InCollege.cob with InCollegeDriver.cob as main driver program
+- Further test to find any additional bugs, and fix with previously found bugs
+- Consider replacing account manager codes to reflect ProfMgr.cob's new structure, and test to ensure it still works
+
+## Bug List
+- Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
+- Education fields are not being properly saved to the record when creating/editing profile
 
 ## Troubleshooting
 - If VS Code doesn’t prompt to reopen in a container, run **Dev Containers: Reopen in Container** manually.
