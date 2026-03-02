@@ -114,44 +114,33 @@ PROCEDURE DIVISION USING LNK-OPERATION, LNK-RETURN-CODE, LNK-SEARCH-USERNAME, LN
     SAVE-PROFILE.
         MOVE "N" TO PR-EOF
         MOVE "N" TO PROFILE-FOUND
+
         OPEN INPUT PROFILE-FILE
-        PERFORM UNTIL PROFILE-FOUND = "Y" OR PR-EOF = "Y"
-            READ PROFILE-FILE INTO PROFILE-RECORD
+        OPEN OUTPUT PROFILE-TEMP
+
+        PERFORM UNTIL PR-EOF = "Y"
+            READ PROFILE-FILE
                 AT END
                     MOVE "Y" TO PR-EOF
                 NOT AT END
-                    IF PR-USERNAME = WS-PR-USERNAME
+                    IF FUNCTION TRIM(PR-USERNAME) = FUNCTION TRIM(LNK-SEARCH-USERNAME)
                         MOVE "Y" TO PROFILE-FOUND
+                    ELSE
+                        MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+                        WRITE PROFILE-TEMP-RECORD
                     END-IF
             END-READ
         END-PERFORM
-        CLOSE PROFILE-FILE
 
-        IF PROFILE-FOUND = "Y"
-            MOVE "N" TO PR-EOF
-            OPEN INPUT PROFILE-FILE
-            OPEN OUTPUT PROFILE-TEMP
-            PERFORM UNTIL PR-EOF = "Y"
-                READ PROFILE-FILE INTO PROFILE-RECORD
-                    AT END
-                        MOVE "Y" TO PR-EOF
-                    NOT AT END
-                        IF PR-USERNAME = WS-PR-USERNAME
-                            MOVE WS-PROFILE-RECORD TO PROFILE-RECORD
-                        END-IF
-                        MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
-                        WRITE PROFILE-TEMP-RECORD
-                END-READ
-            END-PERFORM
-            CLOSE PROFILE-FILE
-            CLOSE PROFILE-TEMP
-            CALL 'SYSTEM' USING 'mv Profiles.tmp Profilestest.dat'
-        ELSE
-            OPEN EXTEND PROFILE-FILE
-            MOVE WS-PROFILE-RECORD TO PROFILE-RECORD
-            WRITE PROFILE-RECORD
-            CLOSE PROFILE-FILE
-        END-IF
+        MOVE WS-PROFILE-RECORD TO PROFILE-RECORD
+        MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
+        WRITE PROFILE-TEMP-RECORD
+
+        CLOSE PROFILE-FILE
+        CLOSE PROFILE-TEMP
+
+        CALL 'SYSTEM' USING 'mv Profiles.tmp Profilestest.dat'
+
         MOVE "Y" TO LNK-RETURN-CODE.
 
     GET-CURRENT-PROFILE.

@@ -62,7 +62,7 @@ make
 ```
 
 ## Main Achievements
-- Added connection request modularity with ConnectionLogic.cob, needs testing.
+- Briefly tested connection requests, need to test further.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
@@ -95,7 +95,7 @@ PendingRequests.dat    # Persistent storage for pending connection requests
 Profiles.dat           # Persistent storage for profile information
 Profilestest.dat       # Test data for profile management (will be removed in final version)
 README.md
-Test-input.txt          # Additional input file for testing purposes (will be removed in final version)
+Test-input.txt         # Additional input file for testing purposes (will be removed in final version)
 ```
 
 ## License
