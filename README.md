@@ -1,7 +1,6 @@
-# GNU COBOL + Docker + VS Code (Dev Containers)
+# InCollege
 
-A cross-platform template for teaching **GNU COBOL** using **Docker** and **VS Code Dev Containers**.
-Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
+A job search and networking application designed specifically for college students. Built in COBOL, this terminal application simulates provides a similar experience to LinkedIn, where users can create accounts, design profiles, look up other users, and send connection requests.
 
 ## Quick Start (Students)
 
@@ -14,75 +13,62 @@ Works the same on **Windows 11** and **macOS** (Apple Silicon and Intel).
 **Run the template**
 1. Clone this repo and open it in VS Code.
 2. When prompted, click **“Reopen in Container”**. (Or run *Dev Containers: Reopen in Container* from the Command Palette.)
-3. Open `src/InCollege.cob`.
-4. Press **Ctrl+Shift+B** (or **⇧⌘B** on Mac) to **Build**, or run the task **COBOL: Run active file (after build)** from the command palette.
-5. The compiled program will be placed in `workspace/` and run in the VS Code terminal.
+3. Prepare the input file [InCollege-input.txt](InCollege-input.txt) to simulate all user inputs.
+4. Use the provided [Makefile](Makefile) to compile the program. The executable will be created in the `bin/` directory.
+5. Run in the VS Code terminal using `./bin/InCollegeDriver`.
 
 ## Features
 - Docker image with **Ubuntu 22.04 + GNU COBOL (gnucobol)**.
 - VS Code tasks to **build and run the active COBOL file**.
 - Default UTF-8 locale configured.
 - No extra installs on host OS beyond Docker + VS Code.
-
-Week 2: InCollege – User Profile Creation
-This week extends the template with a User Profile Management system, allowing users to create, edit, and view their personal profiles. Key Functionalities
-
-Profile Creation & Editing
-- Accessible after login through Create/Edit My Profile.
+- Modular COBOL code with separate files for account management, profile management, and connection management.
+- Persistent account, profile, and connection data storage.
+- Simple I/O.
+  - All input is read from a predefined input file.
+  - All output is displayed on screen and identically written to an output file for record-keeping.
+- Password hashing and validation.
+- Profile creation with required and optional fields, including multiple experience and education entries.
+  - Accessible after login through Create/Edit My Profile.
   - Fields captured include:
     - Required: First Name, Last Name, University/College, Major, Graduation Year.
     - Optional: About Me, up to 3 Experience entries, up to 3 Education entries.
   - Experience entries include Title, Company/Organization, Dates, and optional Description.
   - Education entries include Degree, University/College, and Years Attended.
-
-Profile Persistence
-- All profile information is saved and linked to the user’s account.
-- Data persists across application restarts via sequential files or extended storage linked by username.
-
-Profile Viewing
-- Users can view their complete profile using View My Profile from the main menu.
-
-Input & Output Handling
-- All input is read from a predefined input file.
-- All output is displayed on screen and identically written to an output file for record-keeping.
-- Input validation ensures required fields are correct, e.g., numeric 4-digit graduation year.
-
-COBOL Implementation Highlights
-- Modular design with dedicated sections for profile management.
-- Uses OCCURS clauses for multiple entries, PIC clauses for data types.
-- Integration with existing login from Week 1.
-
-Week 3: InCollege - Profile Viewing & Search
-This week extends the template by expanding the View My Profile feature and allows users to lookup and view the profiles of other users.
-Key Functionalities:
-- Enhanced Self-Profile Viewing:
-    - "View My Profile" clearly displays all entered information in a user's profile in the console for readability.
-    - Includes all required and optional fields.
- - Basic User Search Functionality:
-     - Accessible after login through Find someone you know.
-     - Allows users to search for other registered InCollege users via their full name (e.g. "John Doe")
-     - The system searches for an exact match to the name given by the user.
-     - If a match is found, the system displays the user's full profile in the same manner as one's own profile.
-     - If a match is not found, the system displays a message informing the user.
+  - All profile information is saved and linked to the user’s account.
+  - Data persists across application restarts via sequential files or extended storage linked by username.
+  - Input validation ensures required fields are correct, e.g., numeric 4-digit graduation year.
+  - Modular design with dedicated sections for profile management.
+  - Uses OCCURS clauses for multiple entries, PIC clauses for data types.
+  - Integration with existing login from Week 1.
+- Profile viewing using "View My Profile" in the main menu.
+- User search functionality to find and view other users' profiles.
+  - Accessible after login through Find someone you know.
+  - Allows users to search for other registered InCollege users via theifull name (e.g. "John Doe")
+  - The system searches for an exact match to the name given by the user.
+  - If a match is found, the system displays the user's full profile in thsame manner as one's own profile.
+  - If a match is not found, the system displays a message informing thuser.
+- Connection request system with pending request management.
+  - Available as an option after viewing another user's profile.
+  - Users can send a connection request to another user, which is saved as a pending request.
+  - Users can view their pending connection requests.
+  - Automatic connection handling to prevent duplicate requests and self-connections.
 
 ## Common Commands (inside the container)
 ```bash
-# Compile and run a COBOL program manually
-cobc -x -free -o bin/InCollegeDriver src/InCollegeDriver.cob
+# Use Makefile to compile and run
+make
 ./bin/InCollegeDriver
 ```
-Use makefile to compile
 
 ## Main Achievements
-- Modularized profile fetching logic into ProfMgr.cob, tested briefly, appears to work but needs more testing
-- Modularized user searching logic into ProfMgr.cob, tested briefly, appears to work but needs more testing
-- Renamed modules to be more obvious of their purpose (e.g. AcctMgr.cob -> AccountLogic.cob, ProfMgr.cob -> ProfileLogic.cob)
+- Added connection request modularity with ConnectionLogic.cob, needs testing.
 
 ## Next Steps
-- Integrate current setup with new connection features from Epic 4
+- Thoroughly test the new connection request feature, and fix any bugs found.
+- Add epic features for this week
 - Officially replace current InCollege.cob with InCollegeDriver.cob as main driver program
 - Further test to find any additional bugs, and fix with previously found bugs
-- Consider replacing account manager codes to reflect ProfMgr.cob's new structure, and test to ensure it still works
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
@@ -98,12 +84,19 @@ Use makefile to compile
 ```
 .devcontainer/         # Dev container config (Dockerfile, devcontainer.json)
 .vscode/               # VS Code tasks
+bin/                   # Compiled executables
 src/                   # COBOL source files
+.gitignore             # Ignore compiled files and other non-source files
+Accounts.dat           # Persistent storage for account information
+InCollege-input.txt    # Sample input file to simulate user input
+InCollege-output.txt   # Output file where program writes output
+Makefile               # Makefile to compile COBOL source files
+PendingRequests.dat    # Persistent storage for pending connection requests
+Profiles.dat           # Persistent storage for profile information
+Profilestest.dat       # Test data for profile management (will be removed in final version)
+README.md
+Test-input.txt          # Additional input file for testing purposes (will be removed in final version)
 ```
 
 ## License
 MIT
-
-
-
-
