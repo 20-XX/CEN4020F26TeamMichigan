@@ -1044,6 +1044,43 @@
                EXIT PARAGRAPH
            END-IF
 
+           MOVE "N" TO CONN-FOUND
+           MOVE "N" TO CONN-EOF
+           CLOSE CONNECTIONS-FILE
+           OPEN INPUT CONNECTIONS-FILE
+           PERFORM UNTIL CONN-EOF = "Y"
+               READ CONNECTIONS-FILE
+                   AT END
+                       MOVE "Y" TO CONN-EOF
+                   NOT AT END
+                       IF (FUNCTION TRIM(CONN-USER1)
+                           = FUNCTION TRIM(WS-USERNAME)
+                           AND FUNCTION TRIM(CONN-USER2)
+                           = FUNCTION TRIM(WS-PEND-RECEIVER-USER))
+                           OR (FUNCTION TRIM(CONN-USER2)
+                           = FUNCTION TRIM(WS-USERNAME)
+                           AND FUNCTION TRIM(CONN-USER1)
+                           = FUNCTION TRIM(WS-PEND-RECEIVER-USER))
+                           MOVE "Y" TO CONN-FOUND
+                       END-IF
+               END-READ
+           END-PERFORM
+
+           IF CONN-FOUND = "Y"
+               MOVE SPACES TO WS-OUT-LINE
+               STRING "You are already connected with "
+                   DELIMITED BY SIZE
+                   FUNCTION TRIM(WS-PEND-RECEIVER-FIRST)
+                   DELIMITED BY SIZE
+                   " " DELIMITED BY SIZE
+                   FUNCTION TRIM(WS-PEND-RECEIVER-LAST)
+                   DELIMITED BY SIZE
+                   "." DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+               END-STRING
+               PERFORM DISPLAY-LINE
+               EXIT PARAGRAPH
+           END-IF
 
            OPEN INPUT PENDING-FILE
            PERFORM UNTIL PEND-EOF = "Y"
@@ -1117,6 +1154,39 @@
                        NOT AT END
                            IF FUNCTION TRIM(PEND-RECEIVER-USER)
                                = FUNCTION TRIM(WS-USERNAME)
+
+                               MOVE "N" TO CONN-FOUND
+                               MOVE "N" TO CONN-EOF
+                               CLOSE CONNECTIONS-FILE
+                               OPEN INPUT CONNECTIONS-FILE
+                               PERFORM UNTIL CONN-EOF = "Y"
+                                   READ CONNECTIONS-FILE
+                                       AT END
+                                           MOVE "Y" TO CONN-EOF
+                                       NOT AT END
+                                           IF (FUNCTION TRIM(CONN-USER1)
+                                               = FUNCTION TRIM(
+                                               PEND-SENDER-USER)
+                                               AND FUNCTION TRIM(
+                                               CONN-USER2)
+                                               = FUNCTION TRIM(
+                                               WS-USERNAME))
+                                               OR (FUNCTION TRIM(
+                                               CONN-USER2)
+                                               = FUNCTION TRIM(
+                                               PEND-SENDER-USER)
+                                               AND FUNCTION TRIM(
+                                               CONN-USER1)
+                                               = FUNCTION TRIM(
+                                               WS-USERNAME))
+                                               MOVE "Y" TO CONN-FOUND
+                                           END-IF
+                                   END-READ
+                               END-PERFORM
+
+                               IF CONN-FOUND = "Y"
+                                   CONTINUE
+                               ELSE
                                MOVE "Y" TO PEND-FOUND
                                MOVE SPACES TO WS-OUT-LINE
                                STRING
@@ -1172,6 +1242,7 @@
                                        INTO WS-OUT-LINE
                                    END-STRING
                                    PERFORM DISPLAY-LINE
+                               END-IF
                                END-IF
                            ELSE
                                MOVE PENDING-RECORD
