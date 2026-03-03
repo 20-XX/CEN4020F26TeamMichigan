@@ -50,7 +50,7 @@ Description: Developed tools for internal testing.
 2. Back to Main Menu
 Enter your choice:
 1
-Connection request sent to John Doe.
+You are already connected with John Doe.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -98,6 +98,14 @@ William Smith
 Enter your choice:
 6
 ----- Pending Connection Requests -----
-William Smith wants to connect.
-Accept (A) or Reject (R)?
+You have no pending connection requests at this time.
 -----------------------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
