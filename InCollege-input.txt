@@ -1,13 +1,20 @@
 1
-hung1233
-Hung@123
-7
+nickcage1
+156#Past
+4
+1
+Nicholas
+Cage
+University of Southern California
+Theater
+2028
+Hoping to become a successful actor and filmmaker.
+N
+Y
+Associate of Arts
+SoCal Community College
+2024-2026
+N
 2
-John Doe
-1
+5
 8
-1
-user1
-Pass@123
-7
-6

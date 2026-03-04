@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-hung1233
+nickcage1
 Please enter your password:
-Hung@123
+156#Past
 You have successfully logged in
-Welcome, hung1233!
+Welcome, nickcage1!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -18,39 +18,14 @@ Welcome, hung1233!
 7. View My Network
 8. Logout
 Enter your choice:
-7
------ Your Network -----
-John Doe
-  University: University of South Florida
-  Major: Computer Science
------------------------------------
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. View My Network
-8. Logout
-Enter your choice:
-2
-Enter the full name of the person you are looking for:
-John Doe
------ Found User Profile -----
-Name: John Doe
-University: University of South Florida
-Major: Computer Science
-Graduation Year: 2025
+5
+----- Your Profile -----
+Name: Nicholas Cage
+University: University of Southern California
+Major: Theater
+Graduation Year: 2028
 About Me:
-Enthusiastic developer always learning new things.
-Experience:
-Title: Software intern | Company: Tech Corp | Dates: Summer 2024
-Description: Developed tools for internal testing.
-1. Send Connection Request
-2. Back to Main Menu
-Enter your choice:
-1
-You are already connected with John Doe.
+Hoping to become a successful actor and filmmaker.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -64,48 +39,4 @@ Enter your choice:
 Welcome to InCollege!
 Log In
 Create New Account
-Enter your choice:
-1
-Please enter your username:
-user1
-Please enter your password:
-Pass@123
-You have successfully logged in
-Welcome, user1!
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. View My Network
-8. Logout
-Enter your choice:
-7
------ Your Network -----
-William Smith
-  University: University of Florida
-  Major: Information Systems
------------------------------------
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. View My Network
-8. Logout
-Enter your choice:
-6
------ Pending Connection Requests -----
-You have no pending connection requests at this time.
------------------------------------
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. View My Network
-8. Logout
 Enter your choice:
