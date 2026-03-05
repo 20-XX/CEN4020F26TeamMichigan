@@ -1035,6 +1035,13 @@
            CLOSE PROFILE-FILE
            OPEN INPUT PROFILE-FILE
 
+
+           IF PROFILE-FOUND NOT = "Y"
+               MOVE "You must create a profile before sending connection requests." TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               EXIT PARAGRAPH
+           END-IF
+
            CLOSE PENDING-FILE
 
 
