@@ -65,6 +65,24 @@ Key Functionalities:
      - If a match is found, the system displays the user's full profile in the same manner as one's own profile.
      - If a match is not found, the system displays a message informing the user.
 
+Connection Requests
+  - Sending Connection Requests
+     - After searching for a user, a user can send a connection request to that user.
+     - The connection request will be stored as a pending connection.
+  - Viewing Pending Requests
+     - The main post-login menu includes an option to view all pending requests sent to the logged-in user.
+
+Accepting and Rejecting Connections
+  - Viewing the pending requests will give the user an option to accept or reject the connection request from other users.
+  - Accepting a request establishes a permanent connection between two users.
+  - Rejecting a request removes the request from the pending connections.
+
+Network Display
+  - The main post-login menu has an option for users to view their network.
+  - The network lists all of the users that the logged-in user is currently connected with.
+  - The network displays the name, major and university of each user.
+
+
 ## Common Commands (inside the container)
 ```bash
 # Compile and run a COBOL program manually
@@ -87,6 +105,7 @@ src/                   # COBOL source files
 
 ## License
 MIT
+
 
 
 
