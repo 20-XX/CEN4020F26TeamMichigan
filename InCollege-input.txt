@@ -1,20 +1,14 @@
 1
-nickcage1
-156#Past
-4
-1
-Nicholas
-Cage
-University of Southern California
-Theater
-2028
-Hoping to become a successful actor and filmmaker.
-N
-Y
-Associate of Arts
-SoCal Community College
-2024-2026
-N
+user1
+Pass@123
 2
-5
+Cameron Pritchard
+1
+8
+1
+CameronP
+Camp!123
+6
+A
+7
 8
