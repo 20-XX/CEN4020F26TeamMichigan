@@ -8,8 +8,6 @@ ENVIRONMENT DIVISION.
                 ORGANIZATION IS LINE SEQUENTIAL.
             SELECT OUTPUT-FILE ASSIGN TO "InCollege-Output.txt"
                 ORGANIZATION IS LINE SEQUENTIAL.
-            SELECT ACCOUNT-FILE ASSIGN TO "Accounts.dat"
-                ORGANIZATION IS LINE SEQUENTIAL.
             SELECT PENDING-FILE ASSIGN TO "PendingRequests.dat"
                 ORGANIZATION IS LINE SEQUENTIAL.
 
@@ -21,11 +19,6 @@ DATA DIVISION.
 
         FD OUTPUT-FILE.
             01 OUTPUT-RECORD    PIC X(200).
-
-        FD ACCOUNT-FILE.
-            01 ACCOUNT-RECORD.
-                05 ACC-USERNAME    PIC X(20).
-                05 ACC-PASSWORD    PIC X(12).
 
         FD PENDING-FILE.
             01 PENDING-RECORD.
@@ -39,8 +32,6 @@ DATA DIVISION.
     WORKING-STORAGE SECTION.
 
         77 EOF-FLAG    PIC X VALUE "N".
-        77 ACC-EOF    PIC X VALUE "N".
-        77 ACCOUNT-COUNT    PIC 9 VALUE 0.
         77 MENU-CHOICE    PIC X.
         77 LOGIN-SUCCESS    PIC X VALUE "N".
         77 PEND-EOF    PIC X VALUE "N".
@@ -124,11 +115,6 @@ DATA DIVISION.
 PROCEDURE DIVISION.
     OPEN INPUT INPUT-FILE
     OPEN OUTPUT OUTPUT-FILE
-    OPEN INPUT ACCOUNT-FILE
-
-    PERFORM LOAD-ACCOUNTS
-
-    CLOSE ACCOUNT-FILE
 
     PERFORM UNTIL EOF-FLAG = "Y"
         PERFORM MAIN-MENU
@@ -137,17 +123,6 @@ PROCEDURE DIVISION.
     CLOSE INPUT-FILE
     CLOSE OUTPUT-FILE
     STOP RUN.
-
-    LOAD-ACCOUNTS.
-        MOVE "N" TO ACC-EOF
-        PERFORM UNTIL ACC-EOF = "Y"
-            READ ACCOUNT-FILE
-                AT END
-                    MOVE "Y" TO ACC-EOF
-                NOT AT END
-                    ADD 1 TO ACCOUNT-COUNT
-            END-READ
-        END-PERFORM.
 
     MAIN-MENU.
 
@@ -183,9 +158,10 @@ PROCEDURE DIVISION.
         EXIT PARAGRAPH.
 
     CREATE-ACCOUNT-HANDLER.
-        IF ACCOUNT-COUNT >= 5
-            MOVE "All permitted accounts have been created, please come back later"
-                TO WS-OUT-LINE
+        MOVE "LA" TO ACCT-LNK-OPERATION
+        CALL 'ACCOUNTLOGIC' USING ACCT-LNK-OPERATION, ACCT-LNK-USERNAME, ACCT-LNK-PASSWORD, ACCT-LNK-RETURN-CODE
+        IF ACCT-LNK-RETURN-CODE = "N"
+            MOVE "All permitted accounts have been created, please come back later" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
             EXIT PARAGRAPH
         END-IF
@@ -226,7 +202,6 @@ PROCEDURE DIVISION.
         IF ACCT-LNK-RETURN-CODE = "Y"
              MOVE "AA" TO ACCT-LNK-OPERATION
              CALL 'ACCOUNTLOGIC' USING ACCT-LNK-OPERATION, ACCT-LNK-USERNAME, ACCT-LNK-PASSWORD, ACCT-LNK-RETURN-CODE
-             ADD 1 TO ACCOUNT-COUNT
              MOVE "Account successfully created" TO WS-OUT-LINE
              PERFORM DISPLAY-LINE
         ELSE
