@@ -176,3 +176,43 @@ janeDoe
 Jane2/34
 7
 2
+
+2
+1
+CameronP
+Camp!123
+4
+1
+Cameron
+Pritchard
+University of South Florida
+Computer Science
+2026
+
+Y
+Undergraduate Teaching Assistant
+University of South Florida
+Fall 2025-Spring 2026
+Aided in grading and lecture
+N
+N
+2
+5
+8
+
+1
+nickcage1
+156#Past
+4
+1
+Nicholas
+Cage
+University of Southern California
+Theater
+2028
+Hoping to become a successful actor and filmmaker.
+N
+N
+2
+5
+8

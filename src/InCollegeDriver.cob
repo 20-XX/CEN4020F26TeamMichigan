@@ -257,7 +257,7 @@ PROCEDURE DIVISION.
         PERFORM DISPLAY-LINE
 
         MOVE "N" TO MENU-CHOICE
-        PERFORM UNTIL MENU-CHOICE = "7" OR EOF-FLAG = "Y"
+        PERFORM UNTIL MENU-CHOICE = "8" OR EOF-FLAG = "Y"
             MOVE "1. Search for a job" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
             MOVE "2. Find someone you know" TO WS-OUT-LINE
@@ -270,7 +270,9 @@ PROCEDURE DIVISION.
             PERFORM DISPLAY-LINE
             MOVE "6. View My Pending Connection Requests" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
-            MOVE "7. Logout" TO WS-OUT-LINE
+            MOVE "7. View My Network" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            MOVE "8. Logout" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
             MOVE "Enter your choice:" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
@@ -297,7 +299,11 @@ PROCEDURE DIVISION.
                 WHEN "6"
                     PERFORM VIEW-PENDING-REQUESTS
                 WHEN "7"
-                    CONTINUE
+                    MOVE "Network viewing is under construction."
+                        TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                WHEN "8"
+                    EXIT PARAGRAPH
             END-EVALUATE
         END-PERFORM
 

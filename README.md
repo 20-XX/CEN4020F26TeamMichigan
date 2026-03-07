@@ -62,15 +62,14 @@ make
 ```
 
 ## Main Achievements
-- Refactored AccountLogic.cob to use local storage instead of working storage for improved safety and eliminating redundant resets.
-- Moved account loading logic to a new "LA" operation in AccountLogic.cob, which is each time a user attempts to create a new account, to check that we are not exceeding the 5 account limit.
+- Refactored ProfileLogic.cob to use local storage instead of working storage for improved safety and eliminating redundant resets.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
 - Add epic features for this week
 - Officially replace current InCollege.cob with InCollegeDriver.cob as main driver program
 - Further test to find any additional bugs, and fix with previously found bugs
-- Repeat refactoring for ProfileLogic.cob and ConnectionLogic.cob to eliminate use of working storage and move to local storage for improved safety and modularity
+- Repeat refactoring for ConnectionLogic.cob to eliminate use of working storage and move to local storage for improved safety and modularity
 - Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver
 
 ## Bug List
