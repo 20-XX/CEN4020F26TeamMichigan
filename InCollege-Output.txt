@@ -20,20 +20,93 @@ Welcome, nickcage1!
 Enter your choice:
 2
 Enter the full name of the person you are looking for:
-John Doe
+William Smith
 ----- Found User Profile -----
-Name: John Doe
-University: University of South Florida
+Name: William Smith
+University: University of Florida
 Major: Computer Science
-Graduation Year: 2025
+Graduation Year: 2026
 About Me:
-Enthusiastic developer always learning new things.
+Passionate about technology and innovation.
 Experience:
-Title: Software intern | Company: Tech Corp | Dates: Summer 2024
-Description: Developed tools for internal testing.
+Title: Software Developer Intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst Intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
 1. Send Connection Request
 2. Back to Main Menu
+1
+Connection request sent successfully.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+6
+----- Pending Connection Requests -----
+You have no pending connection requests at this time.
+-----------------------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+8
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+hung1233
+Please enter your password:
+Hung@123
+You have successfully logged in
+Welcome, hung1233!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+6
+----- Pending Connection Requests -----
+Nicholas Cage
+-----------------------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
 2
+Enter the full name of the person you are looking for:
+Nicholas Cage
+----- Found User Profile -----
+Name: Nicholas Cage
+University: University of Southern California
+Major: Theater
+Graduation Year: 2028
+About Me:
+Hoping to become a successful actor and filmmaker.
+1. Send Connection Request
+2. Back to Main Menu
+1
+This user has already sent you a connection request.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

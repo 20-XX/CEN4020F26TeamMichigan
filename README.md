@@ -62,7 +62,7 @@ make
 ```
 
 ## Main Achievements
-- Refactored ProfileLogic.cob to use local storage instead of working storage for improved safety and eliminating redundant resets.
+- Begun work on connection acceptance handling from epic 5.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
@@ -71,6 +71,7 @@ make
 - Further test to find any additional bugs, and fix with previously found bugs
 - Repeat refactoring for ConnectionLogic.cob to eliminate use of working storage and move to local storage for improved safety and modularity
 - Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver
+- Change current operation and return code system to be more obvious what is happening (change codes to specific function names, and return messages instead of "Y/N" codes)
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
