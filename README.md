@@ -54,6 +54,21 @@ A job search and networking application designed specifically for college studen
   - Users can view their pending connection requests.
   - Automatic connection handling to prevent duplicate requests and self-connections.
 
+## Primary Modules
+- **InCollegeDriver.cob**: Main driver program that handles user input, displays menus, and calls the appropriate logic modules based on user actions.
+- **AccountLogic.cob**: Handles account creation, login, and password management.
+  - **"LA"**: Load Accounts- Counts the number of currently created accounts. Returns "Y" if less than the maximum allowed accounts (5), otherwise "N".
+  - **"CU"**: Check Username- Checks whether a username is already associated with an account or not. Returns "Y" if the username was found, otherwise "N".
+  - **"VP"**: Validate Password- Validates a provided password against provided rules. Returns "Y" if the password is valid, otherwise "N".
+  - **"AA"**: Add Account- Adds a new account and saves it to the accounts file. Returns nothing.
+  - **"AL"**: Attempt Login- Attempts to login to a user account. Returns "Y" if login was successful, otherwise "N".
+- **ProfileLogic.cob**: Manages profile creation, editing, viewing, and searching.
+  - **"SP"**: Save Profile- Saves the user's profile information to a profile file. Returns "Y" if the save was successful, otherwise "N".
+  - **"GCP"**: Get Current Profile- Searches for the current user's profile. Returns "Y" if the profile was found, otherwise "N".
+  - **"GFP"**: Get Full Profile- Searches for another user's profile by their first/last name. Returns "Y" if the profile was found, otherwise "N".
+- **ConnectionLogic.cob**: Manages connection requests, including sending requests, viewing pending requests, and accepting/declining requests.
+  - **"APR"**: Add Pending Request- Adds a new pending request. Returns "Y" and message "Connection request sent successfully." if request was successfully added, otherwise "N", meaning request between 2 users already exists.
+
 ## Common Commands (inside the container)
 ```bash
 # Use Makefile to compile and run
@@ -62,7 +77,7 @@ make
 ```
 
 ## Main Achievements
-- Begun work on connection acceptance handling from epic 5.
+- Modified calling codes to be clearer.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
@@ -70,8 +85,8 @@ make
 - Officially replace current InCollege.cob with InCollegeDriver.cob as main driver program
 - Further test to find any additional bugs, and fix with previously found bugs
 - Repeat refactoring for ConnectionLogic.cob to eliminate use of working storage and move to local storage for improved safety and modularity
-- Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver
-- Change current operation and return code system to be more obvious what is happening (change codes to specific function names, and return messages instead of "Y/N" codes)
+- Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver instead of "Y/N" codes
+- Continue work on implementing connection acceptance logic
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
