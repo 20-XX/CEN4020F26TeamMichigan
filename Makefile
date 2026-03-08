@@ -1,5 +1,5 @@
-bin/InCollegeDriver: src/InCollegeDriver.cob bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o
-	cobc -x -free -o bin/InCollegeDriver src/InCollegeDriver.cob bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o
+bin/InCollege: src/InCollege.cob bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o
+	cobc -x -free -o bin/InCollege src/InCollege.cob bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o
 
 bin/AccountLogic.o: src/AccountLogic.cob
 	cobc -c -free -o bin/AccountLogic.o src/AccountLogic.cob
@@ -11,4 +11,4 @@ bin/ConnectionLogic.o: src/ConnectionLogic.cob
 	cobc -c -free -o bin/ConnectionLogic.o src/ConnectionLogic.cob
 
 clean:
-	rm -f bin/InCollegeDriver bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o
+	rm -f bin/InCollege bin/AccountLogic.o bin/ProfileLogic.o bin/ConnectionLogic.o

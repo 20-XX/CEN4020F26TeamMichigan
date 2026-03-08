@@ -73,18 +73,17 @@ A job search and networking application designed specifically for college studen
 ```bash
 # Use Makefile to compile and run
 make
-./bin/InCollegeDriver
+./bin/InCollege
 ```
 
 ## Main Achievements
-- Modified calling codes to be clearer.
+- Officially replaed InCollege.cob with InCollegeDriver.cob as the main driver program (still keeping the old one for reference/testing)
+- Planned how to approach implementing connection acceptance/rejection logic, including file handling for pending requests and updates to the connections file.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
 - Add epic features for this week
-- Officially replace current InCollege.cob with InCollegeDriver.cob as main driver program
 - Further test to find any additional bugs, and fix with previously found bugs
-- Repeat refactoring for ConnectionLogic.cob to eliminate use of working storage and move to local storage for improved safety and modularity
 - Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver instead of "Y/N" codes
 - Continue work on implementing connection acceptance logic
 
