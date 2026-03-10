@@ -27,16 +27,16 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Intern
+Web Developer
 Description (required):
-Backend internship working with APIs
+Utilize Django and React to build and maintain web applications for clients in various industries.
 Employer (required):
-Google
+Microsoft
 Location (required):
-Remote
+Tampa, FL
 Salary (optional, press Enter to skip):
-25/hour
-Job posting #00009 saved successfully.
+
+Job posting #00008 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
