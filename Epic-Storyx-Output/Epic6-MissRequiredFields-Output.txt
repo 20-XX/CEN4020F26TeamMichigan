@@ -27,16 +27,24 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Intern
+
+Job Title (required):
+Data Analyst Intern
 Description (required):
-Backend internship working with APIs
+
+Description (required):
+Analyze data to build predictive models and provide insights to improve business decisions.
 Employer (required):
-Google
+
+Employer (required):
+Amazon
 Location (required):
-Remote
+
+Location (required):
+Seattle, WA
 Salary (optional, press Enter to skip):
-25/hour
-Job posting #00009 saved successfully.
+$50/hr
+Job posting #00007 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
