@@ -580,6 +580,11 @@ IDENTIFICATION DIVISION.
                    EXIT PARAGRAPH
                END-IF
                MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-TITLE
+               IF WS-JOB-TITLE = SPACES
+                   MOVE "Job Title is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
            END-PERFORM
 
            MOVE SPACES TO WS-JOB-DESCRIPTION
@@ -591,6 +596,11 @@ IDENTIFICATION DIVISION.
                    EXIT PARAGRAPH
                END-IF
                MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-DESCRIPTION
+               IF WS-JOB-DESCRIPTION = SPACES
+                   MOVE "Description is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
            END-PERFORM
 
            MOVE SPACES TO WS-JOB-EMPLOYER
@@ -602,6 +612,11 @@ IDENTIFICATION DIVISION.
                    EXIT PARAGRAPH
                END-IF
                MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-EMPLOYER
+               IF WS-JOB-EMPLOYER = SPACES
+                   MOVE "Employer is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
            END-PERFORM
 
            MOVE SPACES TO WS-JOB-LOCATION
@@ -613,6 +628,11 @@ IDENTIFICATION DIVISION.
                    EXIT PARAGRAPH
                END-IF
                MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-LOCATION
+               IF WS-JOB-LOCATION = SPACES
+                   MOVE "Location is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
            END-PERFORM
 
            MOVE "Salary (optional, press Enter to skip):" TO WS-OUT-LINE
