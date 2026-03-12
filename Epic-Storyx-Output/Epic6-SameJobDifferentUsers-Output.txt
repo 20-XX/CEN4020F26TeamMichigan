@@ -27,16 +27,16 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Developer Intern
+Software Intern
 Description (required):
-Develop software applications and collaborate with cross-functional teams to deliver high-quality pr
+Backend internship working with APIs
 Employer (required):
-Developer Inc.
+Google
 Location (required):
 Remote
 Salary (optional, press Enter to skip):
-$40/hour
-Job posting #00011 saved successfully.
+25/hour
+Job posting #00009 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

@@ -27,16 +27,28 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Developer Intern
+
+Job Title is required. Please enter a value.
+Job Title (required):
+Data Analyst Intern
 Description (required):
-Develop software applications and collaborate with cross-functional teams to deliver high-quality pr
+
+Description is required. Please enter a value.
+Description (required):
+Analyze data to build predictive models and provide insights to improve business decisions.
 Employer (required):
-Developer Inc.
+
+Employer is required. Please enter a value.
+Employer (required):
+Amazon
 Location (required):
-Remote
+
+Location is required. Please enter a value.
+Location (required):
+Seattle, WA
 Salary (optional, press Enter to skip):
-$40/hour
-Job posting #00011 saved successfully.
+$50/hr
+Job posting #00010 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

@@ -1,0 +1,10 @@
+1
+user1
+Pass@123
+1
+1
+Software Engineer
+Design, develop, and maintain software applications. Collaborate with cross-functional teams to define, design, and ship new features. Troubleshoot and debug applications to optimize performance. Stay up-to-date with emerging technologies and industry trends.
+IBM
+Austin, TX
+100,000/year

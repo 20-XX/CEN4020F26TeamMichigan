@@ -1,4 +1,4 @@
-       IDENTIFICATION DIVISION.
+IDENTIFICATION DIVISION.
        PROGRAM-ID. INCOLLEGE.
 
        ENVIRONMENT DIVISION.
@@ -22,6 +22,9 @@
                FILE STATUS IS CONN-FS.
            SELECT PEND-TEMP ASSIGN TO "PendingRequests.tmp"
                ORGANIZATION IS LINE SEQUENTIAL.
+           SELECT JOBS-FILE ASSIGN TO "Jobs.dat"
+               ORGANIZATION IS LINE SEQUENTIAL
+               FILE STATUS IS JOBS-FS.
 
 
        DATA DIVISION.
@@ -37,6 +40,7 @@
        01 ACCOUNT-RECORD.
            05 ACC-USERNAME        PIC X(20).
            05 ACC-PASSWORD        PIC X(12).
+
        FD PROFILE-FILE.
        01 PROFILE-RECORD.
            05 PR-USERNAME        PIC X(20).
@@ -46,19 +50,18 @@
            05 PR-MAJOR           PIC X(30).
            05 PR-GRAD-YEAR       PIC 9(4).
            05 PR-ABOUT           PIC X(200).
-
            05 PR-EXP-COUNT       PIC 9.
            05 PR-EXPERIENCE OCCURS 3 TIMES.
                10 PR-EXP-TITLE   PIC X(30).
                10 PR-EXP-COMPANY PIC X(30).
                10 PR-EXP-DATES   PIC X(20).
                10 PR-EXP-DESC    PIC X(100).
-
            05 PR-EDU-COUNT       PIC 9.
            05 PR-EDUCATION OCCURS 3 TIMES.
                10 PR-EDU-DEGREE  PIC X(30).
                10 PR-EDU-SCHOOL  PIC X(40).
                10 PR-EDU-YEARS   PIC X(15).
+
        FD PROFILE-TEMP.
        01 PROFILE-TEMP-RECORD PIC X(800).
 
@@ -89,6 +92,16 @@
            05 PT-RECEIVER-FIRST    PIC X(20).
            05 PT-RECEIVER-LAST     PIC X(20).
 
+       FD JOBS-FILE.
+       01 JOB-RECORD.
+           05 JOB-ID              PIC 9(5).
+           05 JOB-POSTED-BY       PIC X(20).
+           05 JOB-TITLE           PIC X(50).
+           05 JOB-DESCRIPTION     PIC X(200).
+           05 JOB-EMPLOYER        PIC X(50).
+           05 JOB-LOCATION        PIC X(50).
+           05 JOB-SALARY          PIC X(30).
+
 
        WORKING-STORAGE SECTION.
 
@@ -113,6 +126,10 @@
        77 CONN-FOUND   PIC X VALUE "N".
        77 WS-ACCEPT-CHOICE PIC X VALUE SPACES.
 
+       77 JOBS-FS      PIC XX VALUE "00".
+       77 JOBS-EOF     PIC X VALUE "N".
+       77 JOB-COUNT    PIC 9(5) VALUE 0.
+       77 NEXT-JOB-ID  PIC 9(5) VALUE 0.
 
        01 WS-USERNAME             PIC X(20).
        01 WS-PASSWORD             PIC X(50).
@@ -151,8 +168,16 @@
            05 WS-PEND-RECEIVER-FIRST   PIC X(20).
            05 WS-PEND-RECEIVER-LAST    PIC X(20).
 
-       01 I                       PIC 9(2).
+       01 WS-JOB-RECORD.
+           05 WS-JOB-ID              PIC 9(5).
+           05 WS-JOB-POSTED-BY       PIC X(20).
+           05 WS-JOB-TITLE           PIC X(50).
+           05 WS-JOB-DESCRIPTION     PIC X(200).
+           05 WS-JOB-EMPLOYER        PIC X(50).
+           05 WS-JOB-LOCATION        PIC X(50).
+           05 WS-JOB-SALARY          PIC X(30).
 
+       01 I                       PIC 9(2).
 
        01 HASH-VALUE              PIC 9(10) VALUE 0.
        01 HASH-CHAR               PIC 9(3).
@@ -189,13 +214,19 @@
                OPEN INPUT CONNECTIONS-FILE
            END-IF
 
+           OPEN INPUT JOBS-FILE
+           IF JOBS-FS NOT = "00"
+               OPEN OUTPUT JOBS-FILE
+               CLOSE JOBS-FILE
+               OPEN INPUT JOBS-FILE
+           END-IF
 
            PERFORM LOAD-ACCOUNTS
+           PERFORM LOAD-JOB-COUNT
 
            PERFORM UNTIL EOF-FLAG = "Y"
                PERFORM MAIN-MENU
            END-PERFORM
-
 
            CLOSE INPUT-FILE
            CLOSE OUTPUT-FILE
@@ -203,6 +234,7 @@
            CLOSE PROFILE-FILE
            CLOSE PENDING-FILE
            CLOSE CONNECTIONS-FILE
+           CLOSE JOBS-FILE
 
            STOP RUN.
 
@@ -216,6 +248,22 @@
                        ADD 1 TO ACCOUNT-COUNT
                END-READ
            END-PERFORM.
+
+       LOAD-JOB-COUNT.
+           MOVE 0 TO JOB-COUNT
+           MOVE "N" TO JOBS-EOF
+           CLOSE JOBS-FILE
+           OPEN INPUT JOBS-FILE
+           PERFORM UNTIL JOBS-EOF = "Y"
+               READ JOBS-FILE
+                   AT END
+                       MOVE "Y" TO JOBS-EOF
+                   NOT AT END
+                       ADD 1 TO JOB-COUNT
+               END-READ
+           END-PERFORM
+           COMPUTE NEXT-JOB-ID = JOB-COUNT + 1.
+
        HASH-PASSWORD.
            MOVE 0 TO HASH-VALUE
            MOVE SPACES TO WS-HASHED-PASSWORD
@@ -233,11 +281,9 @@
            END-STRING.
 
        MAIN-MENU.
-
            IF EOF-FLAG = "Y"
                 EXIT PARAGRAPH
            END-IF
-
 
            MOVE "Welcome to InCollege!" TO WS-OUT-LINE
            PERFORM DISPLAY-LINE
@@ -253,8 +299,6 @@
            IF EOF-FLAG = "Y"
                EXIT PARAGRAPH
            END-IF
-
-
 
            MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
 
@@ -280,12 +324,10 @@
            PERFORM DISPLAY-LINE
            PERFORM READ-INPUT
 
-
            IF EOF-FLAG = "Y"
                EXIT PARAGRAPH
            END-IF
            MOVE INPUT-RECORD TO WS-USERNAME
-
 
            PERFORM CHECK-USERNAME
 
@@ -349,8 +391,8 @@
                        END-IF
                END-READ
            END-PERFORM.
-       VALIDATE-PASSWORD.
 
+       VALIDATE-PASSWORD.
            MOVE "N" TO HAS-UPPER HAS-DIGIT HAS-SPECIAL PASSWORD-VALID
            MOVE 0 TO CNT-UPPER CNT-DIGIT CNT-SPECIAL
 
@@ -379,7 +421,6 @@
            IF HAS-UPPER = "Y" AND HAS-DIGIT = "Y" AND HAS-SPECIAL = "Y"
                MOVE "Y" TO PASSWORD-VALID
            END-IF.
-
 
        LOGIN.
            MOVE "N" TO LOGIN-SUCCESS
@@ -431,6 +472,7 @@
            END-IF
 
            EXIT PARAGRAPH.
+
        POST-LOGIN.
            MOVE SPACES TO WS-OUT-LINE
            STRING "Welcome, " DELIMITED BY SIZE
@@ -469,9 +511,7 @@
 
                EVALUATE MENU-CHOICE
                    WHEN "1"
-                       MOVE "Job search/internship is under construction."
-                           TO WS-OUT-LINE
-                       PERFORM DISPLAY-LINE
+                       PERFORM JOB-SEARCH-MENU
                    WHEN "2"
                        PERFORM USER-PROFILE-SEARCH
                    WHEN "3"
@@ -488,6 +528,150 @@
                        CONTINUE
                END-EVALUATE
            END-PERFORM
+
+           EXIT PARAGRAPH.
+
+       JOB-SEARCH-MENU.
+           MOVE "--- Job Search / Internship ---" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "1. Post a Job/Internship" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "2. Browse Jobs/Internships" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "3. Return to Main Menu" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           MOVE "Enter your choice:" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           PERFORM READ-INPUT
+           IF EOF-FLAG = "Y"
+               EXIT PARAGRAPH
+           END-IF
+
+           MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+           EVALUATE MENU-CHOICE
+               WHEN "1"
+                   PERFORM POST-JOB
+               WHEN "2"
+                   MOVE "Browse Jobs/Internships is under construction."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               WHEN "3"
+                   CONTINUE
+               WHEN OTHER
+                   MOVE "Invalid choice." TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+                   PERFORM JOB-SEARCH-MENU
+           END-EVALUATE
+
+           EXIT PARAGRAPH.
+
+       POST-JOB.
+           MOVE "--- Post a Job/Internship ---" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+
+           MOVE SPACES TO WS-JOB-TITLE
+           PERFORM UNTIL WS-JOB-TITLE NOT = SPACES
+               MOVE "Job Title (required):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               IF EOF-FLAG = "Y"
+                   EXIT PARAGRAPH
+               END-IF
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-TITLE
+               IF WS-JOB-TITLE = SPACES
+                   MOVE "Job Title is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
+           END-PERFORM
+
+           MOVE SPACES TO WS-JOB-DESCRIPTION
+           PERFORM UNTIL WS-JOB-DESCRIPTION NOT = SPACES
+               MOVE "Description (required):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               IF EOF-FLAG = "Y"
+                   EXIT PARAGRAPH
+               END-IF
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-DESCRIPTION
+               IF WS-JOB-DESCRIPTION = SPACES
+                   MOVE "Description is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
+           END-PERFORM
+
+           MOVE SPACES TO WS-JOB-EMPLOYER
+           PERFORM UNTIL WS-JOB-EMPLOYER NOT = SPACES
+               MOVE "Employer (required):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               IF EOF-FLAG = "Y"
+                   EXIT PARAGRAPH
+               END-IF
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-EMPLOYER
+               IF WS-JOB-EMPLOYER = SPACES
+                   MOVE "Employer is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
+           END-PERFORM
+
+           MOVE SPACES TO WS-JOB-LOCATION
+           PERFORM UNTIL WS-JOB-LOCATION NOT = SPACES
+               MOVE "Location (required):" TO WS-OUT-LINE
+               PERFORM DISPLAY-LINE
+               PERFORM READ-INPUT
+               IF EOF-FLAG = "Y"
+                   EXIT PARAGRAPH
+               END-IF
+               MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-LOCATION
+               IF WS-JOB-LOCATION = SPACES
+                   MOVE "Location is required. Please enter a value."
+                       TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+               END-IF
+           END-PERFORM
+
+           MOVE "Salary (optional, press Enter to skip):" TO WS-OUT-LINE
+           PERFORM DISPLAY-LINE
+           PERFORM READ-INPUT
+           IF EOF-FLAG = "Y"
+               EXIT PARAGRAPH
+           END-IF
+           MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-SALARY
+
+           MOVE NEXT-JOB-ID TO WS-JOB-ID
+           MOVE FUNCTION TRIM(WS-USERNAME) TO WS-JOB-POSTED-BY
+
+           CLOSE JOBS-FILE
+           OPEN EXTEND JOBS-FILE
+
+           MOVE WS-JOB-ID          TO JOB-ID
+           MOVE WS-JOB-POSTED-BY   TO JOB-POSTED-BY
+           MOVE WS-JOB-TITLE       TO JOB-TITLE
+           MOVE WS-JOB-DESCRIPTION TO JOB-DESCRIPTION
+           MOVE WS-JOB-EMPLOYER    TO JOB-EMPLOYER
+           MOVE WS-JOB-LOCATION    TO JOB-LOCATION
+           MOVE WS-JOB-SALARY      TO JOB-SALARY
+
+           WRITE JOB-RECORD
+
+           CLOSE JOBS-FILE
+           OPEN INPUT JOBS-FILE
+
+           ADD 1 TO JOB-COUNT
+           ADD 1 TO NEXT-JOB-ID
+
+           MOVE SPACES TO WS-OUT-LINE
+           STRING "Job posting #" DELIMITED BY SIZE
+               WS-JOB-ID DELIMITED BY SIZE
+               " saved successfully." DELIMITED BY SIZE
+               INTO WS-OUT-LINE
+           END-STRING
+           PERFORM DISPLAY-LINE
 
            EXIT PARAGRAPH.
 
@@ -519,6 +703,7 @@
                PERFORM DISPLAY-LINE
                PERFORM SKILL-MENU
            END-IF.
+
        PROFILE-MENU.
            MOVE "1. Create or Edit Profile" TO WS-OUT-LINE
            PERFORM DISPLAY-LINE
@@ -547,6 +732,7 @@
            PERFORM PROFILE-MENU
 
            EXIT PARAGRAPH.
+
       INITIALIZE-PROFILE-RECORD.
           MOVE SPACES TO WS-PR-FIRST-NAME
           MOVE SPACES TO WS-PR-LAST-NAME
@@ -566,6 +752,7 @@
               MOVE SPACES TO WS-PR-EDU-SCHOOL(I)
               MOVE SPACES TO WS-PR-EDU-YEARS(I)
           END-PERFORM.
+
       SAVE-PROFILE.
            MOVE "N" TO PROFILE-FOUND
            MOVE "N" TO PROFILE-EOF
@@ -588,7 +775,6 @@
                END-READ
            END-PERFORM
 
-
            MOVE WS-PROFILE-RECORD TO PROFILE-RECORD
            MOVE PROFILE-RECORD TO PROFILE-TEMP-RECORD
            WRITE PROFILE-TEMP-RECORD
@@ -599,7 +785,6 @@
            CALL 'SYSTEM' USING "mv Profiles.tmp Profiles.dat"
 
            OPEN INPUT PROFILE-FILE.
-
 
        PROMPT-REQUIRED-FIELDS.
            MOVE SPACES TO WS-PR-FIRST-NAME
@@ -637,7 +822,6 @@
                 PERFORM READ-INPUT
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-PR-MAJOR
             END-PERFORM
-
 
            PERFORM UNTIL WS-PR-GRAD-YEAR >= 1900 AND WS-PR-GRAD-YEAR <= 2100
                MOVE "Enter Graduation Year (YYYY):" TO WS-OUT-LINE
@@ -727,6 +911,7 @@
                PERFORM READ-INPUT
                MOVE INPUT-RECORD TO WS-PR-EDU-YEARS(I)
            END-PERFORM.
+
        VIEW-PROFILE.
            MOVE "N" TO PROFILE-FOUND
            MOVE "N" TO PROFILE-EOF
@@ -834,7 +1019,6 @@
            END-IF
 
            EXIT PARAGRAPH.
-
 
        USER-PROFILE-SEARCH.
            MOVE "N" TO WS-SEARCH-USER-FOUND
@@ -956,7 +1140,6 @@
                 MOVE "Enter your choice:" TO WS-OUT-LINE
                 PERFORM DISPLAY-LINE
 
-
                 MOVE SPACES TO MENU-CHOICE
                 PERFORM UNTIL MENU-CHOICE = "1" OR MENU-CHOICE = "2" OR EOF-FLAG = "Y"
                    PERFORM READ-INPUT
@@ -987,7 +1170,6 @@
            EXIT PARAGRAPH.
 
        PARSE-ENTERED-SEARCH.
-
               MOVE SPACES TO WS-SEARCH-FIRST-NAME
               MOVE SPACES TO WS-SEARCH-LAST-NAME
               MOVE 0 TO WS-SEARCH-SPACE-LOC
@@ -1015,7 +1197,6 @@
            MOVE FUNCTION TRIM(PR-FIRST-NAME) TO WS-PEND-RECEIVER-FIRST
            MOVE FUNCTION TRIM(PR-LAST-NAME) TO WS-PEND-RECEIVER-LAST
 
-
            MOVE SPACES TO WS-PEND-SENDER-FIRST WS-PEND-SENDER-LAST
            MOVE "N" TO PROFILE-FOUND PROFILE-EOF
            CLOSE PROFILE-FILE
@@ -1035,7 +1216,6 @@
            CLOSE PROFILE-FILE
            OPEN INPUT PROFILE-FILE
 
-
            IF PROFILE-FOUND NOT = "Y"
                MOVE "You must create a profile before sending connection requests." TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
@@ -1043,7 +1223,6 @@
            END-IF
 
            CLOSE PENDING-FILE
-
 
            IF FUNCTION TRIM(WS-PEND-RECEIVER-USER) = FUNCTION TRIM(WS-USERNAME)
                MOVE "You cannot send a connection request to yourself." TO WS-OUT-LINE
@@ -1103,7 +1282,6 @@
                                   FUNCTION TRIM(WS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
                                   "." DELIMITED BY SIZE
                                   INTO WS-OUT-LINE
-
                                   END-STRING
                            PERFORM DISPLAY-LINE
                            MOVE "Y" TO PEND-FOUND
@@ -1143,8 +1321,7 @@
 
            EXIT PARAGRAPH.
 
-
-           VIEW-PENDING-REQUESTS.
+       VIEW-PENDING-REQUESTS.
                MOVE "----- Pending Connection Requests -----" TO WS-OUT-LINE
                PERFORM DISPLAY-LINE
                MOVE "N" TO PEND-FOUND
@@ -1276,8 +1453,6 @@
                PERFORM DISPLAY-LINE
 
            EXIT PARAGRAPH.
-
-
 
        ACCEPT-CONNECTION.
            CLOSE CONNECTIONS-FILE
@@ -1422,7 +1597,6 @@
 
            EXIT PARAGRAPH.
 
-
        READ-INPUT.
            READ INPUT-FILE
                AT END
@@ -1431,11 +1605,10 @@
                    DISPLAY INPUT-RECORD
                    MOVE INPUT-RECORD TO OUTPUT-RECORD
                    WRITE OUTPUT-RECORD
-
            END-READ.
 
        DISPLAY-LINE.
            DISPLAY WS-OUT-LINE
            MOVE WS-OUT-LINE TO OUTPUT-RECORD
            WRITE OUTPUT-RECORD.
-
+           

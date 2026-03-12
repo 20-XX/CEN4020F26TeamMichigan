@@ -27,16 +27,16 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Developer Intern
+Web Developer
 Description (required):
-Develop software applications and collaborate with cross-functional teams to deliver high-quality pr
+Utilize Django and React to build and maintain web applications for clients in various industries.
 Employer (required):
-Developer Inc.
+Microsoft
 Location (required):
-Remote
+Tampa, FL
 Salary (optional, press Enter to skip):
-$40/hour
-Job posting #00011 saved successfully.
+
+Job posting #00008 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

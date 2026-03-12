@@ -1,14 +1,10 @@
 1
-user1
-Pass@123
-2
-Cameron Pritchard
-1
-8
-1
 CameronP
 Camp!123
-6
-A
-7
-8
+1
+1
+Software Developer Intern
+Develop software applications and collaborate with cross-functional teams to deliver high-quality products.
+Developer Inc.
+Remote
+$40/hour

@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-CameronP
+user1
 Please enter your password:
-Camp!123
+Pass@123
 You have successfully logged in
-Welcome, CameronP!
+Welcome, user1!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -27,16 +27,16 @@ Enter your choice:
 1
 --- Post a Job/Internship ---
 Job Title (required):
-Software Developer Intern
+Software Engineer
 Description (required):
-Develop software applications and collaborate with cross-functional teams to deliver high-quality pr
+Design, develop, and maintain software applications. Collaborate with cross-functional teams to defi
 Employer (required):
-Developer Inc.
+IBM
 Location (required):
-Remote
+Austin, TX
 Salary (optional, press Enter to skip):
-$40/hour
-Job posting #00011 saved successfully.
+100,000/year
+Job posting #00006 saved successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
