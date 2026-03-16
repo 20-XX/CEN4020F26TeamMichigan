@@ -4,9 +4,9 @@ IDENTIFICATION DIVISION.
 ENVIRONMENT DIVISION.
     INPUT-OUTPUT SECTION.
         FILE-CONTROL.
-            SELECT PROFILE-FILE ASSIGN TO 'Profiles.dat'
+            SELECT PROFILE-FILE ASSIGN TO 'data/Profiles.dat'
                 ORGANIZATION IS LINE SEQUENTIAL.
-            SELECT PROFILE-TEMP ASSIGN TO 'Profiles.tmp'
+            SELECT PROFILE-TEMP ASSIGN TO 'data/Profiles.tmp'
                 ORGANIZATION IS LINE SEQUENTIAL.
 
 DATA DIVISION.
@@ -61,33 +61,34 @@ DATA DIVISION.
                 10 LS-PR-EDU-SCHOOL    PIC X(40).
                 10 LS-PR-EDU-YEARS    PIC X(15).
     LINKAGE SECTION.
-        01 LNK-OPERATION    PIC X(3).
-        01 LNK-RETURN-CODE    PIC X.
-        01 LNK-SEARCH-USERNAME    PIC X(20).
-        01 LNK-SEARCH-FULLNAME    PIC X(50).
-        01 LNK-RECORD.
-            05 LNK-USERNAME    PIC X(20).
-            05 LNK-FIRST-NAME    PIC X(20).
-            05 LNK-LAST-NAME    PIC X(20).
-            05 LNK-UNIVERSITY    PIC X(40).
-            05 LNK-MAJOR    PIC X(30).
-            05 LNK-GRAD-YEAR    PIC 9(4).
-            05 LNK-ABOUT    PIC X(200).
-            05 LNK-EXP-COUNT    PIC 9.
-            05 LNK-EXPERIENCE OCCURS 3 TIMES.
-                10 LNK-EXP-TITLE    PIC X(30).
-                10 LNK-EXP-COMPANY    PIC X(30).
-                10 LNK-EXP-DATES    PIC X(20).
-                10 LNK-EXP-DESC    PIC X(100).
-            05 LNK-EDU-COUNT    PIC 9.
-            05 LNK-EDU-EDUCATION OCCURS 3 TIMES.
-                10 LNK-EDU-DEGREE    PIC X(30).
-                10 LNK-EDU-SCHOOL    PIC X(40).
-                10 LNK-EDU-YEARS    PIC X(15).
-PROCEDURE DIVISION USING LNK-OPERATION, LNK-RETURN-CODE, LNK-SEARCH-USERNAME, LNK-SEARCH-FULLNAME, LNK-RECORD.
+        01 LNK-PARAMETERS.
+            05 LNK-OPERATION    PIC X(3).
+            05 LNK-RETURN-CODE    PIC X.
+            05 LNK-SEARCH-USERNAME    PIC X(20).
+            05 LNK-SEARCH-FULLNAME    PIC X(50).
+            05 LNK-RECORD.
+                10 LNK-USERNAME    PIC X(20).
+                10 LNK-FIRST-NAME    PIC X(20).
+                10 LNK-LAST-NAME    PIC X(20).
+                10 LNK-UNIVERSITY    PIC X(40).
+                10 LNK-MAJOR    PIC X(30).
+                10 LNK-GRAD-YEAR    PIC 9(4).
+                10 LNK-ABOUT    PIC X(200).
+                10 LNK-EXP-COUNT    PIC 9.
+                10 LNK-EXPERIENCE OCCURS 3 TIMES.
+                    15 LNK-EXP-TITLE    PIC X(30).
+                    15 LNK-EXP-COMPANY    PIC X(30).
+                    15 LNK-EXP-DATES    PIC X(20).
+                    15 LNK-EXP-DESC    PIC X(100).
+                10 LNK-EDU-COUNT    PIC 9.
+                10 LNK-EDU-EDUCATION OCCURS 3 TIMES.
+                    15 LNK-EDU-DEGREE    PIC X(30).
+                    15 LNK-EDU-SCHOOL    PIC X(40).
+                    15 LNK-EDU-YEARS    PIC X(15).
+PROCEDURE DIVISION USING LNK-PARAMETERS.
     MOVE "N" TO LNK-RETURN-CODE
     MOVE LNK-RECORD TO LS-PROFILE-RECORD
-    EVALUATE LNK-OPERATION
+    EVALUATE FUNCTION TRIM(LNK-OPERATION)
         WHEN "SP"
             PERFORM SAVE-PROFILE
         WHEN "GCP"

@@ -68,6 +68,8 @@ A job search and networking application designed specifically for college studen
   - **"GFP"**: Get Full Profile- Searches for another user's profile by their first/last name. Returns "Y" if the profile was found, otherwise "N".
 - **ConnectionLogic.cob**: Manages connection requests, including sending requests, viewing pending requests, and accepting/declining requests.
   - **"APR"**: Add Pending Request- Adds a new pending request. Returns "Y" and message "Connection request sent successfully." if request was successfully added, otherwise "N", meaning request between 2 users already exists.
+  - **"GAP"**: Get All Pending Requests- Retrieves all pending requests for the current user. Returns "Y" if there are pending requests, otherwise "N".
+  - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if there are accepted connections, otherwise "N".
 
 ## Common Commands (inside the container)
 ```bash
@@ -77,8 +79,9 @@ make
 ```
 
 ## Main Achievements
-- Officially replaed InCollege.cob with InCollegeDriver.cob as the main driver program (still keeping the old one for reference/testing)
-- Planned how to approach implementing connection acceptance/rejection logic, including file handling for pending requests and updates to the connections file.
+- Created function in ConnectionLogic.cob for getting all pending connection requests for a user, and integrated it into the driver.
+- Improved parameter passing for all logic modules by creating structured parameters in the driver and using those in the logic modules, reducing the number of parameters passed and improving readability.
+- Improved project organization by creating build and data directories to separate compiled files and data files from source code.
 
 ## Next Steps
 - Thoroughly test the new connection request feature, and fix any bugs found.
@@ -86,6 +89,8 @@ make
 - Further test to find any additional bugs, and fix with previously found bugs
 - Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver instead of "Y/N" codes
 - Continue work on implementing connection acceptance logic
+- Add job logic for epics 6 and 7
+- Officially get rid of InCollegeDriver.cob, since InCollege.cob is now the main driver program
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
@@ -101,16 +106,26 @@ make
 ```
 .devcontainer/         # Dev container config (Dockerfile, devcontainer.json)
 .vscode/               # VS Code tasks
-bin/                   # Compiled executables
+bin/                   # Compiled executable (InCollege)
+build/                 # Compiled object files
+- AccountLogic.o
+- ConnectionLogic.o
+- ProfileLogic.o
+data/                  # Persistent data files
+- Accounts.dat         # Persistent storage for account information
+- Connections.dat      # Persistent storage for accepted connections
+- PendingRequests.dat  # Persistent storage for pending connection requests
+- Profiles.dat        # Persistent storage for profile information
 src/                   # COBOL source files
+- AccountLogic.cob     # Logic for account management (creation, login, password validation)
+- ConnectionLogic.cob  # Logic for connection management (sending requests, viewing pending requests)
+- InCollege.cob        # Main driver program that handles user input and calls logic modules
+- ProfileLogic.cob     # Logic for profile management (creating/editing profiles, viewing/searching profiles)
 .gitignore             # Ignore compiled files and other non-source files
-Accounts.dat           # Persistent storage for account information
 InCollege-input.txt    # Sample input file to simulate user input
 InCollege-output.txt   # Output file where program writes output
 Makefile               # Makefile to compile COBOL source files
-PendingRequests.dat    # Persistent storage for pending connection requests
-Profiles.dat           # Persistent storage for profile information
-Profilestest.dat       # Test data for profile management (will be removed in final version)
+Profilestest.dat       # Temp data for profile management (will be removed in final version)
 README.md
 Test-input.txt         # Additional input file for testing purposes (will be removed in final version)
 ```
