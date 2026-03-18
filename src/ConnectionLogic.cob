@@ -78,7 +78,6 @@ DATA DIVISION.
         01 LNK-PARAMETERS.
             05 LNK-OPERATION    PIC X(3).
             05 LNK-RETURN-CODE    PIC X.
-            05 LNK-RETURN-MSG    PIC X(100).
             05 LNK-SEARCH-USERNAME    PIC X(20).
             05 LNK-PEND-REQUEST.
                  10 LNK-PEND-SENDER-USER    PIC X(20).
@@ -114,10 +113,24 @@ DATA DIVISION.
                     15 LNK-CONN-USER2-LAST   PIC X(20).
 PROCEDURE DIVISION USING LNK-PARAMETERS.
     MOVE "N" TO LNK-RETURN-CODE
-    MOVE SPACES TO LNK-RETURN-MSG
     MOVE LNK-PEND-REQUEST TO LS-PEND-REQUEST
     MOVE LNK-NEW-CONN TO LS-NEW-CONN
     EVALUATE FUNCTION TRIM(LNK-OPERATION)
+        WHEN "CIC"
+            PERFORM CHECK-IF-CONNECTED
+            IF CONN-FOUND = "Y"
+                MOVE "Y" TO LNK-RETURN-CODE
+            END-IF
+        WHEN "CIS"
+            PERFORM CHECK-IF-SENT
+            IF PEND-FOUND = "Y"
+                MOVE "Y" TO LNK-RETURN-CODE
+            END-IF
+        WHEN "CIR"
+            PERFORM CHECK-IF-RECEIVED
+            IF PEND-FOUND = "Y"
+                MOVE "Y" TO LNK-RETURN-CODE
+            END-IF
         WHEN "APR"
             PERFORM ADD-PENDING-REQUEST
         WHEN "GAP"
@@ -125,23 +138,19 @@ PROCEDURE DIVISION USING LNK-PARAMETERS.
             IF LS-NUM-PEND-REQUESTS > 0
                 MOVE "Y" TO LNK-RETURN-CODE
                 MOVE LS-ALL-PENDING-REQUESTS TO LNK-ALL-PENDING-REQUESTS
-            ELSE
-                MOVE "N" TO LNK-RETURN-CODE
             END-IF
         WHEN "GAC"
             PERFORM GET-ALL-CONNECTIONS
             IF LS-NUM-CONNECTIONS > 0
                 MOVE "Y" TO LNK-RETURN-CODE
                 MOVE LS-ALL-CONNECTIONS TO LNK-ALL-CONNECTIONS
-            ELSE
-                MOVE "N" TO LNK-RETURN-CODE
             END-IF
         WHEN OTHER
             MOVE "N" TO LNK-RETURN-CODE
     END-EVALUATE
     GOBACK.
 
-    ADD-PENDING-REQUEST.
+    CHECK-IF-CONNECTED.
         OPEN INPUT CONNECTIONS-FILE
         PERFORM UNTIL CONN-FOUND = "Y" OR CONN-EOF = "Y"
             READ CONNECTIONS-FILE INTO CONNECTION-RECORD
@@ -157,18 +166,9 @@ PROCEDURE DIVISION USING LNK-PARAMETERS.
             END-READ
         END-PERFORM
         CLOSE CONNECTIONS-FILE
+        EXIT PARAGRAPH.
 
-        IF CONN-FOUND = "Y"
-            MOVE "N" TO LNK-RETURN-CODE
-            STRING "You are already connected with " DELIMITED BY SIZE
-            FUNCTION TRIM(LS-PEND-RECEIVER-FIRST) DELIMITED BY SIZE
-            " " DELIMITED BY SIZE
-            FUNCTION TRIM(LS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
-            "." DELIMITED BY SIZE
-            INTO LNK-RETURN-MSG
-            EXIT PARAGRAPH
-        END-IF
-
+    CHECK-IF-SENT.
         OPEN INPUT PENDING-FILE
         PERFORM UNTIL PEND-FOUND = "Y" OR PEND-EOF = "Y"
             READ PENDING-FILE INTO PENDING-RECORD
@@ -178,40 +178,34 @@ PROCEDURE DIVISION USING LNK-PARAMETERS.
                     IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(LS-PEND-SENDER-USER) AND
                        FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(LS-PEND-RECEIVER-USER)
                            MOVE "Y" TO PEND-FOUND
-                           STRING "You have already sent a connection request to " DELIMITED BY SIZE
-                           FUNCTION TRIM(LS-PEND-RECEIVER-FIRST) DELIMITED BY SIZE
-                           " " DELIMITED BY SIZE
-                           FUNCTION TRIM(LS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
-                           "." DELIMITED BY SIZE
-                           INTO LNK-RETURN-MSG
-                    ELSE
-                        IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(LS-PEND-RECEIVER-USER) AND
-                           FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(LS-PEND-SENDER-USER)
-                               MOVE "Y" TO PEND-FOUND
-                               MOVE "This user has already sent you a connection request." TO LNK-RETURN-MSG
-                        END-IF
                     END-IF
             END-READ
         END-PERFORM
-
         CLOSE PENDING-FILE
+        EXIT PARAGRAPH.
 
-        IF PEND-FOUND = "Y"
-            MOVE "N" TO LNK-RETURN-CODE
-        ELSE
-            OPEN EXTEND PENDING-FILE
-            MOVE LNK-PEND-REQUEST TO PENDING-RECORD
-            WRITE PENDING-RECORD
-            CLOSE PENDING-FILE
-            MOVE "Y" TO LNK-RETURN-CODE
-            STRING "Connection request sent to " DELIMITED BY SIZE
-            FUNCTION TRIM(LS-PEND-RECEIVER-FIRST) DELIMITED BY SIZE
-            " " DELIMITED BY SIZE
-            FUNCTION TRIM(LS-PEND-RECEIVER-LAST) DELIMITED BY SIZE
-            "." DELIMITED BY SIZE
-            INTO LNK-RETURN-MSG
-        END-IF
+    CHECK-IF-RECEIVED.
+        OPEN INPUT PENDING-FILE
+        PERFORM UNTIL PEND-FOUND = "Y" OR PEND-EOF = "Y"
+            READ PENDING-FILE INTO PENDING-RECORD
+                AT END
+                    MOVE "Y" TO PEND-EOF
+                NOT AT END
+                    IF FUNCTION TRIM(PEND-SENDER-USER) = FUNCTION TRIM(LS-PEND-RECEIVER-USER) AND
+                       FUNCTION TRIM(PEND-RECEIVER-USER) = FUNCTION TRIM(LS-PEND-SENDER-USER)
+                           MOVE "Y" TO PEND-FOUND
+                    END-IF
+            END-READ
+        END-PERFORM
+        CLOSE PENDING-FILE
+        EXIT PARAGRAPH.
 
+    ADD-PENDING-REQUEST.
+        OPEN EXTEND PENDING-FILE
+        MOVE LS-PEND-REQUEST TO PENDING-RECORD
+        WRITE PENDING-RECORD
+        CLOSE PENDING-FILE
+        MOVE "Y" TO LNK-RETURN-CODE
         EXIT PARAGRAPH.
 
     GET-ALL-PENDING.

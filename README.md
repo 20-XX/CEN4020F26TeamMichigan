@@ -67,9 +67,13 @@ A job search and networking application designed specifically for college studen
   - **"GCP"**: Get Current Profile- Searches for the current user's profile. Returns "Y" if the profile was found, otherwise "N".
   - **"GFP"**: Get Full Profile- Searches for another user's profile by their first/last name. Returns "Y" if the profile was found, otherwise "N".
 - **ConnectionLogic.cob**: Manages connection requests, including sending requests, viewing pending requests, and accepting/declining requests.
-  - **"APR"**: Add Pending Request- Adds a new pending request. Returns "Y" and message "Connection request sent successfully." if request was successfully added, otherwise "N", meaning request between 2 users already exists.
-  - **"GAP"**: Get All Pending Requests- Retrieves all pending requests for the current user. Returns "Y" if there are pending requests, otherwise "N".
-  - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if there are accepted connections, otherwise "N".
+  - **"CIC"**: Check If Connected- Checks if the current user is already connected to the user they are trying to send a request to. Returns "Y" if they are connected and "N" if they are not.
+  - **"CIS"**: Check If Sent- Checks if the current user has already sent a connection request to the user they are trying to connect with. Returns "Y" if a pending request was found, otherwise "N".
+  - **"CIR"**: Check If Received- Checks if the current user has already received a connection request from the user they are trying to connect with. Returns "Y" if a pending request was found, otherwise "N".
+  - **"APR"**: Add Pending Request- Adds a new pending request. Returns "Y" if request was successfully added, otherwise "N".
+  - **"GAP"**: Get All Pending Requests- Retrieves all pending requests for the current user. Returns "Y" if they have at least one pending request, otherwise "N".
+  - **"ANC"**: Accept New Connection- Accepts a pending connection request and adds it to the connections file. Returns "Y" if the request was successfully accepted, otherwise "N". (TODO)
+  - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if they have at least one accepted connection, otherwise "N".
 
 ## Common Commands (inside the container)
 ```bash
@@ -79,18 +83,14 @@ make
 ```
 
 ## Main Achievements
-- Created function in ConnectionLogic.cob for getting all pending connection requests for a user, and integrated it into the driver.
-- Improved parameter passing for all logic modules by creating structured parameters in the driver and using those in the logic modules, reducing the number of parameters passed and improving readability.
-- Improved project organization by creating build and data directories to separate compiled files and data files from source code.
+- Added new functions to ConnectionLogic.cob to handle cases originally handled by return messages, and moved return messages to InCollege.cob.
+- Modified DISPLAY-LINE to automatically clear the output line after each print, eliminating the need to manually clear it before every print statement and ensuring no leftover text from previous prints.
 
 ## Next Steps
-- Thoroughly test the new connection request feature, and fix any bugs found.
-- Add epic features for this week
-- Further test to find any additional bugs, and fix with previously found bugs
-- Test using return messages like with ConnectionLogic.cob to try and reduce prints in driver instead of "Y/N" codes
-- Continue work on implementing connection acceptance logic
-- Add job logic for epics 6 and 7
-- Officially get rid of InCollegeDriver.cob, since InCollege.cob is now the main driver program
+- Officially add accept/reject connection request and view my network functionalities
+- Add job search and application functionalities from epics 6 and 7
+- Rigorously test the entire program to find and fix any remaining bugs in all modules
+- Remove all unnecessary files used for testing and development before merge with main (InCollegeDriver.cob, Profilestest.dat, Test-input.txt)
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)
