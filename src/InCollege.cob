@@ -303,9 +303,7 @@ PROCEDURE DIVISION.
                 WHEN "6"
                     PERFORM VIEW-PENDING-REQUESTS
                 WHEN "7"
-                    MOVE "Network viewing is under construction."
-                        TO WS-OUT-LINE
-                    PERFORM DISPLAY-LINE
+                    PERFORM VIEW-MY-NETWORK
                 WHEN "8"
                     EXIT PARAGRAPH
             END-EVALUATE
@@ -738,6 +736,37 @@ PROCEDURE DIVISION.
                        INTO WS-OUT-LINE
                 END-STRING
                 PERFORM DISPLAY-LINE
+                MOVE "Accept (A) or Reject (R)?" TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                PERFORM READ-INPUT
+                MOVE INPUT-RECORD(1:1) TO WS-ACCEPT-CHOICE
+                IF WS-ACCEPT-CHOICE = "A" OR WS-ACCEPT-CHOICE = "a"
+                    MOVE CONN-LNK-PEND-REQUESTS(I) TO CONN-LNK-NEW-CONN
+                    MOVE "ANC" TO CONN-LNK-OPERATION
+                    CALL "CONNECTIONLOGIC" USING CONN-LINK-PARAMETERS
+                    IF CONN-LNK-RETURN-CODE = "Y"
+                        STRING "You are now connected with " DELIMITED BY SIZE
+                               FUNCTION TRIM(CONN-LNK-REQUEST-SENDER-FIRST(I)) DELIMITED BY SIZE
+                               " " DELIMITED BY SIZE
+                               FUNCTION TRIM(CONN-LNK-REQUEST-SENDER-LAST(I)) DELIMITED BY SIZE
+                               "." DELIMITED BY SIZE
+                               INTO WS-OUT-LINE
+                        END-STRING
+                        PERFORM DISPLAY-LINE
+                    ELSE
+                        MOVE "Error accepting connection request." TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                    END-IF
+                ELSE
+                    STRING "Connection request from " DELIMITED BY SIZE
+                           FUNCTION TRIM(CONN-LNK-REQUEST-SENDER-FIRST(I)) DELIMITED BY SIZE
+                           " " DELIMITED BY SIZE
+                           FUNCTION TRIM(CONN-LNK-REQUEST-SENDER-LAST(I)) DELIMITED BY SIZE
+                           " rejected." DELIMITED BY SIZE
+                           INTO WS-OUT-LINE
+                    END-STRING
+                    PERFORM DISPLAY-LINE
+                END-IF
             END-PERFORM
         ELSE
             MOVE "You have no pending connection requests at this time." TO WS-OUT-LINE
@@ -746,6 +775,54 @@ PROCEDURE DIVISION.
 
         MOVE "-----------------------------------" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE.
+
+    VIEW-MY-NETWORK.
+        MOVE WS-USERNAME TO CONN-LNK-SEARCH-USERNAME
+        MOVE "GAC" TO CONN-LNK-OPERATION
+        CALL 'CONNECTIONLOGIC' USING CONN-LINK-PARAMETERS
+
+        MOVE "----- Your Network -----" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+
+        IF CONN-LNK-RETURN-CODE = "Y"
+            PERFORM VARYING I FROM 1 BY 1 UNTIL I > CONN-LNK-NUM-CONNECTIONS
+                IF CONN-LNK-CONN-USER1(I) = FUNCTION TRIM(WS-USERNAME)
+                    STRING FUNCTION TRIM(CONN-LNK-CONN-USER2-FIRST(I)) DELIMITED BY SIZE
+                           " " DELIMITED BY SIZE
+                           FUNCTION TRIM(CONN-LNK-CONN-USER2-LAST(I)) DELIMITED BY SIZE
+                           INTO WS-OUT-LINE
+                    END-STRING
+                    MOVE CONN-LNK-CONN-USER2(I) TO PROF-LNK-SEARCH-USERNAME
+                ELSE
+                    STRING FUNCTION TRIM(CONN-LNK-CONN-USER1-FIRST(I)) DELIMITED BY SIZE
+                           " " DELIMITED BY SIZE
+                           FUNCTION TRIM(CONN-LNK-CONN-USER1-LAST(I)) DELIMITED BY SIZE
+                           INTO WS-OUT-LINE
+                    END-STRING
+                    MOVE CONN-LNK-CONN-USER1(I) TO PROF-LNK-SEARCH-USERNAME
+                END-IF
+                PERFORM DISPLAY-LINE
+                MOVE "GCP" TO PROF-LNK-OPERATION
+                CALL 'PROFILELOGIC' USING PROF-LINK-PARAMETERS
+                STRING "  University: " DELIMITED BY SIZE
+                       FUNCTION TRIM(PROF-LNK-UNIVERSITY) DELIMITED BY SIZE
+                       INTO WS-OUT-LINE
+                END-STRING
+                PERFORM DISPLAY-LINE
+                STRING "  Major: " DELIMITED BY SIZE
+                       FUNCTION TRIM(PROF-LNK-MAJOR) DELIMITED BY SIZE
+                       INTO WS-OUT-LINE
+                END-STRING
+                PERFORM DISPLAY-LINE
+            END-PERFORM
+        ELSE
+            MOVE "You have no connections yet." TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+        END-IF
+
+        MOVE "-----------------------------------" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        EXIT PARAGRAPH.
 
     READ-INPUT.
         READ INPUT-FILE

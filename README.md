@@ -83,11 +83,9 @@ make
 ```
 
 ## Main Achievements
-- Added new functions to ConnectionLogic.cob to handle cases originally handled by return messages, and moved return messages to InCollege.cob.
-- Modified DISPLAY-LINE to automatically clear the output line after each print, eliminating the need to manually clear it before every print statement and ensuring no leftover text from previous prints.
+- Added connection accept/reject and view my network functionalities.
 
 ## Next Steps
-- Officially add accept/reject connection request and view my network functionalities
 - Add job search and application functionalities from epics 6 and 7
 - Rigorously test the entire program to find and fix any remaining bugs in all modules
 - Remove all unnecessary files used for testing and development before merge with main (InCollegeDriver.cob, Profilestest.dat, Test-input.txt)

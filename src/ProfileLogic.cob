@@ -137,7 +137,7 @@ PROCEDURE DIVISION USING LNK-PARAMETERS.
         CLOSE PROFILE-FILE
         CLOSE PROFILE-TEMP
 
-        CALL 'SYSTEM' USING 'mv Profiles.tmp Profiles.dat'
+        CALL 'SYSTEM' USING 'mv data/Profiles.tmp data/Profiles.dat'
 
         MOVE "Y" TO LNK-RETURN-CODE.
 
