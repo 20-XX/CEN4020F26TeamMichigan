@@ -53,6 +53,14 @@ DATA DIVISION.
             05 WS-PEND-RECEIVER-USER    PIC X(20).
             05 WS-PEND-RECEIVER-FIRST    PIC X(20).
             05 WS-PEND-RECEIVER-LAST    PIC X(20).
+        01 WS-JOB-RECORD.
+            05 WS-JOB-ID          PIC 9(5).
+            05 WS-JOB-POSTED-BY    PIC X(20).
+            05 WS-JOB-TITLE    PIC X(50).
+            05 WS-JOB-DESCRIPTION    PIC X(200).
+            05 WS-JOB-EMPLOYER    PIC X(50).
+            05 WS-JOB-LOCATION    PIC X(50).
+            05 WS-JOB-SALARY    PIC X(30).
         01 I    PIC 9(2).
 
         01 ACCT-LINK-PARAMETERS.
@@ -120,6 +128,18 @@ DATA DIVISION.
                     15 CONN-LNK-CONN-USER2    PIC X(20).
                     15 CONN-LNK-CONN-USER2-FIRST    PIC X(20).
                     15 CONN-LNK-CONN-USER2-LAST    PIC X(20).
+        01 JOB-LINK-PARAMETERS.
+            05 JOB-LNK-OPERATION    PIC X(3).
+            05 JOB-LNK-RETURN-CODE    PIC X.
+            05 JOB-LNK-RETURN-ID    PIC 9(5).
+            05 JOB-LNK-JOB-RECORD.
+                10 JOB-LNK-JOB-ID          PIC 9(5).
+                10 JOB-LNK-JOB-POSTED-BY    PIC X(20).
+                10 JOB-LNK-JOB-TITLE    PIC X(50).
+                10 JOB-LNK-JOB-DESCRIPTION    PIC X(200).
+                10 JOB-LNK-JOB-EMPLOYER    PIC X(50).
+                10 JOB-LNK-JOB-LOCATION    PIC X(50).
+                10 JOB-LNK-JOB-SALARY    PIC X(30).
 
 PROCEDURE DIVISION.
     OPEN INPUT INPUT-FILE
@@ -289,9 +309,7 @@ PROCEDURE DIVISION.
 
             EVALUATE MENU-CHOICE
                 WHEN "1"
-                    MOVE "Job search/internship is under construction."
-                        TO WS-OUT-LINE
-                    PERFORM DISPLAY-LINE
+                    PERFORM JOB-SEARCH-MENU
                 WHEN "2"
                     PERFORM USER-PROFILE-SEARCH
                 WHEN "3"
@@ -822,6 +840,127 @@ PROCEDURE DIVISION.
 
         MOVE "-----------------------------------" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
+        EXIT PARAGRAPH.
+
+    JOB-SEARCH-MENU.
+        MOVE "--- Job Search / Internship ---" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "1. Post a Job/Internship" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "2. Browse Jobs/Internships" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "3. Return to Main Menu" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        PERFORM READ-INPUT
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
+        MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+        EVALUATE MENU-CHOICE
+            WHEN "1"
+                PERFORM POST-JOB
+            WHEN "2"
+                MOVE "Browse Jobs/Internships is under construction." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            WHEN "3"
+                CONTINUE
+            WHEN OTHER
+                MOVE "Invalid choice." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                PERFORM JOB-SEARCH-MENU
+        END-EVALUATE
+
+        EXIT PARAGRAPH.
+
+    POST-JOB.
+        MOVE "--- Post a Job/Internship ---" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+
+        MOVE SPACES TO WS-JOB-TITLE
+        PERFORM UNTIL WS-JOB-TITLE NOT = SPACES
+            MOVE "Job Title (required):" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            PERFORM READ-INPUT
+            IF EOF-FLAG = "Y"
+                EXIT PARAGRAPH
+            END-IF
+            MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-TITLE
+            IF WS-JOB-TITLE = SPACES
+                MOVE "Job Title is required. Please enter a value." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            END-IF
+        END-PERFORM
+
+        MOVE SPACES TO WS-JOB-DESCRIPTION
+        PERFORM UNTIL WS-JOB-DESCRIPTION NOT = SPACES
+            MOVE "Description (required):" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            PERFORM READ-INPUT
+            IF EOF-FLAG = "Y"
+                EXIT PARAGRAPH
+            END-IF
+            MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-DESCRIPTION
+            IF WS-JOB-DESCRIPTION = SPACES
+                MOVE "Description is required. Please enter a value." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            END-IF
+        END-PERFORM
+
+        MOVE SPACES TO WS-JOB-EMPLOYER
+        PERFORM UNTIL WS-JOB-EMPLOYER NOT = SPACES
+            MOVE "Employer (required):" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            PERFORM READ-INPUT
+            IF EOF-FLAG = "Y"
+                EXIT PARAGRAPH
+            END-IF
+            MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-EMPLOYER
+            IF WS-JOB-EMPLOYER = SPACES
+                MOVE "Employer is required. Please enter a value." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            END-IF
+        END-PERFORM
+
+        MOVE SPACES TO WS-JOB-LOCATION
+        PERFORM UNTIL WS-JOB-LOCATION NOT = SPACES
+            MOVE "Location (required):" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+            PERFORM READ-INPUT
+            IF EOF-FLAG = "Y"
+                EXIT PARAGRAPH
+            END-IF
+            MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-LOCATION
+            IF WS-JOB-LOCATION = SPACES
+                MOVE "Location is required. Please enter a value." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            END-IF
+        END-PERFORM
+
+        MOVE "Salary (optional, press Enter to skip):" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        PERFORM READ-INPUT
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
+        MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-JOB-SALARY
+        MOVE 0 TO WS-JOB-ID
+        MOVE WS-USERNAME TO WS-JOB-POSTED-BY
+
+        MOVE WS-JOB-RECORD TO JOB-LNK-JOB-RECORD
+        MOVE "ANJ" TO JOB-LNK-OPERATION
+        CALL 'JOBLOGIC' USING JOB-LINK-PARAMETERS
+        IF JOB-LNK-RETURN-CODE = "Y"
+            STRING "Job posting #" DELIMITED BY SIZE
+                   JOB-LNK-RETURN-ID DELIMITED BY SIZE
+                   " created successfully." DELIMITED BY SIZE
+                   INTO WS-OUT-LINE
+            END-STRING
+            PERFORM DISPLAY-LINE
+        ELSE
+            MOVE "Error posting job/internship." TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+        END-IF
         EXIT PARAGRAPH.
 
     READ-INPUT.

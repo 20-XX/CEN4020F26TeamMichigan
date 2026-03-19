@@ -74,6 +74,8 @@ A job search and networking application designed specifically for college studen
   - **"GAP"**: Get All Pending Requests- Retrieves all pending requests for the current user. Returns "Y" if they have at least one pending request, otherwise "N".
   - **"ANC"**: Accept New Connection- Accepts a pending connection request and adds it to the connections file. Returns "Y" if the request was successfully accepted, otherwise "N". (TODO)
   - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if they have at least one accepted connection, otherwise "N".
+- **JobLogic.cob**: Manages job postings, including creating new job posts, browsing available jobs, and applying for jobs.
+  - **"ANJ"**: Add New Job- Allows a user to create a new job posting. Returns "Y" if the job was successfully posted, otherwise "N".
 
 ## Common Commands (inside the container)
 ```bash
@@ -83,10 +85,10 @@ make
 ```
 
 ## Main Achievements
-- Added connection accept/reject and view my network functionalities.
+- Added job posting functionality from epic 6.
 
 ## Next Steps
-- Add job search and application functionalities from epics 6 and 7
+- Add job search and application functionalities for epic 7.
 - Rigorously test the entire program to find and fix any remaining bugs in all modules
 - Remove all unnecessary files used for testing and development before merge with main (InCollegeDriver.cob, Profilestest.dat, Test-input.txt)
 
@@ -108,16 +110,19 @@ bin/                   # Compiled executable (InCollege)
 build/                 # Compiled object files
 - AccountLogic.o
 - ConnectionLogic.o
+- JobLogic.o
 - ProfileLogic.o
 data/                  # Persistent data files
 - Accounts.dat         # Persistent storage for account information
 - Connections.dat      # Persistent storage for accepted connections
+- Jobs.dat             # Persistent storage for job postings
 - PendingRequests.dat  # Persistent storage for pending connection requests
 - Profiles.dat        # Persistent storage for profile information
 src/                   # COBOL source files
 - AccountLogic.cob     # Logic for account management (creation, login, password validation)
 - ConnectionLogic.cob  # Logic for connection management (sending requests, viewing pending requests)
 - InCollege.cob        # Main driver program that handles user input and calls logic modules
+- JobLogic.cob         # Logic for job management (creating job posts, browsing jobs)
 - ProfileLogic.cob     # Logic for profile management (creating/editing profiles, viewing/searching profiles)
 .gitignore             # Ignore compiled files and other non-source files
 InCollege-input.txt    # Sample input file to simulate user input

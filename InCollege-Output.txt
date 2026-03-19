@@ -18,12 +18,24 @@ Welcome, CameronP!
 7. View My Network
 8. Logout
 Enter your choice:
-7
------ Your Network -----
-William Smith
-  University: University of Florida
-  Major: Computer Science
------------------------------------
+1
+--- Job Search / Internship ---
+1. Post a Job/Internship
+2. Browse Jobs/Internships
+3. Return to Main Menu
+1
+--- Post a Job/Internship ---
+Job Title (required):
+Web Developer
+Description (required):
+Utilize Django and React to build and maintain web applications for clients in various industries.
+Employer (required):
+Microsoft
+Location (required):
+Tampa, FL
+Salary (optional, press Enter to skip):
+8
+Job posting #00005 created successfully.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -32,9 +44,4 @@ William Smith
 6. View My Pending Connection Requests
 7. View My Network
 8. Logout
-Enter your choice:
-8
-Welcome to InCollege!
-Log In
-Create New Account
 Enter your choice:
