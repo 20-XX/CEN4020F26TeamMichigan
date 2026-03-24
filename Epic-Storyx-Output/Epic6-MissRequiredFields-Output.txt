@@ -1,0 +1,60 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+CameronP
+Please enter your password:
+Camp!123
+You have successfully logged in
+Welcome, CameronP!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+1
+--- Job Search / Internship ---
+1. Post a Job/Internship
+2. Browse Jobs/Internships
+3. Return to Main Menu
+Enter your choice:
+1
+--- Post a Job/Internship ---
+Job Title (required):
+
+Job Title is required. Please enter a value.
+Job Title (required):
+Data Analyst Intern
+Description (required):
+
+Description is required. Please enter a value.
+Description (required):
+Analyze data to build predictive models and provide insights to improve business decisions.
+Employer (required):
+
+Employer is required. Please enter a value.
+Employer (required):
+Amazon
+Location (required):
+
+Location is required. Please enter a value.
+Location (required):
+Seattle, WA
+Salary (optional, press Enter to skip):
+$50/hr
+Job posting #00010 saved successfully.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:

@@ -1,0 +1,166 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+nickcage1
+Please enter your password:
+156#Past
+You have successfully logged in
+Welcome, nickcage1!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+2
+Enter the full name of the person you are looking for:
+William Smith
+----- Found User Profile -----
+Name: William Smith
+University: University of Florida
+Major: Information Systems
+Graduation Year: 2026
+About Me:
+Passionate about technology and innovation.
+Experience:
+Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
+1. Send Connection Request
+2. Back to Main Menu
+Enter your choice:
+1
+Connection request sent to William Smith.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+8
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+CameronP
+Please enter your password:
+Camp!123
+You have successfully logged in
+Welcome, CameronP!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+2
+Enter the full name of the person you are looking for:
+William Smith
+----- Found User Profile -----
+Name: William Smith
+University: University of Florida
+Major: Information Systems
+Graduation Year: 2026
+About Me:
+Passionate about technology and innovation.
+Experience:
+Title: Software Developer intern | Company: Amazon | Dates: Summer 2025
+Description: Worked on improving the user interface of the company's e-commerce platform.
+Title: Data Analyst intern | Company: Verizon | Dates: Summer 2024
+Description: Analyzed customer data to identify trends and improve marketing strategies.
+1. Send Connection Request
+2. Back to Main Menu
+Enter your choice:
+1
+Connection request sent to William Smith.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+8
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+hung1233
+Please enter your password:
+Hung@123
+You have successfully logged in
+Welcome, hung1233!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+6
+----- Pending Connection Requests -----
+Nicholas Cage wants to connect.
+Accept (A) or Reject (R)?
+A
+You are now connected with Nicholas Cage.
+Cameron Pritchard wants to connect.
+Accept (A) or Reject (R)?
+A
+You are now connected with Cameron Pritchard.
+-----------------------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+7
+----- Your Network -----
+John Doe
+  University: University of South Florida
+  Major: Computer Science
+Nicholas Cage
+  University: University of Southern California
+  Major: Theater
+Cameron Pritchard
+  University: University of South Florida
+  Major: Computer Science
+-----------------------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+8
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:

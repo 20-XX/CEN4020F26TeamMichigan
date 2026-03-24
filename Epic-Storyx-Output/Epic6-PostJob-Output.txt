@@ -1,0 +1,48 @@
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
+user1
+Please enter your password:
+Pass@123
+You have successfully logged in
+Welcome, user1!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
+1
+--- Job Search / Internship ---
+1. Post a Job/Internship
+2. Browse Jobs/Internships
+3. Return to Main Menu
+Enter your choice:
+1
+--- Post a Job/Internship ---
+Job Title (required):
+Software Engineer
+Description (required):
+Design, develop, and maintain software applications. Collaborate with cross-functional teams to defi
+Employer (required):
+IBM
+Location (required):
+Austin, TX
+Salary (optional, press Enter to skip):
+100,000/year
+Job posting #00006 saved successfully.
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Logout
+Enter your choice:
