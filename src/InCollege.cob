@@ -8,6 +8,10 @@ ENVIRONMENT DIVISION.
                 ORGANIZATION IS LINE SEQUENTIAL.
             SELECT OUTPUT-FILE ASSIGN TO "InCollege-Output.txt"
                 ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT BROWSE-JOBS-FILE ASSIGN TO 'data/Jobs.dat'
+                ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT APPLY-FILE ASSIGN TO 'data/Applications.dat'
+                ORGANIZATION IS LINE SEQUENTIAL.
 
 DATA DIVISION.
     FILE SECTION.
@@ -15,6 +19,24 @@ DATA DIVISION.
             01 INPUT-RECORD    PIC X(100).
         FD OUTPUT-FILE.
             01 OUTPUT-RECORD    PIC X(200).
+
+        FD BROWSE-JOBS-FILE.
+            01 BJ-FILE-RECORD.
+                05 BJ-FILE-JOB-ID           PIC 9(5).
+                05 BJ-FILE-JOB-POSTED-BY    PIC X(20).
+                05 BJ-FILE-JOB-TITLE        PIC X(50).
+                05 BJ-FILE-JOB-DESCRIPTION  PIC X(200).
+                05 BJ-FILE-JOB-EMPLOYER     PIC X(50).
+                05 BJ-FILE-JOB-LOCATION     PIC X(50).
+                05 BJ-FILE-JOB-SALARY       PIC X(30).
+
+        FD APPLY-FILE.
+            01 APP-RECORD.
+                05 APP-USERNAME         PIC X(20).
+                05 APP-JOB-ID           PIC 9(5).
+                05 APP-JOB-TITLE        PIC X(50).
+                05 APP-JOB-EMPLOYER     PIC X(50).
+                05 APP-JOB-LOCATION     PIC X(50).
 
     WORKING-STORAGE SECTION.
         77 EOF-FLAG    PIC X VALUE "N".
@@ -62,6 +84,26 @@ DATA DIVISION.
             05 WS-JOB-LOCATION    PIC X(50).
             05 WS-JOB-SALARY    PIC X(30).
         01 I    PIC 9(2).
+
+      *> --- Epic 7: Browse, Apply, View Applications variables ---
+        77 WS-BROWSE-EOF        PIC X VALUE "N".
+        77 WS-APPLY-EOF         PIC X VALUE "N".
+        77 WS-BROWSE-JOB-COUNT  PIC 9(2) VALUE 0.
+        77 WS-BROWSE-IDX        PIC 9(2) VALUE 0.
+        77 WS-BROWSE-CHOICE     PIC 9(2) VALUE 0.
+        77 WS-BROWSE-CHOICE-STR PIC X(3).
+        77 WS-DETAIL-CHOICE     PIC X.
+        77 WS-ALREADY-APPLIED   PIC X VALUE "N".
+        77 WS-APP-TOTAL         PIC 9(3) VALUE 0.
+
+        01 WS-BROWSE-JOBS OCCURS 20 TIMES.
+            05 BJ-JOB-IDX       PIC 9(2).
+            05 BJ-REAL-ID       PIC 9(5).
+            05 BJ-JOB-TITLE     PIC X(50).
+            05 BJ-JOB-EMPLOYER  PIC X(50).
+            05 BJ-JOB-LOCATION  PIC X(50).
+            05 BJ-JOB-DESCRIPTION PIC X(200).
+            05 BJ-JOB-SALARY    PIC X(30).
 
         01 ACCT-LINK-PARAMETERS.
             05 ACCT-LNK-OPERATION    PIC X(2).
@@ -843,13 +885,17 @@ PROCEDURE DIVISION.
         EXIT PARAGRAPH.
 
     JOB-SEARCH-MENU.
-        MOVE "--- Job Search / Internship ---" TO WS-OUT-LINE
+        MOVE "--- Job Search/Internship Menu ---" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         MOVE "1. Post a Job/Internship" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         MOVE "2. Browse Jobs/Internships" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
-        MOVE "3. Return to Main Menu" TO WS-OUT-LINE
+        MOVE "3. View My Applications" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "4. Back to Main Menu" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "Enter your choice:" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         PERFORM READ-INPUT
         IF EOF-FLAG = "Y"
@@ -860,10 +906,14 @@ PROCEDURE DIVISION.
         EVALUATE MENU-CHOICE
             WHEN "1"
                 PERFORM POST-JOB
+                PERFORM JOB-SEARCH-MENU
             WHEN "2"
-                MOVE "Browse Jobs/Internships is under construction." TO WS-OUT-LINE
-                PERFORM DISPLAY-LINE
+                PERFORM BROWSE-JOBS
+                PERFORM JOB-SEARCH-MENU
             WHEN "3"
+                PERFORM VIEW-MY-APPLICATIONS
+                PERFORM JOB-SEARCH-MENU
+            WHEN "4"
                 CONTINUE
             WHEN OTHER
                 MOVE "Invalid choice." TO WS-OUT-LINE
@@ -872,6 +922,9 @@ PROCEDURE DIVISION.
         END-EVALUATE
 
         EXIT PARAGRAPH.
+
+       COPY "Applyjob.cob".
+       COPY "Viewapplications.cob".
 
     POST-JOB.
         MOVE "--- Post a Job/Internship ---" TO WS-OUT-LINE
@@ -978,3 +1031,4 @@ PROCEDURE DIVISION.
         MOVE WS-OUT-LINE TO OUTPUT-RECORD
         WRITE OUTPUT-RECORD
         MOVE SPACES TO WS-OUT-LINE.
+        
