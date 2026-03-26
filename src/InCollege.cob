@@ -372,6 +372,9 @@ PROCEDURE DIVISION.
         EXIT PARAGRAPH.
 
     SKILL-MENU.
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
         MOVE "Learn a New Skill:" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         MOVE "1. Programming" TO WS-OUT-LINE
@@ -400,6 +403,9 @@ PROCEDURE DIVISION.
             PERFORM SKILL-MENU
         END-IF.
     PROFILE-MENU.
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
         MOVE "1. Create or Edit Profile" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         MOVE "2. Return to Menu" TO WS-OUT-LINE
@@ -885,6 +891,9 @@ PROCEDURE DIVISION.
         EXIT PARAGRAPH.
 
     JOB-SEARCH-MENU.
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
         MOVE "--- Job Search/Internship Menu ---" TO WS-OUT-LINE
         PERFORM DISPLAY-LINE
         MOVE "1. Post a Job/Internship" TO WS-OUT-LINE
@@ -1031,4 +1040,3 @@ PROCEDURE DIVISION.
         MOVE WS-OUT-LINE TO OUTPUT-RECORD
         WRITE OUTPUT-RECORD
         MOVE SPACES TO WS-OUT-LINE.
-        
