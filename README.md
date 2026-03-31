@@ -85,12 +85,13 @@ make
 ```
 
 ## Main Achievements
-- Added job posting functionality from epic 6.
+- All functionalities from epics 1-7 fully modularized
+- All unnecessary files removed from main branch, including old driver programs and test data files
 
 ## Next Steps
-- Add job search and application functionalities for epic 7.
+- Add first part of messages feature from epic 8 (sending messages)
+- Integrate epic 7 functions into JobLogic.cob
 - Rigorously test the entire program to find and fix any remaining bugs in all modules
-- Remove all unnecessary files used for testing and development before merge with main (InCollegeDriver.cob, Profilestest.dat, Test-input.txt)
 
 ## Bug List
 - Passwords with multiple capital letters are not considered valid (e.g. "Cam!123Pr" is not considered valid even though it meets all requirements)

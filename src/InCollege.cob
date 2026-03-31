@@ -338,8 +338,11 @@ PROCEDURE DIVISION.
             PERFORM DISPLAY-LINE
             MOVE "7. View My Network" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
-            MOVE "8. Logout" TO WS-OUT-LINE
+            MOVE "8. Messages" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
+            MOVE "9. Exit" TO WS-OUT-LINE
+            PERFORM DISPLAY-LINE
+
             MOVE "Enter your choice:" TO WS-OUT-LINE
             PERFORM DISPLAY-LINE
 
@@ -365,6 +368,8 @@ PROCEDURE DIVISION.
                 WHEN "7"
                     PERFORM VIEW-MY-NETWORK
                 WHEN "8"
+                    PERFORM MESSAGE-MENU
+                WHEN "9"
                     EXIT PARAGRAPH
             END-EVALUATE
         END-PERFORM
@@ -1024,6 +1029,39 @@ PROCEDURE DIVISION.
             PERFORM DISPLAY-LINE
         END-IF
         EXIT PARAGRAPH.
+
+    MESSAGE-MENU.
+        IF EOF-FLAG = "Y"
+            EXIT PARAGRAPH
+        END-IF
+
+        MOVE "--- Messages Menu ---" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+
+        MOVE "1. Send a New Message" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "2. View My Messages" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+        MOVE "3. Back to Main Menu" TO WS-OUT-LINE
+        PERFORM DISPLAY-LINE
+
+        PERFORM READ-INPUT
+        MOVE INPUT-RECORD(1:1) TO MENU-CHOICE
+
+        EVALUATE MENU-CHOICE
+            WHEN "1"
+                MOVE "Send a New Message is under construction." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            WHEN "2"
+                MOVE "View my Messages is under construction." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+            WHEN "3"
+                CONTINUE
+            WHEN OTHER
+                MOVE "Invalid choice." TO WS-OUT-LINE
+                PERFORM DISPLAY-LINE
+                PERFORM MESSAGE-MENU
+        END-EVALUATE
 
     READ-INPUT.
         READ INPUT-FILE
