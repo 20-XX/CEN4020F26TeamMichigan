@@ -7,6 +7,7 @@
 
 # Build outputs
 bin/
+build/
 *.o
 *.obj
 *.exe
@@ -15,5 +16,3 @@ bin/
 # OS
 .DS_Store
 Thumbs.db
-
-inCollege
