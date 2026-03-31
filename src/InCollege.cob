@@ -105,6 +105,12 @@ DATA DIVISION.
             05 BJ-JOB-DESCRIPTION PIC X(200).
             05 BJ-JOB-SALARY    PIC X(30).
 
+        01 WS-MSG-RECORD.
+            05 WS-MSG-SENDER    PIC X(20).
+            05 WS-MSG-RECIPIENT    PIC X(20).
+            05 WS-MSG-TIMESTAMP    PIC X(21).
+            05 WS-MSG-CONTENT    PIC X(255).
+
         01 ACCT-LINK-PARAMETERS.
             05 ACCT-LNK-OPERATION    PIC X(2).
             05 ACCT-LNK-USERNAME    PIC X(20).
@@ -182,6 +188,15 @@ DATA DIVISION.
                 10 JOB-LNK-JOB-EMPLOYER    PIC X(50).
                 10 JOB-LNK-JOB-LOCATION    PIC X(50).
                 10 JOB-LNK-JOB-SALARY    PIC X(30).
+
+        01 MSG-LINK-PARAMETERS.
+            05 MSG-LNK-OPERATION    PIC X(3).
+            05 MSG-LNK-RETURN-CODE    PIC X.
+            05 MSG-LNK-RECORD.
+                10 MSG-LNK-SENDER    PIC X(20).
+                10 MSG-LNK-RECIPIENT    PIC X(20).
+                10 MSG-LNK-CONTENT    PIC X(255).
+                10 MSG-LNK-TIMESTAMP    PIC X(21).
 
 PROCEDURE DIVISION.
     OPEN INPUT INPUT-FILE
@@ -1050,8 +1065,40 @@ PROCEDURE DIVISION.
 
         EVALUATE MENU-CHOICE
             WHEN "1"
-                MOVE "Send a New Message is under construction." TO WS-OUT-LINE
+                MOVE "Enter recepient's username (must be a connection):" TO WS-OUT-LINE
                 PERFORM DISPLAY-LINE
+                PERFORM READ-INPUT
+                IF EOF-FLAG = "Y"
+                    EXIT PARAGRAPH
+                END-IF
+                MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-MSG-RECIPIENT
+                MOVE WS-USERNAME TO CONN-LNK-CONN-USER1
+                MOVE WS-MSG-RECIPIENT TO CONN-LNK-CONN-USER2
+                MOVE "CIC" TO CONN-LNK-OPERATION
+                CALL 'CONNECTIONLOGIC' USING CONN-LINK-PARAMETERS
+                IF CONN-LNK-RETURN-CODE = "Y"
+                    MOVE "Enter your message (max 255 chars):" TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                    PERFORM READ-INPUT
+                    IF EOF-FLAG = "Y"
+                        EXIT PARAGRAPH
+                    END-IF
+                    MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-MSG-CONTENT
+                    ACCEPT WS-MSG-TIMESTAMP FROM CURRENT-DATE
+                    MOVE WS-MSG-RECORD TO MSG-LNK-MSG-RECORD
+                    MOVE "SNM" TO MSG-LNK-OPERATION
+                    CALL 'MESSAGELOGIC' USING MSG-LINK-PARAMETERS
+                    IF MSG-LNK-RETURN-CODE = "Y"
+                        MOVE "Message sent successfully." TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                    ELSE
+                        MOVE "Error sending message." TO WS-OUT-LINE
+                        PERFORM DISPLAY-LINE
+                    END-IF
+                ELSE
+                    MOVE "You can only send messages to users you're connected with." TO WS-OUT-LINE
+                    PERFORM DISPLAY-LINE
+                END-IF
             WHEN "2"
                 MOVE "View my Messages is under construction." TO WS-OUT-LINE
                 PERFORM DISPLAY-LINE

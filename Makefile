@@ -1,5 +1,5 @@
-bin/InCollege: src/InCollege.cob build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o
-	cobc -x -free -o bin/InCollege src/InCollege.cob build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o
+bin/InCollege: src/InCollege.cob build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o build/MessageLogic.o
+	cobc -x -free -o bin/InCollege src/InCollege.cob build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o build/MessageLogic.o
 
 build/AccountLogic.o: src/AccountLogic.cob
 	cobc -c -free -o build/AccountLogic.o src/AccountLogic.cob
@@ -13,5 +13,8 @@ build/ConnectionLogic.o: src/ConnectionLogic.cob
 build/JobLogic.o: src/JobLogic.cob
 	cobc -c -free -o build/JobLogic.o src/JobLogic.cob
 
+build/MessageLogic.o: src/MessageLogic.cob
+	cobc -c -free -o build/MessageLogic.o src/MessageLogic.c
+
 clean:
-	rm -f bin/InCollege build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o
+	rm -f bin/InCollege build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o build/MessageLogic.o

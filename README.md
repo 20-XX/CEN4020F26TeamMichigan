@@ -85,11 +85,10 @@ make
 ```
 
 ## Main Achievements
-- All functionalities from epics 1-7 fully modularized
-- All unnecessary files removed from main branch, including old driver programs and test data files
+- Set up initial first version of messaging system ready for testing
 
 ## Next Steps
-- Add first part of messages feature from epic 8 (sending messages)
+- Get tester feedback on the messaging system and fix any bugs that arise from testing
 - Integrate epic 7 functions into JobLogic.cob
 - Rigorously test the entire program to find and fix any remaining bugs in all modules
 
