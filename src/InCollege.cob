@@ -1091,17 +1091,21 @@ PROCEDURE DIVISION.
                     IF MSG-LNK-RETURN-CODE = "Y"
                         MOVE "Message sent successfully." TO WS-OUT-LINE
                         PERFORM DISPLAY-LINE
+                        PERFORM MESSAGE-MENU
                     ELSE
                         MOVE "Error sending message." TO WS-OUT-LINE
                         PERFORM DISPLAY-LINE
+                        PERFORM MESSAGE-MENU
                     END-IF
                 ELSE
                     MOVE "You can only send messages to users you're connected with." TO WS-OUT-LINE
                     PERFORM DISPLAY-LINE
+                    PERFORM MESSAGE-MENU
                 END-IF
             WHEN "2"
                 MOVE "View my Messages is under construction." TO WS-OUT-LINE
                 PERFORM DISPLAY-LINE
+                PERFORM MESSAGE-MENU
             WHEN "3"
                 CONTINUE
             WHEN OTHER
