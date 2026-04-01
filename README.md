@@ -76,6 +76,8 @@ A job search and networking application designed specifically for college studen
   - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if they have at least one accepted connection, otherwise "N".
 - **JobLogic.cob**: Manages job postings, including creating new job posts, browsing available jobs, and applying for jobs.
   - **"ANJ"**: Add New Job- Allows a user to create a new job posting. Returns "Y" if the job was successfully posted, otherwise "N".
+- **MessageLogic.cob**: Manages the messaging system, including sending messages to connections and viewing message history.
+  - **"SNM"**: Send New Message- Allows a user to send a new message to one of their connections. Returns "Y" if the message was successfully sent, otherwise "N".
 
 ## Common Commands (inside the container)
 ```bash
@@ -85,11 +87,10 @@ make
 ```
 
 ## Main Achievements
-- All functionalities from epics 1-7 fully modularized
-- All unnecessary files removed from main branch, including old driver programs and test data files
+- Set up initial first version of messaging system ready for testing
 
 ## Next Steps
-- Add first part of messages feature from epic 8 (sending messages)
+- Get tester feedback on the messaging system and fix any bugs that arise from testing
 - Integrate epic 7 functions into JobLogic.cob
 - Rigorously test the entire program to find and fix any remaining bugs in all modules
 
