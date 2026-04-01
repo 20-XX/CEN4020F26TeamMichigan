@@ -13,14 +13,14 @@ DATA DIVISION.
             05 MSG-SENDER    PIC X(20).
             05 MSG-RECIPIENT    PIC X(20).
             05 MSG-TIMESTAMP    PIC X(21).
-            05 MSG-CONTENT    PIC X(255).
+            05 MSG-CONTENT    PIC X(100).
     LOCAL-STORAGE SECTION.
         77 MSG-EOF    PIC X VALUE "N".
         01 LS-MESSAGE-RECORD.
             05 LS-MSG-SENDER    PIC X(20).
             05 LS-MSG-RECIPIENT    PIC X(20).
             05 LS-MSG-TIMESTAMP    PIC X(21).
-            05 LS-MSG-CONTENT    PIC X(255).
+            05 LS-MSG-CONTENT    PIC X(100).
     LINKAGE SECTION.
         01 MSG-LINK-PARAMETERS.
             05 MSG-LNK-OPERATION    PIC X(3).
@@ -28,8 +28,8 @@ DATA DIVISION.
             05 MSG-LNK-RECORD.
                 10 MSG-LNK-SENDER    PIC X(20).
                 10 MSG-LNK-RECIPIENT    PIC X(20).
-                10 MSG-LNK-CONTENT    PIC X(255).
                 10 MSG-LNK-TIMESTAMP    PIC X(21).
+                10 MSG-LNK-CONTENT    PIC X(100).
 
 PROCEDURE DIVISION USING MSG-LINK-PARAMETERS.
     MOVE "N" TO MSG-LNK-RETURN-CODE

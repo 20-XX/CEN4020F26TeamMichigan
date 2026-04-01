@@ -109,7 +109,7 @@ DATA DIVISION.
             05 WS-MSG-SENDER    PIC X(20).
             05 WS-MSG-RECIPIENT    PIC X(20).
             05 WS-MSG-TIMESTAMP    PIC X(21).
-            05 WS-MSG-CONTENT    PIC X(255).
+            05 WS-MSG-CONTENT    PIC X(100).
 
         01 ACCT-LINK-PARAMETERS.
             05 ACCT-LNK-OPERATION    PIC X(2).
@@ -195,8 +195,8 @@ DATA DIVISION.
             05 MSG-LNK-RECORD.
                 10 MSG-LNK-SENDER    PIC X(20).
                 10 MSG-LNK-RECIPIENT    PIC X(20).
-                10 MSG-LNK-CONTENT    PIC X(255).
                 10 MSG-LNK-TIMESTAMP    PIC X(21).
+                10 MSG-LNK-CONTENT    PIC X(100).
 
 PROCEDURE DIVISION.
     OPEN INPUT INPUT-FILE
