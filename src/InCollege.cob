@@ -1077,7 +1077,7 @@ PROCEDURE DIVISION.
                 MOVE "CIC" TO CONN-LNK-OPERATION
                 CALL 'CONNECTIONLOGIC' USING CONN-LINK-PARAMETERS
                 IF CONN-LNK-RETURN-CODE = "Y"
-                    MOVE "Enter your message (max 255 chars):" TO WS-OUT-LINE
+                    MOVE "Enter your message (max 100 chars):" TO WS-OUT-LINE
                     PERFORM DISPLAY-LINE
                     PERFORM READ-INPUT
                     IF EOF-FLAG = "Y"
