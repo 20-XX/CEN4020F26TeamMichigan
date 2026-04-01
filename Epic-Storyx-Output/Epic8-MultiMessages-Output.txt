@@ -24,8 +24,22 @@ Enter your choice:
 1. Send a New Message
 2. View My Messages
 3. Back to Main Menu
-2
-View my Messages is under construction.
+1
+Enter recepient's username (must be a connection):
+hung1233
+Enter your message (max 100 chars):
+Hey, this is my first message in this session!
+Message sent successfully.
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+1
+Enter recepient's username (must be a connection):
+hung1233
+Enter your message (max 100 chars):
+And here is a second message to confirm persistence works correctly.
+Message sent successfully.
 --- Messages Menu ---
 1. Send a New Message
 2. View My Messages

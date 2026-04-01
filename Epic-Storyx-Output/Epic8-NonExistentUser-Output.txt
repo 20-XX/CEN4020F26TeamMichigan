@@ -24,8 +24,10 @@ Enter your choice:
 1. Send a New Message
 2. View My Messages
 3. Back to Main Menu
-2
-View my Messages is under construction.
+1
+Enter recepient's username (must be a connection):
+ghostuser99
+You can only send messages to users you're connected with.
 --- Messages Menu ---
 1. Send a New Message
 2. View My Messages
