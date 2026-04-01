@@ -27,7 +27,7 @@ Enter your choice:
 1
 Enter recepient's username (must be a connection):
 hung1233
-Enter your message (max 255 chars):
+Enter your message (max 100 chars):
 Hey, this is my first message in this session!
 Message sent successfully.
 --- Messages Menu ---

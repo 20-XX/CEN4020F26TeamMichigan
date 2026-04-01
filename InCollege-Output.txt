@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-user1
+CameronP
 Please enter your password:
-Pass@123
+Camp!123
 You have successfully logged in
-Welcome, user1!
+Welcome, CameronP!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -16,84 +16,32 @@ Welcome, user1!
 5. View My Profile
 6. View My Pending Connection Requests
 7. View My Network
-8. Logout
-Enter your choice:
-1
---- Job Search/Internship Menu ---
-1. Post a Job/Internship
-2. Browse Jobs/Internships
-3. View My Applications
-4. Back to Main Menu
-Enter your choice:
-2
---- Available Job Listings ---
-Software Intern at Google (Remote)
-Software Intern at Tech Corp (Remote)
-Software Engineer at IBM (Austin, TX)
-Data Analyst Intern at Amazon (Seattle, WA)
-Web Developer at Microsoft (Tampa, FL)
------------------------------
-Enter job number to view details, or 0 to go back:
-2
---- Job Details ---
-Title: Software Intern
-Description: Develop internal tools and assist senior engineers with projects.
-Employer: Tech Corp
-Location: Remote
-Salary: $25/hour
--------------------
-1. Apply for this Job
-2. Back to Job List
-Enter your choice:
-1
-Your application for Software Intern at Tech Corp has been submitted.
---- Available Job Listings ---
-Software Intern at Google (Remote)
-Software Intern at Tech Corp (Remote)
-Software Engineer at IBM (Austin, TX)
-Data Analyst Intern at Amazon (Seattle, WA)
-Web Developer at Microsoft (Tampa, FL)
------------------------------
-Enter job number to view details, or 0 to go back:
-0
---- Job Search/Internship Menu ---
-1. Post a Job/Internship
-2. Browse Jobs/Internships
-3. View My Applications
-4. Back to Main Menu
-Enter your choice:
-3
---- Your Job Applications ---
-Application Summary for user1
-------------------------------
-Job Title: Software Intern
-Employer: Google
-Location: Remote
----
-Job Title: Software Intern
-Employer: Tech Corp
-Location: Remote
----
-------------------------------
-Total Applications: 002
-------------------------------
---- Job Search/Internship Menu ---
-1. Post a Job/Internship
-2. Browse Jobs/Internships
-3. View My Applications
-4. Back to Main Menu
-Enter your choice:
-4
-1. Search for a job
-2. Find someone you know
-3. Learn a new skill
-4. Create/Edit My Profile
-5. View My Profile
-6. View My Pending Connection Requests
-7. View My Network
-8. Logout
+8. Messages
+9. Exit
 Enter your choice:
 8
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+2
+View my Messages is under construction.
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+3
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:
+9
 Welcome to InCollege!
 Log In
 Create New Account
