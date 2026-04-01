@@ -76,6 +76,8 @@ A job search and networking application designed specifically for college studen
   - **"GAC"**: Get All Connections- Retrieves all accepted connections for the current user. Returns "Y" if they have at least one accepted connection, otherwise "N".
 - **JobLogic.cob**: Manages job postings, including creating new job posts, browsing available jobs, and applying for jobs.
   - **"ANJ"**: Add New Job- Allows a user to create a new job posting. Returns "Y" if the job was successfully posted, otherwise "N".
+- **MessageLogic.cob**: Manages the messaging system, including sending messages to connections and viewing message history.
+  - **"SNM"**: Send New Message- Allows a user to send a new message to one of their connections. Returns "Y" if the message was successfully sent, otherwise "N".
 
 ## Common Commands (inside the container)
 ```bash

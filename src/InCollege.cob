@@ -952,8 +952,8 @@ PROCEDURE DIVISION.
 
         EXIT PARAGRAPH.
 
-       COPY "Applyjob.cob".
-       COPY "Viewapplications.cob".
+       COPY "src/Applyjob.cob".
+       COPY "src/Viewapplications.cob".
 
     POST-JOB.
         MOVE "--- Post a Job/Internship ---" TO WS-OUT-LINE
@@ -1072,8 +1072,8 @@ PROCEDURE DIVISION.
                     EXIT PARAGRAPH
                 END-IF
                 MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-MSG-RECIPIENT
-                MOVE WS-USERNAME TO CONN-LNK-CONN-USER1
-                MOVE WS-MSG-RECIPIENT TO CONN-LNK-CONN-USER2
+                MOVE WS-USERNAME TO CONN-LNK-SENDER-USER
+                MOVE WS-MSG-RECIPIENT TO CONN-LNK-RECEIVER-USER
                 MOVE "CIC" TO CONN-LNK-OPERATION
                 CALL 'CONNECTIONLOGIC' USING CONN-LINK-PARAMETERS
                 IF CONN-LNK-RETURN-CODE = "Y"
@@ -1084,8 +1084,8 @@ PROCEDURE DIVISION.
                         EXIT PARAGRAPH
                     END-IF
                     MOVE FUNCTION TRIM(INPUT-RECORD) TO WS-MSG-CONTENT
-                    ACCEPT WS-MSG-TIMESTAMP FROM CURRENT-DATE
-                    MOVE WS-MSG-RECORD TO MSG-LNK-MSG-RECORD
+                    MOVE FUNCTION CURRENT-DATE TO WS-MSG-TIMESTAMP
+                    MOVE WS-MSG-RECORD TO MSG-LNK-RECORD
                     MOVE "SNM" TO MSG-LNK-OPERATION
                     CALL 'MESSAGELOGIC' USING MSG-LINK-PARAMETERS
                     IF MSG-LNK-RETURN-CODE = "Y"
@@ -1109,6 +1109,8 @@ PROCEDURE DIVISION.
                 PERFORM DISPLAY-LINE
                 PERFORM MESSAGE-MENU
         END-EVALUATE
+
+        EXIT PARAGRAPH.
 
     READ-INPUT.
         READ INPUT-FILE

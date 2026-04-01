@@ -14,7 +14,7 @@ build/JobLogic.o: src/JobLogic.cob
 	cobc -c -free -o build/JobLogic.o src/JobLogic.cob
 
 build/MessageLogic.o: src/MessageLogic.cob
-	cobc -c -free -o build/MessageLogic.o src/MessageLogic.c
+	cobc -c -free -o build/MessageLogic.o src/MessageLogic.cob
 
 clean:
 	rm -f bin/InCollege build/AccountLogic.o build/ProfileLogic.o build/ConnectionLogic.o build/JobLogic.o build/MessageLogic.o
