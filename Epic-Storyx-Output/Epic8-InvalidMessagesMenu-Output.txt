@@ -24,10 +24,8 @@ Enter your choice:
 1. Send a New Message
 2. View My Messages
 3. Back to Main Menu
-1
-Enter recepient's username (must be a connection):
-janeDoe
-You can only send messages to users you're connected with.
+9
+Invalid choice.
 --- Messages Menu ---
 1. Send a New Message
 2. View My Messages
