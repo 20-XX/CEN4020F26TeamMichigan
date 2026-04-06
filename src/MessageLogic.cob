@@ -32,7 +32,7 @@ DATA DIVISION.
                 10 MSG-LNK-CONTENT    PIC X(100).
            05 MSG-LNK-USERNAME        PIC X(20).
            05 MSG-LNK-NUM-RECORDS     PIC 9(3).
-           05 MSG-LNK-RECORDS OCCURS 100 TIMES.
+           05 MSG-LNK-RECORDS OCCURS 200 TIMES.
                10 MSG-LNK-REC-SENDER  PIC X(20).
                10 MSG-LNK-REC-RECIPIENT   PIC X(20).
                10 MSG-LNK-REC-TIMESTAMP   PIC X(21).
