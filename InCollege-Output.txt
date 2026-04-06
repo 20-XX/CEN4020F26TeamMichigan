@@ -4,6 +4,54 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
+CameronP
+Please enter your password:
+Camp!123
+You have successfully logged in
+Welcome, CameronP!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:
+8
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+1
+Enter recepient's username (must be a connection):
+hung1233
+Enter your message (max 100 chars):
+Hi William, I am interested in connecting with you on InCollege.
+Message sent successfully.
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+3
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:
+9
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
 hung1233
 Please enter your password:
 Hung@123
@@ -25,127 +73,15 @@ Enter your choice:
 2. View My Messages
 3. Back to Main Menu
 2
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113535107-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113535109-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113535110-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113535110-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113535405-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113535405-0400)
----------------------
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113540303-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113540305-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113540306-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113540306-0400)
----------------------
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113561061-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113561064-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113561065-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113561065-0400)
----------------------
 From: CameronP
 Message: Hi William, I am interested in connecting with you on InCollege.
-(Optional: Sent: 2026040604021283+0000)
+(Sent: 2026040604180817+0000)
 ---------------------
 --- Messages Menu ---
 1. Send a New Message
 2. View My Messages
 3. Back to Main Menu
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113535107-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113535109-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113535110-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113535110-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113535405-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113535405-0400)
----------------------
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113540303-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113540305-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113540306-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113540306-0400)
----------------------
-From:
-Message: Hello! Hope you are doing well.
-(Optional: Sent: 2026040113561061-0400)
----------------------
-From:
-Message: This is a test message designed to be exactly one hundred characters long for code testing
-(Optional: Sent: 2026040113561064-0400)
----------------------
-From:
-Message: Hey, this is my first message in this session!
-(Optional: Sent: 2026040113561065-0400)
----------------------
-From:
-Message: And here is a second message to confirm persistence works correctly.
-(Optional: Sent: 2026040113561065-0400)
----------------------
 From: CameronP
 Message: Hi William, I am interested in connecting with you on InCollege.
-(Optional: Sent: 2026040604021283+0000)
+(Sent: 2026040604180817+0000)
 ---------------------
