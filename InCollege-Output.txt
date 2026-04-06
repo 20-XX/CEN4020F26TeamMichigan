@@ -75,13 +75,15 @@ Enter your choice:
 2
 From: CameronP
 Message: Hi William, I am interested in connecting with you on InCollege.
-(Sent: 2026040604180817+0000)
+(Sent: 2026040604313964+0000)
 ---------------------
---- Messages Menu ---
-1. Send a New Message
-2. View My Messages
-3. Back to Main Menu
-From: CameronP
-Message: Hi William, I am interested in connecting with you on InCollege.
-(Sent: 2026040604180817+0000)
----------------------
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:

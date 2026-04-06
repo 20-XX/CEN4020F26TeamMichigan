@@ -1148,7 +1148,7 @@ PROCEDURE DIVISION.
                    END-PERFORM
                 END-IF
 
-                PERFORM MESSAGE-MENU
+                
 
             WHEN "3"
                 CONTINUE
