@@ -4,11 +4,11 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
-hung1233
+CameronP
 Please enter your password:
-Hung@123
+Camp!123
 You have successfully logged in
-Welcome, hung1233!
+Welcome, CameronP!
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill
@@ -25,14 +25,7 @@ Enter your choice:
 2. View My Messages
 3. Back to Main Menu
 2
-From: CameronP
-Message: Hi William, I am interested in connecting with you on InCollege.
-(Sent: 2026040604313964+0000)
----------------------
-From: CameronP
-Message: Hi William, I am interested in connecting with you on InCollege.
-(Sent: 2026040713085326+0000)
----------------------
+You have no messages at this time.
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

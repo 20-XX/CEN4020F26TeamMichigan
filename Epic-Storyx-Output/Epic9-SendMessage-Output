@@ -4,6 +4,54 @@ Create New Account
 Enter your choice:
 1
 Please enter your username:
+CameronP
+Please enter your password:
+Camp!123
+You have successfully logged in
+Welcome, CameronP!
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:
+8
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+1
+Enter recepient's username (must be a connection):
+hung1233
+Enter your message (max 100 chars):
+Hi William, I am interested in connecting with you on InCollege.
+Message sent successfully.
+--- Messages Menu ---
+1. Send a New Message
+2. View My Messages
+3. Back to Main Menu
+3
+1. Search for a job
+2. Find someone you know
+3. Learn a new skill
+4. Create/Edit My Profile
+5. View My Profile
+6. View My Pending Connection Requests
+7. View My Network
+8. Messages
+9. Exit
+Enter your choice:
+9
+Welcome to InCollege!
+Log In
+Create New Account
+Enter your choice:
+1
+Please enter your username:
 hung1233
 Please enter your password:
 Hung@123
