@@ -33,6 +33,14 @@ From: CameronP
 Message: Hi William, I am interested in connecting with you on InCollege.
 (Sent: 2026040713085326+0000)
 ---------------------
+From: CameronP
+Message: Hey, this is my first message in this session!
+(Sent: 2026040721081327+0000)
+---------------------
+From: CameronP
+Message: And here is a second message to confirm persistence works correctly.
+(Sent: 2026040721081328+0000)
+---------------------
 1. Search for a job
 2. Find someone you know
 3. Learn a new skill

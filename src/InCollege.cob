@@ -84,6 +84,7 @@ DATA DIVISION.
             05 WS-JOB-LOCATION    PIC X(50).
             05 WS-JOB-SALARY    PIC X(30).
         01 I    PIC 9(2).
+        01 IDX  PIC 9(3).
 
       *> --- Epic 7: Browse, Apply, View Applications variables ---
         77 WS-BROWSE-EOF        PIC X VALUE "N".
@@ -197,6 +198,14 @@ DATA DIVISION.
                 10 MSG-LNK-RECIPIENT    PIC X(20).
                 10 MSG-LNK-TIMESTAMP    PIC X(21).
                 10 MSG-LNK-CONTENT    PIC X(100).
+           05 MSG-LNK-USERNAME        PIC X(20).
+           05 MSG-LNK-NUM-RECORDS     PIC 9(3).
+           05 MSG-LNK-RECORDS OCCURS 200 TIMES.
+               10 MSG-LNK-REC-SENDER     PIC X(20).
+               10 MSG-LNK-REC-RECIPIENT  PIC X(20).
+               10 MSG-LNK-REC-TIMESTAMP  PIC X(21).
+               10 MSG-LNK-REC-CONTENT    PIC X(100).
+
 
 PROCEDURE DIVISION.
     OPEN INPUT INPUT-FILE
@@ -1104,9 +1113,43 @@ PROCEDURE DIVISION.
                     PERFORM MESSAGE-MENU
                 END-IF
             WHEN "2"
-                MOVE "View my Messages is under construction." TO WS-OUT-LINE
-                PERFORM DISPLAY-LINE
-                PERFORM MESSAGE-MENU
+                MOVE FUNCTION TRIM(WS-USERNAME) TO MSG-LNK-USERNAME
+                MOVE "VWM" TO  MSG-LNK-OPERATION
+                CALL 'MESSAGELOGIC' USING MSG-LINK-PARAMETERS
+
+                IF MSG-LNK-NUM-RECORDS = 0
+                   MOVE "You have no messages at this time." TO WS-OUT-LINE
+                   PERFORM DISPLAY-LINE
+                ELSE
+                   PERFORM VARYING IDX FROM 1 BY 1 UNTIL IDX > MSG-LNK-NUM-RECORDS
+                       STRING "From: " DELIMITED BY SIZE
+                           FUNCTION TRIM(MSG-LNK-REC-SENDER (IDX)) DELIMITED BY SIZE
+                           INTO WS-OUT-LINE
+                       END-STRING
+                       PERFORM DISPLAY-LINE
+
+                       STRING "Message: " DELIMITED BY SIZE
+                           FUNCTION TRIM(MSG-LNK-REC-CONTENT (IDX)) DELIMITED BY SIZE
+                           INTO WS-OUT-LINE
+                       END-STRING
+                       PERFORM DISPLAY-LINE
+
+                       IF LENGTH FUNCTION TRIM(MSG-LNK-REC-TIMESTAMP (IDX)) > 0
+                           STRING "(Sent: " DELIMITED BY SIZE
+                               FUNCTION TRIM(MSG-LNK-REC-TIMESTAMP (IDX)) DELIMITED BY SIZE
+                               ")" DELIMITED BY SIZE
+                               INTO WS-OUT-LINE
+                           END-STRING
+                           PERFORM DISPLAY-LINE
+                       END-IF
+
+                       MOVE "---------------------" TO WS-OUT-LINE
+                       PERFORM DISPLAY-LINE
+                   END-PERFORM
+                END-IF
+
+                
+
             WHEN "3"
                 CONTINUE
             WHEN OTHER
